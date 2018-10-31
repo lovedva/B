@@ -80,21 +80,21 @@ def TriggeredAllFalse():  #将所有开关输入状态设置为否
 
 # define a function to turn on 电位器针脚
 def turnon(re_PIN):
-        RPi.GPIO.output(re_PIN, True)
-#	print("-------------------------------") 
-   	print ("#GPIO13 CS入力")
-   	print ("#GPIO11 INC入力")
-  	print ("#GPIO9 　UD入力")
-        print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
-        print ("-------------------------------")
+    RPi.GPIO.output(re_PIN, True)
+    print("-------------------------------") 
+    print ("#GPIO13 CS入力")
+    print ("#GPIO11 INC入力")
+    print ("#GPIO9 　UD入力")
+    print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
+    print ("-------------------------------")
 
 def turnoff(re_PIN):
-        RPi.GPIO.output(re_PIN, False)
-   	print ("#GPIO13 CS入力")
-   	print ("#GPIO11 INC入力")
-   	print ("#GPIO9 　UD入力")
-        print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
-        print ("-------------------------------")
+    RPi.GPIO.output(re_PIN, False)
+    print ("#GPIO13 CS入力")
+    print ("#GPIO11 INC入力")
+    print ("#GPIO9 　UD入力")
+    print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
+    print ("-------------------------------")
 #        print ("-------------------------------")   
 #        print ("| CSの出力 ==%s |"%((RPi.GPIO.input(reCS))))
 #        print ("-------------------------------")
@@ -106,12 +106,12 @@ def turnoff(re_PIN):
 
 def init():
 		
-                RPi.GPIO.output(reCS, True)
-		print ("| %sの出力 ==%s |"%((reCS,RPi.GPIO.input(reCS))))
-		RPi.GPIO.output(reINC, False)
-		print ("| %sの出力 ==%s |"%((reINC,RPi.GPIO.input(reINC))))
-		RPi.GPIO.output(reUD, False)
-		print ("| %sの出力 ==%s |"%((reUD,RPi.GPIO.input(reUD))))
+    RPi.GPIO.output(reCS, True)
+    print ("| %sの出力 ==%s |"%((reCS,RPi.GPIO.input(reCS))))
+    RPi.GPIO.output(reINC, False)
+    print ("| %sの出力 ==%s |"%((reINC,RPi.GPIO.input(reINC))))
+    RPi.GPIO.output(reUD, False)
+    print ("| %sの出力 ==%s |"%((reUD,RPi.GPIO.input(reUD))))
 
 	
 # detect rising edge
@@ -145,10 +145,10 @@ try:
     while  True:
 	#get events of the controller
         fd=sys.stdin.fileno()
-	old_settings=termios.tcgetattr(fd)
+        old_settings=termios.tcgetattr(fd)
         try:
-        	tty.setraw(fd)
-            	ch=sys.stdin.read(1)
+            tty.setraw(fd)
+            ch=sys.stdin.read(1)
       	finally:
          	  	termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)  
           		#print 'error'
