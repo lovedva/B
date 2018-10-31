@@ -81,37 +81,38 @@ def TriggeredAllFalse():  #将所有开关输入状态设置为否
 # define a function to turn on 电位器针脚
 def turnon(re_PIN):
     RPi.GPIO.output(re_PIN, True)
-    print("-------------------------------") 
-    print ("#GPIO13 CS入力")
-    print ("#GPIO11 INC入力")
-    print ("#GPIO9 　UD入力")
-    print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(re_PIN),RPi.GPIO.input(re_PIN))))
     print ("-------------------------------")
+
+def getPIN_NAME(re_PIN):
+    global reCS
+    global reINC
+    global reUD
+
+    if re_PIN==reCS:
+        return "CS"
+    if re_PIN==reINC:
+        return "INC"
+    if re_PIN==reUD:
+        return "UD"
+
 
 def turnoff(re_PIN):
     RPi.GPIO.output(re_PIN, False)
-    print ("#GPIO13 CS入力")
-    print ("#GPIO11 INC入力")
-    print ("#GPIO9 　UD入力")
-    print ("| %sの出力 ==%s |"%((re_PIN,RPi.GPIO.input(re_PIN))))
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(re_PIN),RPi.GPIO.input(re_PIN))))
     print ("-------------------------------")
-#        print ("-------------------------------")   
-#        print ("| CSの出力 ==%s |"%((RPi.GPIO.input(reCS))))
-#        print ("-------------------------------")
-#        print ("| INCの出力 ==%s |"%((RPi.GPIO.input(reINC))))
-#        print ("-------------------------------")
 
-#        print ("| UDの出力 ==%s |"%((RPi.GPIO.input(reUD))))
-#        print ("-------------------------------")
+
+
 
 def init():
 		
     RPi.GPIO.output(reCS, True)
-    print ("| %sの出力 ==%s |"%((reCS,RPi.GPIO.input(reCS))))
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(reCS),RPi.GPIO.input(reCS))))
     RPi.GPIO.output(reINC, False)
-    print ("| %sの出力 ==%s |"%((reINC,RPi.GPIO.input(reINC))))
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(reINC),RPi.GPIO.input(reINC))))
     RPi.GPIO.output(reUD, False)
-    print ("| %sの出力 ==%s |"%((reUD,RPi.GPIO.input(reUD))))
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(reUD),RPi.GPIO.input(reUD))))
 
 	
 # detect rising edge
@@ -121,15 +122,16 @@ RPi.GPIO.add_event_detect(InputB, RPi.GPIO.RISING,callback=SwitchB,bouncetime=20
 RPi.GPIO.add_event_detect(InputC, RPi.GPIO.RISING,callback=SwitchC,bouncetime=200 )
 RPi.GPIO.add_event_detect(InputD, RPi.GPIO.RISING,callback=SwitchD,bouncetime=200 )
 
+
 try:
 
     start = time.time()
     print ("テストプログラム開始。。。")
-    time.sleep(0.5)
     print ("------------------------------")
     print ("#GPIO13 CS入力")
     print ("#GPIO11 INC入力")
     print ("#GPIO9 　UD入力")
+    time.sleep(0.5)
     print ("------------------------------")
     print "A=正方向 S=停止 D=逆方向　Q=Quit"
 
