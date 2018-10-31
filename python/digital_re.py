@@ -136,12 +136,7 @@ try:
     print "A=正方向 S=停止 D=逆方向　Q=Quit"
 
 #初始化电位器  CS=H INC=L UD=L
-    RPi.GPIO.output(reCS, True)
-    print ("| %sの出力 ==%s |"%((reCS,RPi.GPIO.input(reCS))))
-    RPi.GPIO.output(reINC, False)
-    print ("| %sの出力 ==%s |"%((reINC,RPi.GPIO.input(reINC))))
-    RPi.GPIO.output(reUD, False)
-    print ("| %sの出力 ==%s |"%((reUD,RPi.GPIO.input(reUD))))
+    init()
 
 	#主循环开始
     while  True:
