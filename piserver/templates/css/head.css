@@ -1,0 +1,25 @@
+body,button, input, select, textarea,h1 ,h2, h3, h4, h5, h6,a,p { font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;}
+
+.navdropdownform{
+    margin:5px 10px 5px 10px;
+}
+.navdropdownform2{
+    margin:5px 10px 5px 10px;
+}
+.navdropdownbtn{
+    margin-left: 10px ;
+    margin-top: 5px;
+}
+
+.navdropdownbtn2{
+    margin-left: 10px ;
+    margin-bottom: 5px;
+}
+.pagebody-top{
+    margin-top: 60px
+}
+.btn-label{
+    margin-top: 3px
+}
+.button-width-verysmall {
+    padding: 0 10px !important; }

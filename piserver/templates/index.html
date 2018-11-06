@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Interface Demo</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/dropdowns-enhancement.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/button.css" rel="stylesheet">
+<link href="css/head.css" rel="stylesheet">
+
+	<div class="container">
+	<!--顶部菜单-->
+		<nav class="navbar navbar-inverse navbar-fixed-top ">
+			<a class="navbar-brand" href="#">Interface Demo</a>
+		</nav>
+	</div>
+	<!--顶部菜单over-->
+</head>
+
+
+<body>
+	<!--导航条-->
+	<div class="container">
+		
+
+	<div class="row">
+ <div class="col-md-12  pagebody-top ">
+            <ul class="breadcrumb " contenteditable="false">
+                <li><a href="#">Navigation1</a> <span class="divider"></span></li>
+                <li><a href="#">Navigation2</a> <span class="divider"></span></li>
+                <li class="#">Navigation3</li>
+            </ul>
+        </div>
+</div>
+	<!--导航条over-->
+
+
+	
+	<div class="row">
+	<div class="col-md-8">
+<!--折线图表-->
+	<div class="chart-container" style="position: relative; height:61vh; width:54vw">
+		<!-- 由height:61vh决定这一列的高度-->
+	<canvas id="myChart" ></canvas>
+	<script src="js/Chart.bundle.js"></script>
+	<script src="js/chartjs-plugin-annotation.js"></script>
+
+	<script>
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: [" ", "3min", " ", " ", "5min ", " ", " ","5min"," "," ","7min"," "," "," "," "," "," "," "," ",],
+        datasets: [{
+            label: "My First dataset",
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [25,25,25,90,90,90,50,50,50,70,70,70,90,90,90,4,4,4,4],
+            lineTension: 0,
+            fill:false,
+            
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+    	
+    	legend: {
+            display: true,
+            labels: {
+                fontColor: 'rgb(255, 99, 132)'
+            },
+            position:'top'
+        },
+        scales: {
+        	
+        	 yAxes: [{
+        		scaleLabel: {
+        			display:true,
+        			labelString:'温度',
+
+        		//	padding:4,
+				},
+				 ticks: {
+                    max: 100
+                },
+                 gridLines:{
+				   	display:true,  	
+			}
+
+			}] ,      
+			 xAxes: [{
+        		scaleLabel: {
+        			display:true,
+        			labelString:'时间',
+        		//	padding:4,
+				},
+			    gridLines:{
+				   	display:true,  	
+			}
+			}] ,   
+			
+        }, 
+
+
+}
+});
+
+</script>
+</div>
+	<!--折线图表 over-->
+</div><!-- col-5 over-->
+
+
+<div class="col-md-3">
+	  <table class="table table-bordered table-responsive ">
+               <thead>
+                <tr>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                	<td class="col-md-1">
+                		Total : 
+                	</td>
+                	<td >
+                		233 times
+                	</td>
+                </tr>
+
+                <tr>
+                	<td >
+                		Present: 
+                	</td>
+                	<td >
+                		4 times	
+                	</td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+</div>
+
+
+<div class="row">
+
+	<div class="col-md-7" >
+		  <table class="table table-bordered table-responsive ">
+               <thead>
+                <tr>
+
+                </tr>
+                </thead>
+                <tbody>
+              <!-- Base Line-->  	
+                <tr>
+                	<td class="col-md-2" >
+                		    <form class="form-inline" >
+                		<div class="form-group">
+                		<label class="sr-only" for="Inputbasetime">Time(Sec)</label>
+                		<div class="input-group">
+                			<div class="input-group-addon"><b>Base Line:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </b></div>
+                			<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="25℃" disabled>
+                			<div class="input-group-addon"><b>℃</b></div>
+                			</div>
+                		</div>
+					</td>
+								
+                	<td class="col-md-2" >
+                				 <div class="form-inline" >
+                				 	<div class="input-group">
+                			<div class="input-group-addon"><b>for</b></div>
+                		<input type="text" class="form-control" id="Inputbasetime" placeholder="Time/Sec">
+                		<div class="input-group-addon"><b>Seconds</b></div>
+                	</div>
+                </div>
+			        </td>
+				</tr>
+
+
+				<tr>
+                	<td >
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                			<label class="sr-only" for="InputDenaturationTemp">Celsius(degree)</label>
+                			<div class="input-group">
+								<div class="input-group-addon"><b>Denaturation:</b></div>
+								<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="Degree/Celsius">
+								<div class="input-group-addon"><b>℃</b></div>
+                			</div>
+                		</div>
+                		</div>
+                	</td >
+                	<td>
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                		<label class="sr-only" for="InputDenaturationtime">Time(Sec)</label>
+                		<div class="input-group">
+                			<div class="input-group-addon"><b>for</b></div>
+							
+                		<input type="text" class="form-control" id="Inputbasetime" placeholder="Time/Sec">
+                		<div class="input-group-addon"><b>Seconds</b></div>
+                	</div>
+						</div>
+					</div>
+				</td>
+						
+                	
+                </tr>
+
+
+                <tr>
+                	<td >
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                			<label class="sr-only" for="InputDenaturationTemp">Celsius(degree)</label>
+                			<div class="input-group">
+								<div class="input-group-addon"><b>Anneal:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
+								<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="Degree/Celsius">
+								<div class="input-group-addon"><b>℃</b></div>
+                			</div>
+                		</div>
+                		</div>
+                	</td >
+                	<td>
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                		<label class="sr-only" for="InputDenaturationtime">Time(Sec)</label>
+                		<div class="input-group">
+                			<div class="input-group-addon"><b>for</b></div>
+							
+                		<input type="text" class="form-control" id="Inputbasetime" placeholder="Time/Sec">
+                		<div class="input-group-addon"><b>Seconds</b></div>
+                	</div>
+						</div>
+					</div>
+				</td>
+						
+                	
+                </tr>
+
+
+                <tr>
+                	<td >
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                			<label class="sr-only" for="InputDenaturationTemp">Celsius(degree)</label>
+                			<div class="input-group">
+								<div class="input-group-addon"><b>Extendtion:&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
+								<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="Degree/Celsius">
+								<div class="input-group-addon"><b>℃</b></div>
+                			</div>
+                		</div>
+                		</div>
+                	</td >
+                	<td>
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                		<label class="sr-only" for="InputDenaturationtime">Time(Sec)</label>
+                		<div class="input-group">
+                			<div class="input-group-addon"><b>for</b></div>
+							
+                		<input type="text" class="form-control" id="Inputbasetime" placeholder="Time/Sec">
+                		<div class="input-group-addon"><b>Seconds</b></div>
+                	</div>
+						</div>
+					</div>
+				</td>
+						
+                	
+                </tr>
+
+
+                <tr>
+                	<td colspan="2">
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                			<label class="sr-only" for="InputDenaturationTemp">Celsius(degree)</label>
+                			<div class="input-group">
+								<div class="input-group-addon"><b>Flow Rate:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
+								<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="ML/Min">
+								<div class="input-group-addon"><b>ML/Min</b></div>
+                			</div>
+                		</div>
+                		</div>
+            
+                		
+                	</td >		
+                	
+                </tr>
+
+
+
+  <tr>
+                	<td >
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                			<label class="sr-only" for="InputDenaturationTemp">Celsius(degree)</label>
+                			<div class="input-group">
+								<div class="input-group-addon"><b>Cooling:&nbsp;&nbsp;&nbsp;&nbsp;</b></div>
+								<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="Degree/Celsius">
+								<div class="input-group-addon"><b>℃</b></div>
+                			</div>
+                		</div>
+                		</div>
+                	</td >
+                	<td>
+                		<div class="form-inline" >
+                		<div class="form-group ">
+                		<label class="sr-only" for="InputDenaturationtime">Time(Sec)</label>
+                		<div class="input-group">
+                			<div class="input-group-addon"><b>for</b></div>
+							
+                		<input type="text" class="form-control" id="Inputbasetime" placeholder="Time/Sec">
+                		<div class="input-group-addon"><b>Seconds</b></div>
+                	</div>
+						</div>
+					</div>
+				</td>
+						
+                	
+                </tr>
+				
+                	
+                </form>
+            </tbody>
+        </table>
+
+	</div>
+
+	<form class="form-inline">
+  <div class="form-group">
+    <label class="sr-only" for="exampleInputAmount">Cycle (times)</label>
+    <div class="input-group">
+      <div class="input-group-addon">Cycle:</div>
+      <input type="text" class="form-control" id="exampleInputAmount" placeholder="Times">
+      <div class="input-group-addon">Times</div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <button type="submit" class="btn btn-info btn-lg">Start</button>
+  <button type="submit" class="btn btn-warning btn-lg">Pause</button>
+  <button type="submit" class="btn btn-danger btn-lg">Abort</button>
+</form>
+	<div class="col-md-5">
+</div>
+
+
+
+</div>
+
+
+</div>
+
+</body>
+</html>
