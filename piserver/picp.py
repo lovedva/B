@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#from scripts import digital_re
+import scripts
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
