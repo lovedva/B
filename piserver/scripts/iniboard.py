@@ -19,10 +19,10 @@ InputB=7   #GPIO7 为B输入
 InputC=8   #GPIO8 为C输入
 InputD=15  #GPIO15 as inputD
 
-# setup output pin for 电位器
-reCS=13   #GPIO13 for UC
-reINC=11  #GPIO11 for INC
-reUD=22
+# setup output pins
+LED0=6   #GPIO6 for UC
+In1_Motor=13   #GPIOXX 
+In2_Motor=19
 
 # setup GPIO triggered  记录按钮输入状态（是否按下）
 A_triggered= False
@@ -41,9 +41,9 @@ RPi.GPIO.setup(InputC, RPi.GPIO.IN,pull_up_down=RPi.GPIO.PUD_DOWN)
 RPi.GPIO.setup(InputD, RPi.GPIO.IN,pull_up_down=RPi.GPIO.PUD_DOWN)
 
 # set pins for LEDs to output mode
-RPi.GPIO.setup(reCS, RPi.GPIO.OUT)
-RPi.GPIO.setup(reINC, RPi.GPIO.OUT)
-RPi.GPIO.setup(reUD, RPi.GPIO.OUT)
+RPi.GPIO.setup(LED0, RPi.GPIO.OUT)
+RPi.GPIO.setup(In1_Motor, RPi.GPIO.OUT)
+RPi.GPIO.setup(In2_Motor, RPi.GPIO.OUT)
 #RPi.GPIO.setup(LED3, RPi.GPIO.OUT)
 
 # Define serveral threaded callback functions to run in another thread when events are detected
@@ -77,42 +77,29 @@ def TriggeredAllFalse():  #将所有开关输入状态设置为否
     C_triggered= False
     D_triggered= False
 
-# define a function to turn on 电位器针脚
-def turnon(re_PIN):
-    RPi.GPIO.output(re_PIN, True)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(re_PIN),RPi.GPIO.input(re_PIN))))
+# define a function to pull up pin
+def turnon(PIN):
+    RPi.GPIO.output(PIN, True)
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(PIN),RPi.GPIO.input(PIN))))
     print ("-------------------------------")
 
-def getPIN_NAME(re_PIN):
-    global reCS
-    global reINC
-    global reUD
+def getPIN_NAME(PIN):
+    global LED0
+    if PIN==LED0:
+        return "LED0"
+def getPIN_NUM(strPINNAME):
+    global LED0
+    if strPINNAME=="LED0":
+        return LED0
+    # if strPINNAME=="In1_Motor":
+    #     return LED0
+    # if strPINNAME=="LED0":
+    #     return LED0
 
-    if re_PIN==reCS:
-        return "CS"
-    if re_PIN==reINC:
-        return "INC"
-    if re_PIN==reUD:
-        return "UD"
-
-
-def turnoff(re_PIN):
-    RPi.GPIO.output(re_PIN, False)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(re_PIN),RPi.GPIO.input(re_PIN))))
+def turnoff(PIN):
+    RPi.GPIO.output(PIN, False)
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(PIN),RPi.GPIO.input(PIN))))
     print ("-------------------------------")
-
-
-
-
-def init():
-    print ("板子初始化完毕")
-    RPi.GPIO.output(reCS, True)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(reCS),RPi.GPIO.input(reCS))))
-    RPi.GPIO.output(reINC, False)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(reINC),RPi.GPIO.input(reINC))))
-    RPi.GPIO.output(reUD, False)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(reUD),RPi.GPIO.input(reUD))))
-
 	
 # detect rising edge
 # when a rising edge is detected on pin,the callback functions will be run
@@ -121,14 +108,14 @@ RPi.GPIO.add_event_detect(InputB, RPi.GPIO.RISING,callback=SwitchB,bouncetime=20
 RPi.GPIO.add_event_detect(InputC, RPi.GPIO.RISING,callback=SwitchC,bouncetime=200 )
 RPi.GPIO.add_event_detect(InputD, RPi.GPIO.RISING,callback=SwitchD,bouncetime=200 )
 
+#板子操作方法
+def init():
+    turnon(LED0)
+    print ("板子初始化完毕，LED0==ON")
 
-try:
-#初始化电位器  CS=H INC=L UD=L
-    init()
+# try:
 
-finally:
-    RPi.GPIO.cleanup() 
+print("导入iniborad.py")
 
-
-
-
+# finally:
+    #RPi.GPIO.cleanup() 

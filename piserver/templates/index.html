@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/head.css') }}">
+<script src="{{ url_for('static', filename='js/jquery-min.js') }}"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -44,26 +45,26 @@
 <td >
 	<div class=" ">
   <form class="form-inline">
-  <button type="submit" class="btn btn-warning ">初始化GPIO</button> 
-  <button type="submit" class="btn btn-danger ">停止</button>
+  <button type="submit" class="btn btn-warning ">GPIO初期化</button> 
+  <button class="btn btn-danger " id="cleanupGPIO">停止</button>
 </form>
 <br>
 </div>
 
-<div class="input-group col-xs-8 col-md-2">
-				<div class="input-group-addon"><b>温度:</b></div>
-				<input type="text" class="form-control" id="InputDenaturationTemp" placeholder="25℃" disabled>
-				<div class="input-group-addon"><b>℃</b></div>
-			</div>
+
+<div class="btn-group" role="group" aria-label="...">
+  <button type="text" class="btn btn-default">温度：<b>25℃</b></button>
+  <button type="button" class="btn btn-info">刷新</button>
+	</div>
 		</td>
 	</tr>
 <tr>	
 <td>
 
 <p>输出结果：</p>
-<pre class="pre-scrollable">
-等待输出内容。。。
-
+<pre class="pre-scrollable" id="outputTerminal">
+GPIO初期化完了，LED0点灯。
+gpio13==high，LED0==True
 
 
 </pre>
@@ -73,18 +74,28 @@
 
 <tr>
 <td >
-<form class="form-inline " >
+	<p>LED0:	</p>
+
 		<div class="form-group">
 			<label class="sr-only" for="Inputbasetime"></label>
-			 <button type="submit" class="btn btn-info btn-sm">拉高GPIO</button>
-             <button type="submit" class="btn btn-info btn-sm">拉低GPIO</button>
-             <button type="submit" class="btn btn-info btn-sm">拉高GPIO</button>
-             <button type="submit" class="btn btn-info btn-sm">拉低GPIO</button>
+			 <button  class="btn btn-info btn-sm" id="turnonLED0">LED0:ON</button>
+             <button  class="btn btn-info btn-sm" id="turnoffLED0">LED0:OFF</button>
 		</div>
-	</form>
+
+<br>
+<p>モーター:</p>
+
+		<div class="form-group">
+			<label class="sr-only" for="Inputbasetime"></label>
+			 <button id="motord1" class="btn btn-default btn-sm">正回転</button>
+             <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
+             <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
+             <button class="btn btn-default btn-sm" id="bt1">test</button>
+		</div>
+
+
 	</td>
 	</tr>
-
 
 </table>
 
@@ -93,6 +104,63 @@
 </div>
 
 </body>
+<script>
+//测试脚本，测试id==bt1,路由==test	
+$(document).ready(function(){
+  $("#bt1").click(function(){
+    $.post("/picp/test",{},function(data,status){
+      // alert("数据：" + data + "\n状态：" + status);
+       $("#outputTerminal").text("方法：" + data + "\n状态：" + status);
+    });
+  });
+});
+
+//LED0高电平输出
+$(document).ready(function(){
+  $("#turnonLED0").click(function(){
+    $.post("/picp/pullupgpio/LED0",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO6==True"+"\n状態：" + status);
+    });
+  });
+});
+
+//LED0低电平输出
+$(document).ready(function(){
+  $("#turnoffLED0").click(function(){
+    $.post("/picp/pulldowngpio/LED0",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO6==False"+"\n状態：" + status);
+    });
+  });
+});
+
+//马达控制
+$(document).ready(function(){
+  $("#motord1").click(function(){
+    $.post("/picp/motord1",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#motord2").click(function(){
+    $.post("/picp/motord2",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+    });
+  });
+});
+
+$(document).ready(function(){
+  $("#motorstop").click(function(){
+    $.post("/picp/motorstop",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+    });
+  });
+});
+
+
+</script>
+
 
 
 </html>
