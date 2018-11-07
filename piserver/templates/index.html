@@ -53,8 +53,8 @@
 
 
 <div class="btn-group" role="group" aria-label="...">
-  <button type="text" class="btn btn-default">温度：<b>25℃</b></button>
-  <button type="button" class="btn btn-info">刷新</button>
+  <button id="outpuTemperature"type="text" class="btn btn-default">温度：<b>-℃</b></button>
+  <button id="t_refresh" type="button" class="btn btn-info">リフレッシュ</button>
 	</div>
 		</td>
 	</tr>
@@ -159,6 +159,15 @@ $(document).ready(function(){
 });
 
 
+//刷新温度
+$(document).ready(function(){
+  $("#t_refresh").click(function(){
+    $.post("/picp/t_refresh",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + "post\n戻り値："+data+"度\naddress_adt7410 = 0x48"+"\n状態：" + status);
+       $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
+    });
+  });
+});
 </script>
 
 

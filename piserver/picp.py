@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from scripts import iniboard
 import RPi.GPIO
+import smbus
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
@@ -12,6 +13,7 @@ bp = Blueprint('picp', __name__ ,url_prefix='/picp')
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
 RPi.GPIO.setup(iniboard.LED0, RPi.GPIO.OUT)
+
 
 @bp.route('/')
 def index():
@@ -44,7 +46,7 @@ def pulldowngpio(gpio):
 	return "post\n戻り値："+gpio.encode("utf-8")+"==False"
 	# return "post\n戻り値：LED0==OFF,GPIO13==False\n>>>>>> LED0消灯"
 
-#旋转马达，控制马达方向
+#马达操作，控制马达方向
 @bp.route("motord1",methods=['POST'])
 def motord1():
 	print ("路由：motord1，方法rotatemotor1打印")
@@ -68,3 +70,17 @@ def motorstop():
 	iniboard.turnoff(iniboard.In2_Motor)
 
 	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
+
+#刷新温度
+@bp.route("t_refresh",methods=['POST'])
+def t_refresh():
+	print ("路由：t_refresh，方法t_refresh")
+	bus = smbus.SMBus(1)
+	address_adt7410 = 0x48
+	register_adt7410 = 0x00
+	Temperature=iniboard.read_adt7410()
+	print ("温度Temerature==")
+	print (Temperature)
+
+	result=str(Temperature)
+	return result
