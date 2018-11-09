@@ -119,12 +119,13 @@ def read_adt7410():
     else: # 温度が負の場合、 絶対値を取ってからマイナスをかける
         temperature = ( (~data&0x1fff) + 1)*-0.0625
     return temperature
-
-bus = smbus.SMBus(1)
-address_adt7410 = 0x48
-register_adt7410 = 0x00
+try:
+    bus = smbus.SMBus(1)
+    address_adt7410 = 0x48
+    register_adt7410 = 0x00
+except Exception as e:
+    pass
 #---adt7410 i2c操作结束
-
 #板子操作方法
 def init():
     turnon(LED0)
