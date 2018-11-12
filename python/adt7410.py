@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+#温度传感器
 import smbus
 from time import sleep
 
