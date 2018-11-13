@@ -88,6 +88,7 @@ def getPIN_NAME(PIN):
     global LED0
     if PIN==LED0:
         return "LED0"
+        
 def getPIN_NUM(strPINNAME):
     global LED0
     if strPINNAME=="LED0":
@@ -119,13 +120,13 @@ def read_adt7410():
     else: # 温度が負の場合、 絶対値を取ってからマイナスをかける
         temperature = ( (~data&0x1fff) + 1)*-0.0625
     return temperature
-try:
-    bus = smbus.SMBus(1)
-    address_adt7410 = 0x48
-    register_adt7410 = 0x00
-except Exception as e:
-    pass
+
+# bus = smbus.SMBus(1)
+# address_adt7410 = 0x48
+# register_adt7410 = 0x00
+#
 #---adt7410 i2c操作结束
+
 #板子操作方法
 def init():
     turnon(LED0)
