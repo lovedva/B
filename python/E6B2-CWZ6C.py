@@ -105,8 +105,8 @@ if __name__ == "__main__":
                                     time.sleep(TIME)
                                     if B_triggered==False:
                                         print("入力4==B fall。回転方向： CW ")
-                                        if led0.value<=0.9:
-                                            led0.value+=0.1
+                                        if led0.value<=0.99:
+                                            led0.value+=0.01
                                         elif led0.value==1:
                                             RPi.GPIO.output(LED0, True)
                                         break #退出第四次循环
@@ -141,8 +141,8 @@ if __name__ == "__main__":
                                     time.sleep(TIME)
                                     if A_triggered==False:
                                         print("入力4==A fall。回転方向： CWW ")
-                                        if led0.value>=0.1:
-                                               led0.value-=0.1
+                                        if led0.value>=0.01:
+                                               led0.value-=0.01
                                         elif led0.value==0:
                                             RPi.GPIO.output(LED0, False)
                                         break #退出第四次循环
