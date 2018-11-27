@@ -54,7 +54,8 @@
 
 <div class="btn-group" role="group" aria-label="...">
   <button id="outpuTemperature"type="text" class="btn btn-default btn-xs">温度：<b>-℃</b></button>
-  <button id="t_refresh" type="button" class="btn btn-info btn-xs">リフレッシュ</button>
+  <button id="t_Refresh" type="button" class="btn btn-info btn-xs">Auto Refresh</button>
+  <button id="t_stopRefresh" type="button" class="btn btn-danger btn-xs">Stop</button>
 	</div>
 		</td>
 	</tr>
@@ -135,7 +136,7 @@ $(document).ready(function(){
 
 //马达控制
 $(document).ready(function(){
-  $("#motord1").click(function(){
+  $("#motord1").click(function(){ //马达方向1
     $.post("/picp/motord1",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });
@@ -143,7 +144,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-  $("#motord2").click(function(){
+  $("#motord2").click(function(){  //马达方向2
     $.post("/picp/motord2",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });
@@ -151,7 +152,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-  $("#motorstop").click(function(){
+  $("#motorstop").click(function(){  //马达停止
     $.post("/picp/motorstop",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });
@@ -159,17 +160,34 @@ $(document).ready(function(){
 });
 
 
-//刷新温度
+//刷新温度(1秒刷新一次)
 $(document).ready(function(){
-  $("#t_refresh").click(function(){
-    $.post("/picp/t_refresh",{},function(data,status){
+  //开始刷新按钮
+  $("#t_Refresh").click(function(){
+   var Tcount= setInterval(refreshTemp,2000);
+  });
+
+ $("#t_stopRefresh").click(function(){
+    // clearInterval(Tcount);
+    $("#outputTerminal").text("停止温度轮询\n \n");
+  });
+
+  function refreshTemp(){
+  $.post("/picp/t_refresh",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + "post\n戻り値："+data+"度\naddress_adt7410 = 0x48"+"\n状態：" + status);
        $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
     });
-  });
+}
 });
-</script>
 
+  //停止刷新按钮
+// $(document).ready(function(){
+
+// });
+
+
+
+</script>
 
 
 </html>
