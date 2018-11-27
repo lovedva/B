@@ -53,8 +53,8 @@
 
 
 <div class="btn-group" role="group" aria-label="...">
-  <button id="outpuTemperature"type="text" class="btn btn-default">温度：<b>-℃</b></button>
-  <button id="t_refresh" type="button" class="btn btn-info">リフレッシュ</button>
+  <button id="outpuTemperature"type="text" class="btn btn-default btn-xs">温度：<b>-℃</b></button>
+  <button id="t_refresh" type="button" class="btn btn-info btn-xs">リフレッシュ</button>
 	</div>
 		</td>
 	</tr>
@@ -64,7 +64,7 @@
 <p>出力の结果：</p>
 <pre class="pre-scrollable" id="outputTerminal">
 GPIO初期化完了，LED0点灯。
-gpio13==high，LED0==True
+gpio17==high，LED0==True
 
 
 </pre>
@@ -119,7 +119,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnonLED0").click(function(){
     $.post("/picp/pullupgpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO6==True"+"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO27==True"+"\n状態：" + status);
     });
   });
 });
@@ -128,7 +128,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnoffLED0").click(function(){
     $.post("/picp/pulldowngpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO6==False"+"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO27==False"+"\n状態：" + status);
     });
   });
 });

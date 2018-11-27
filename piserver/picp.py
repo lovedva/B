@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from scripts import iniboard
+from scripts import boardop
 import RPi.GPIO
 import smbus
 
@@ -11,15 +11,13 @@ from werkzeug.exceptions import abort
 
 bp = Blueprint('picp', __name__ ,url_prefix='/picp')
 
-RPi.GPIO.setmode(RPi.GPIO.BCM)
-RPi.GPIO.setup(iniboard.LED0, RPi.GPIO.OUT)
 
 
 @bp.route('/')
 def index():
 	print ("进入picp，index()方法")
-	iniboard.init()
-#	iniboard.turnon(iniboard.LED0)
+	boardop.init()
+	boardop.turnon(boardop.LED0)
 	return render_template('index.html')
 
 @bp.route("test",methods=['POST'])
@@ -28,46 +26,46 @@ def test():
 
 	return "post\n返回值：进入test返回"
 #拉高低电平
-@bp.route("pullupgpio/<gpio>",methods=['POST'])
-def pullupgpio(gpio):
+@bp.route("pullupgpio/<pinname>",methods=['POST']) #gpio是部件名称（boardop里的gpio变量），不是数字。。。
+def pullupgpio(pinname):
 	print ("进入路由pullupGPIO，方法pullupGPIO打印")
-	iniboard.turnon(iniboard.LED0)
-	print(iniboard.getPIN_NUM(gpio))
-	iniboard.turnon(iniboard.getPIN_NUM(gpio))
-	return "post\n戻り値："+gpio.encode("utf-8")+"==True"
+	#boardop.turnon(boardop.LED0)
+	print(boardop.getPIN_NUM(pinname)) #得到部件名称的GPIO编号
+	boardop.turnon(boardop.getPIN_NUM(pinname))
+	return "post\n戻り値："+pinname.encode("utf-8")+"==True"
 
-@bp.route("pulldowngpio/<gpio>",methods=['POST'])
-def pulldowngpio(gpio):
+@bp.route("pulldowngpio/<pinname>",methods=['POST'])
+def pulldowngpio(pinname):
 	print ("路由：pulldownGPIO，方法pulldownGPIO打印")
 	print ("参数GPIO值：")
-	print (gpio)
-	print(iniboard.getPIN_NUM(gpio))
-	iniboard.turnoff(iniboard.getPIN_NUM(gpio))
-	return "post\n戻り値："+gpio.encode("utf-8")+"==False"
+	print (pinname)
+	print(boardop.getPIN_NUM(pinname))
+	boardop.turnoff(boardop.getPIN_NUM(pinname))
+	return "post\n戻り値："+pinname.encode("utf-8")+"==False"
 	# return "post\n戻り値：LED0==OFF,GPIO13==False\n>>>>>> LED0消灯"
 
 #马达操作，控制马达方向
 @bp.route("motord1",methods=['POST'])
 def motord1():
 	print ("路由：motord1，方法rotatemotor1打印")
-	iniboard.turnon(iniboard.In1_Motor)
-	iniboard.turnoff(iniboard.In2_Motor)
+	boardop.turnon(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
 
 	return "post\n戻り値：モーター正回転\nGPIO13==True\nGPIO19==False"
 
 @bp.route("motord2",methods=['POST'])
 def motord2():
 	print ("路由：motord2，方法rotatemotor2")
-	iniboard.turnon(iniboard.In2_Motor)
-	iniboard.turnoff(iniboard.In1_Motor)
+	boardop.turnon(boardop.In2_Motor)
+	boardop.turnoff(boardop.In1_Motor)
 
 	return "post\n戻り値：モーター逆回転\nGPIO13==False\nGPIO19==True"
 
 @bp.route("motorstop",methods=['POST'])
 def motorstop():
 	print ("路由：motorstop，方法motorstop")
-	iniboard.turnoff(iniboard.In1_Motor)
-	iniboard.turnoff(iniboard.In2_Motor)
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
 
 	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
 
@@ -78,7 +76,7 @@ def t_refresh():
 	bus = smbus.SMBus(1)
 	address_adt7410 = 0x48
 	register_adt7410 = 0x00
-	Temperature=iniboard.read_adt7410()
+	Temperature=boardop.read_adt7410()
 	print ("温度Temerature==")
 	print (Temperature)
 
