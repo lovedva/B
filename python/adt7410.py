@@ -18,11 +18,14 @@ bus = smbus.SMBus(1)
 address_adt7410 = 0x48
 register_adt7410 = 0x00
 
-try:
-    while True:
+if __name__ == '__main__':
+    try:
+     while True:
         inputValue = read_adt7410()
         print(inputValue)
         sleep(0.5)
 
-except KeyboardInterrupt:
-    pass
+    except KeyboardInterrupt:
+      pass
+
+
