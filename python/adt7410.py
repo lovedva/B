@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#温度传感器
+#温度传感器 adt7410
 import smbus
 from time import sleep
 
