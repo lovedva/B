@@ -120,8 +120,8 @@ gpio17==high，LED0==True
 
   </div>
 　　<p>
-  <button type="submit" class="btn btn-info btn-sm" id="motorautostart">自動運転開始</button>
-  <button type="submit" class="btn btn-warning btn-sm" id="motorstop2">停止/ストップ</button>
+  <button  class="btn btn-info btn-sm" id="motorautorun">自動運転開始</button>
+  <button class="btn btn-warning btn-sm" id="motorstop2">停止/ストップ</button>
 
 </p>
 
@@ -196,15 +196,15 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-  $("#motorautostart").click(function(){  //自动控制
-    var t1=$("#motorrunningT1");
-    var t2=$("#motorwaitingT2");
-    var t3=$("#motorrunningT3");
-    var t4=$("#motorwaitingT4");
-    var t5=$("#motorrunningT5");
-    var t6=$("#motorwaitingT6");
-    $.post("/picp/motorautostart",{
-
+  $("#motorautorun").click(function(){  //自动控制
+    var t1=$("#motorrunningT1").val();
+    // var t2=$("#motorwaitingT2");
+    // var t3=$("#motorrunningT3");
+    // var t4=$("#motorwaitingT4");
+    // var t5=$("#motorrunningT5");
+    // var t6=$("#motorwaitingT6");
+    $.post("/picp/motorautorun",{
+       "t1":t1
     },function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });

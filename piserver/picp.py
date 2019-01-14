@@ -69,6 +69,15 @@ def motorstop():
 
 	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
 
+@bp.route("motorautorun",methods=['POST']) #自动控制马达
+def motorautorun():
+	print ("路由：motorautorun，方法motorautorun")
+	t1=request.form.get("t1")
+	print "t1=="+t1
+
+	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
+
+
 # #刷新温度
 # @bp.route("t_refresh",methods=['POST'])
 # def t_refresh():
