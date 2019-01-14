@@ -10,7 +10,7 @@ class PIinit:
 	flag=0
 
 	#设置输出PIN
-	LED0=6  #程序开始指示灯
+	LED0=27  #程序开始指示灯
 	TempOUT1=12
 
 	def __init__(self):

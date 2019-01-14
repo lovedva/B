@@ -45,13 +45,15 @@
 <td >
 	<div class=" ">
   <form class="form-inline">
-  <button type="submit" class="btn btn-warning ">GPIO初期化</button> 
-  <button class="btn btn-danger " id="cleanupGPIO">停止</button>
+  <button type="submit" class="btn btn-warning btn-sm">GPIO初期化</button> 
+  <button class="btn btn-danger btn-sm " id="cleanupGPIO">停止</button>
 </form>
-<br>
 </div>
+  </td>
+  </tr>
 
-
+<tr>
+<td>  
 <div class="btn-group" role="group" aria-label="...">
   <button id="outpuTemperature"type="text" class="btn btn-default btn-xs">温度：<b>-℃</b></button>
   <button id="t_Refresh" type="button" class="btn btn-info btn-xs">Auto Refresh</button>
@@ -68,31 +70,65 @@ GPIO初期化完了，LED0点灯。
 gpio17==high，LED0==True
 
 
-</pre>
+</pre>  <!--此处2行空格不能删除-->
 
 </td>
 </tr>
 
 <tr>
 <td >
-	<p>LED0:	</p>
 
 		<div class="form-group">
-			<label class="sr-only" for="Inputbasetime"></label>
+      <p>LED0:
 			 <button  class="btn btn-info btn-sm" id="turnonLED0">LED0:ON</button>
-             <button  class="btn btn-info btn-sm" id="turnoffLED0">LED0:OFF</button>
+       <button  class="btn btn-info btn-sm" id="turnoffLED0">LED0:OFF</button></p>
 		</div>
 
-<br>
-<p>モーター:</p>
-
+<p>モーター:
 		<div class="form-group">
 			<label class="sr-only" for="Inputbasetime"></label>
 			 <button id="motord1" class="btn btn-default btn-sm">正回転</button>
              <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
-             <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
+             <button id="motorstop"class="btn btn-warning btn-sm">ストップ</button>
              <button class="btn btn-default btn-sm" id="bt1">test</button>
-		</div>
+		</div></p>
+    <form class="form-inline">
+
+<p>モーター自動制御:
+  <div class="form-group">
+
+    <div class="input-group">
+      <div class="input-group-addon">運転T1</div>
+      <input type="text" class="form-control" id="motorrunningT1" placeholder="秒/Second" >
+      <div class="input-group-addon">加熱待ちT2</div>
+      <input type="text" class="form-control" name="motorwaitingT2" placeholder="秒/Second">
+    </div>
+    <br>
+    <div class="input-group">
+      <div class="input-group-addon">運転T3</div>
+      <input type="text" class="form-control" id="motorrunningT3" placeholder="秒/Second">
+      <div class="input-group-addon">加熱待ちT4</div>
+      <input type="text" class="form-control" name="motorwaitingT4" placeholder="秒/Second">
+      </div>
+      <br>
+    <div class="input-group">
+      <div class="input-group-addon">運転T5</div>
+      <input type="text" class="form-control" id="motorrunningT5" placeholder="秒/Second">
+      <div class="input-group-addon">加熱待ちT6</div>
+      <input type="text" class="form-control" id="motorwaitingT6" placeholder="秒/Second">
+    </div></p>
+
+  </div>
+　　<p>
+  <button type="submit" class="btn btn-info btn-sm" id="motorautostart">自動運転開始</button>
+  <button type="submit" class="btn btn-warning btn-sm" id="motorstop2">停止/ストップ</button>
+
+</p>
+
+</form>
+
+  </td>
+  </tr>
 
 
 	</td>
@@ -120,7 +156,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnonLED0").click(function(){
     $.post("/picp/pullupgpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO27==True"+"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO27==True"+"\n状態：" + status+"\n\n\n");
     });
   });
 });
@@ -129,7 +165,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnoffLED0").click(function(){
     $.post("/picp/pulldowngpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO27==False"+"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO27==False"+"\n状態：" + status+"\n\n\n");
     });
   });
 });
@@ -158,6 +194,23 @@ $(document).ready(function(){
     });
   });
 });
+
+$(document).ready(function(){
+  $("#motorautostart").click(function(){  //自动控制
+    var t1=$("#motorrunningT1");
+    var t2=$("#motorwaitingT2");
+    var t3=$("#motorrunningT3");
+    var t4=$("#motorwaitingT4");
+    var t5=$("#motorrunningT5");
+    var t6=$("#motorwaitingT6");
+    $.post("/picp/motorautostart",{
+
+    },function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+    });
+  });
+});
+
 
 
 //刷新温度(1秒刷新一次)

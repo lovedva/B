@@ -69,16 +69,16 @@ def motorstop():
 
 	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
 
-#刷新温度
-@bp.route("t_refresh",methods=['POST'])
-def t_refresh():
-	print ("路由：t_refresh，方法t_refresh")
-	bus = smbus.SMBus(1)
-	address_adt7410 = 0x48
-	register_adt7410 = 0x00
-	Temperature=boardop.read_adt7410()
-	print ("温度Temerature==")
-	print (Temperature)
+# #刷新温度
+# @bp.route("t_refresh",methods=['POST'])
+# def t_refresh():
+# 	print ("路由：t_refresh，方法t_refresh")
+# 	bus = smbus.SMBus(1)
+# 	address_adt7410 = 0x48
+# 	register_adt7410 = 0x00
+# 	Temperature=boardop.read_adt7410()
+# 	print ("温度Temerature==")
+# 	print (Temperature)
 
-	result=str(Temperature)
-	return result
+# 	result=str(Temperature)
+# 	return result
