@@ -4,20 +4,21 @@ import time
 import RPi.GPIO
 import sys
 import adt7410
+import pt1000
 
 class PIinit:
 	"初始化板子参数设定"
 	flag=0
 
 	#设置输出PIN
-	LED0=27  #程序开始指示灯
-	TempOUT1=12
+	# LED0=27  #程序开始指示灯
+	TempOUT1=27
 
 	def __init__(self):
 		RPi.GPIO.setmode(RPi.GPIO.BCM)
-		RPi.GPIO.setup(PIinit.LED0, RPi.GPIO.OUT)
+		# RPi.GPIO.setup(PIinit.LED0, RPi.GPIO.OUT)
 		RPi.GPIO.setup(PIinit.TempOUT1, RPi.GPIO.OUT)
-		RPi.GPIO.output(PIinit.LED0, True) #点亮LED0
+		# RPi.GPIO.output(PIinit.LED0, True) #点亮LED0
 		print ("进入__init__方法")
 
 class pidCtr:
@@ -26,7 +27,7 @@ class pidCtr:
 	Sv=50.000 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
-	Kp=42.000 #比例系数
+	Kp=30.000 #比例系数
 	Ti=60000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -83,7 +84,8 @@ if __name__ == "__main__":
 		pwm.start(1)
 		file_handle=open('Templog.txt',mode='w')
 		while True:
-			pid.Pv=adt7410.read_adt7410()  
+			# pid.Pv=adt7410.read_adt7410()
+			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcResistance()/1000))))  
 			print("今回の温度==%s度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()

@@ -9,7 +9,7 @@ import adt7410
 # from gpiozero import PWMLED
 
 Vref=3.31 #V
-I=0.0011875 #A （平均值）
+I=0.00119 #A （平均值）
 # led = PWMLED(12)  #供电端口 gpio12
 CLK  = 15
 MISO = 13
@@ -52,11 +52,13 @@ def calcTemp(a,b,c):
             return x1,x2
 
 # led.on()
-while True:
-    time.sleep(0.5)
-
+if __name__ == '__main__':
     
-    print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcResistance()/1000))))
-    print("温度センサーで測温："+str(adt7410.read_adt7410()))
-    print("-------------------------------------")
-    pass
+    while True:
+        time.sleep(0.5)
+
+        
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcResistance()/1000))))
+        print("温度センサーで測温："+str(adt7410.read_adt7410()))
+        print("-------------------------------------")
+        pass

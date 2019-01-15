@@ -3,6 +3,7 @@
 from scripts import boardop
 import RPi.GPIO
 import smbus
+import time
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
@@ -72,8 +73,50 @@ def motorstop():
 @bp.route("motorautorun",methods=['POST']) #自动控制马达
 def motorautorun():
 	print ("路由：motorautorun，方法motorautorun")
-	t1=request.form.get("t1")
-	print "t1=="+t1
+	t1=float(str(request.form.get("t1")))
+	t2=float(str(request.form.get("t2")))
+	t3=float(str(request.form.get("t3")))
+	t4=float(str(request.form.get("t4")))
+	t5=float(str(request.form.get("t5")))
+	t6=float(str(request.form.get("t6")))
+	t7=float(str(request.form.get("t7")))
+	t8=float(str(request.form.get("t8")))
+	print ("t1==%s"%t1)
+	print ("t2==%s"%t2)
+	print ("t3==%s"%t3)
+	print ("t4==%s"%t4)
+	print ("t5==%s"%t5)
+	print ("t6==%s"%t6)
+	print ("t7==%s"%t7)
+	print ("t8==%s"%t8)
+	boardop.turnon(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t1)
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t2)
+
+	boardop.turnon(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t3)
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t4)
+#反向旋转
+	boardop.turnon(boardop.In2_Motor)
+	boardop.turnoff(boardop.In1_Motor)
+	time.sleep(t5)
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t6)
+    
+	boardop.turnon(boardop.In2_Motor)
+	boardop.turnoff(boardop.In1_Motor)
+	time.sleep(t7)
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(t8)
+
 
 	return "post\n戻り値：モーター停止\nGPIO13==False\nGPIO19==False"
 

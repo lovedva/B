@@ -61,17 +61,16 @@
 	</div>
 		</td>
 	</tr>
+
 <tr>	
 <td>
-
-<p>出力の结果：</p>
-<pre class="pre-scrollable" id="outputTerminal">
+出力の结果：省略
+<!--<pre class="pre-scrollable" id="outputTerminal">
 GPIO初期化完了，LED0点灯。
 gpio17==high，LED0==True
 
 
-</pre>  <!--此处2行空格不能删除-->
-
+</pre> -->  <!--此处2行空格不能删除 -->
 </td>
 </tr>
 
@@ -84,55 +83,57 @@ gpio17==high，LED0==True
        <button  class="btn btn-info btn-sm" id="turnoffLED0">LED0:OFF</button></p>
 		</div>
 
-<p>モーター:
-		<div class="form-group">
-			<label class="sr-only" for="Inputbasetime"></label>
+モーター/自動制御(半角数字を入れてください):
+	<form class="form-inline">
+  	<div class="form-group">
+
 			 <button id="motord1" class="btn btn-default btn-sm">正回転</button>
              <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
              <button id="motorstop"class="btn btn-warning btn-sm">ストップ</button>
-             <button class="btn btn-default btn-sm" id="bt1">test</button>
-		</div></p>
-    <form class="form-inline">
+<!--              <button class="btn btn-default btn-sm" id="bt1">test</button> -->
+<button  class="btn btn-info btn-sm" id="motorautorun">自動運転開始</button>
+           </div>
 
-<p>モーター自動制御:
-  <div class="form-group">
 
+    <p>
     <div class="input-group">
       <div class="input-group-addon">運転T1</div>
-      <input type="text" class="form-control" id="motorrunningT1" placeholder="秒/Second" >
+      <input type="text" class="form-control" id="motorrunningT1" placeholder="秒/Second" value="4.1">
       <div class="input-group-addon">加熱待ちT2</div>
-      <input type="text" class="form-control" name="motorwaitingT2" placeholder="秒/Second">
-    </div>
-    <br>
+      <input type="text" class="form-control" id="motorwaitingT2" placeholder="秒/Second" value="2">
+    </div> </p>
+<p>
     <div class="input-group">
       <div class="input-group-addon">運転T3</div>
-      <input type="text" class="form-control" id="motorrunningT3" placeholder="秒/Second">
+      <input type="text" class="form-control" id="motorrunningT3" placeholder="秒/Second" value="4">
       <div class="input-group-addon">加熱待ちT4</div>
-      <input type="text" class="form-control" name="motorwaitingT4" placeholder="秒/Second">
+      <input type="text" class="form-control" id="motorwaitingT4" placeholder="秒/Second" value="2">
       </div>
-      <br>
+    </p>
+    <p>
     <div class="input-group">
-      <div class="input-group-addon">運転T5</div>
-      <input type="text" class="form-control" id="motorrunningT5" placeholder="秒/Second">
+      <div class="input-group-addon">逆運転T5</div>
+      <input type="text" class="form-control" id="motorrunningT5" placeholder="秒/Second" value="2.2">
       <div class="input-group-addon">加熱待ちT6</div>
-      <input type="text" class="form-control" id="motorwaitingT6" placeholder="秒/Second">
-    </div></p>
+      <input type="text" class="form-control" id="motorwaitingT6" placeholder="秒/Second" value="2">
+    </div>
+  </p>
+   <p>
+    <div class="input-group">
+      <div class="input-group-addon">逆運転T7</div>
+      <input type="text" class="form-control" id="motorrunningT7" placeholder="秒/Second" value="2.4">
+      <div class="input-group-addon">加熱待ちT8</div>
+      <input type="text" class="form-control" id="motorwaitingT8" placeholder="秒/Second" value="2">
+    </div>
 
-  </div>
-　　<p>
-  <button  class="btn btn-info btn-sm" id="motorautorun">自動運転開始</button>
-  <button class="btn btn-warning btn-sm" id="motorstop2">停止/ストップ</button>
+  </p>
+      </div> 
 
-</p>
-
-</form>
+    </form>  
 
   </td>
   </tr>
 
-
-	</td>
-	</tr>
 
 </table>
 
@@ -198,17 +199,34 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#motorautorun").click(function(){  //自动控制
     var t1=$("#motorrunningT1").val();
-    // var t2=$("#motorwaitingT2");
-    // var t3=$("#motorrunningT3");
-    // var t4=$("#motorwaitingT4");
-    // var t5=$("#motorrunningT5");
-    // var t6=$("#motorwaitingT6");
+    var t2=$("#motorwaitingT2").val();
+    var t3=$("#motorrunningT3").val();
+    var t4=$("#motorwaitingT4").val();
+    var t5=$("#motorrunningT5").val();
+    var t6=$("#motorwaitingT6").val();
+    var t7=$("#motorrunningT7").val();
+    var t8=$("#motorwaitingT8").val();
     $.post("/picp/motorautorun",{
-       "t1":t1
+       "t1":t1,
+       "t2":t2,
+       "t3":t3,
+       "t4":t4,
+       "t5":t5,
+       "t6":t6,
+       "t7":t7,
+       "t8":t8
     },function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });
   });
+
+$("#motorstop2").click(function(){  //马达停止
+    $.post("/picp/motorstop",{},function(data,status){
+       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+    });
+  });
+　　
+
 });
 
 
