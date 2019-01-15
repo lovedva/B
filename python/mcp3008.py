@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #mcp3008 数模转换 重大注意，硬件spiCE0和CE1用这个类无法输出，需要手动进行高低操作切换，否则无法读取电压。或者使用软件spi
+#https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/mcp3008  使用的python库
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import time
