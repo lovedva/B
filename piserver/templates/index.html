@@ -89,33 +89,34 @@ gpio17==high，LED0==True
 
 			 <button id="motord1" class="btn btn-default btn-sm">正回転</button>
              <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
-             <button id="motorstop"class="btn btn-warning btn-sm">ストップ</button>
+             <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
 <!--              <button class="btn btn-default btn-sm" id="bt1">test</button> -->
 <button  class="btn btn-info btn-sm" id="motorautorun">自動運転開始</button>
+<button  class="btn btn-info btn-sm" id="motorautostop" >停止(未完成)</button>
            </div>
 
 
     <p>
     <div class="input-group">
       <div class="input-group-addon">運転T1&nbsp&nbsp&nbsp</div>
-      <input type="text" class="form-control" id="motorrunningT1" placeholder="秒/Second" value="4.1">
+      <input type="number" step="0.001" class="form-control" id="motorrunningT1" placeholder="秒/Second" value="4.1">
       <div class="input-group-addon">加熱待ちT2</div>
-      <input type="text" class="form-control" id="motorwaitingT2" placeholder="秒/Second" value="2">
+      <input type="number" step="0.001"class="form-control" id="motorwaitingT2" placeholder="秒/Second" value="2">
     </div> </p>
 <p>
     <div class="input-group">
       <div class="input-group-addon">運転T3 &nbsp&nbsp</div>
-      <input type="text" class="form-control" id="motorrunningT3" placeholder="秒/Second" value="4">
+      <input type="number" step="0.001" class="form-control" id="motorrunningT3" placeholder="秒/Second" value="4">
       <div class="input-group-addon">加熱待ちT4</div>
-      <input type="text" class="form-control" id="motorwaitingT4" placeholder="秒/Second" value="2">
+      <input type="number" step="0.001" class="form-control" id="motorwaitingT4" placeholder="秒/Second" value="2">
       </div>
     </p>
     <p>
     <div class="input-group">
       <div class="input-group-addon">逆運転T5</div>
-      <input type="text" class="form-control" id="motorrunningT5" placeholder="秒/Second" value="2.2">
+      <input type="number" step="0.001"class="form-control" id="motorrunningT5" placeholder="秒/Second" value="2.2">
       <div class="input-group-addon">加熱待ちT6</div>
-      <input type="text" class="form-control" id="motorwaitingT6" placeholder="秒/Second" value="2">
+      <input type="number" step="0.001" class="form-control" id="motorwaitingT6" placeholder="秒/Second" value="2">
     </div>
   </p>
    <p>
@@ -206,7 +207,7 @@ $(document).ready(function(){
     var t6=$("#motorwaitingT6").val();
     var t7=$("#motorrunningT7").val();
     var t8=$("#motorwaitingT8").val();
-    $.post("/picp/motorautorun",{
+    $.post("/picp/motorautorun/1",{
        "t1":t1,
        "t2":t2,
        "t3":t3,
@@ -217,11 +218,12 @@ $(document).ready(function(){
        "t8":t8
     },function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
-    });
+           });
+
   });
 
-$("#motorstop2").click(function(){  //马达停止
-    $.post("/picp/motorstop",{},function(data,status){
+$("#motorautostop").click(function(){  //马达停止
+    $.post("/picp/motorautorun/0",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
     });
   });

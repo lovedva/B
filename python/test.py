@@ -5,11 +5,11 @@ import time
 import datetime
 from gpiozero import PWMLED
 
-led2 = PWMLED(12)
+led2 = PWMLED(23)
 
 #led1 = PWMLED(27)
-led1.on()
-#led2.on()
+#ed1.on()
+led2.on()
 # time.sleep(3)
 # led.off()
 print ("gpio开启")
