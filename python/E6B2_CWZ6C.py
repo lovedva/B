@@ -18,9 +18,9 @@ LED0=10
 led0=PWMLED(LED0) 
 
 # setup GPIO triggered  记录按钮输入状态（是否按下）
-A_triggered= False
-B_triggered= False
-Z_triggered= False
+eA_triggered= False
+eB_triggered= False
+eZ_triggered= False
 
 #设置针脚编号方式
 RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -35,34 +35,34 @@ RPi.GPIO.setup(LED0,RPi.GPIO.OUT)
 
 #设置反馈方法
 def SwitchA(channel):   
-    global A_triggered
+    global eA_triggered
     if RPi.GPIO.input(encoderOUTA):
-        A_triggered= True
-        print("A == rise, A_triggered==True")
+        eA_triggered= True
+        print("A == rise, eA_triggered==True")
     else:
-        A_triggered=False
-        print("A == fall, A_triggered==False")
+        eA_triggered=False
+        print("A == fall, eA_triggered==False")
 
 def SwitchB(channel):   
-    global B_triggered
+    global eB_triggered
     if RPi.GPIO.input(encoderOUTB):
-        B_triggered= True
-        print("B == rise,B_triggered==True")
+        eB_triggered= True
+        print("B == rise,eB_triggered==True")
     else:
-        B_triggered=False
-        print("B == fall,B_triggered==False")
+        eB_triggered=False
+        print("B == fall,eB_triggered==False")
 
 def SwitchZ(channel):
-    global Z_triggered
-    Z_triggered= True
+    global eZ_triggered
+    eZ_triggered= True
 
 def TriggeredAllFalse():  #将所有开关输入状态设置为否
-    global A_triggered
-    global B_triggered
-    global Z_triggered
-    A_triggered= False
-    B_triggered= False
-    Z_triggered= False
+    global eA_triggered
+    global eB_triggered
+    global eZ_triggered
+    eA_triggered= False
+    eB_triggered= False
+    eZ_triggered= False
 
 #设置事件检测
 # when a rising edge is detected on pin,the callback functions will be run
@@ -87,23 +87,23 @@ if __name__ == "__main__":
         while True:
             time.sleep(TIME)
  #第一次输入为A升高            
-            if A_triggered and B_triggered==False:
+            if eA_triggered and eB_triggered==False:
                 print("1番目の入力：A==Rising,B==0,2番目の入力を待っている。。。")
                 # TriggeredAllFalse()
     #第二次输入为B升高
                 while True:
                     time.sleep(TIME)
-                    if B_triggered:
+                    if eB_triggered:
                         print("入力2==B rise，入力3を待っている。。。")
         #第三次输入为A下降
                         while True:
                             time.sleep(TIME)
-                            if A_triggered==False:
+                            if eA_triggered==False:
                                 print("入力3==A fall，入力4を待っている。。。")
             #第四次输入为B下降
                                 while True:
                                     time.sleep(TIME)
-                                    if B_triggered==False:
+                                    if eB_triggered==False:
                                         print("入力4==B fall。回転方向： CW ")
                                         if led0.value<=0.99:
                                             led0.value+=0.01
@@ -112,34 +112,34 @@ if __name__ == "__main__":
                                         break #退出第四次循环
                                 break  #退出第三次循环
         #第三次输入为B下降                                
-                            elif B_triggered==False:
+                            elif eB_triggered==False:
                                 print("入力3==B fall")
                                 break #退出第三次循环
                         print("入力1に戻る，入力1を待っている。。。")
                         break #退出第二层循环           
     #第二次输入为A下降
-                    elif A_triggered==False:
+                    elif eA_triggered==False:
                         print("入力1に戻る，入力1を待っている。。。")
                         break #退出第二次循环
 
 
   #第一次输入为B升高                      
-            if B_triggered and A_triggered==False:
+            if eB_triggered and eA_triggered==False:
                 print("1番目の入力：B==Rising,A==0,2番目の入力を待っている。。。")       
     #第二次输入为A升高            
                 while True:
                     time.sleep(TIME)
-                    if A_triggered:
+                    if eA_triggered:
                         print("入力2==A rise，入力3を待っている。。。")
         #第三次输入为B下降
                         while True:
                             time.sleep(TIME)
-                            if B_triggered==False:
+                            if eB_triggered==False:
                                 print("入力3==B fall，入力4を待っている。。。")
             #第四次输入为A下降
                                 while True:
                                     time.sleep(TIME)
-                                    if A_triggered==False:
+                                    if eA_triggered==False:
                                         print("入力4==A fall。回転方向： CWW ")
                                         if led0.value>=0.01:
                                                led0.value-=0.01
@@ -148,13 +148,13 @@ if __name__ == "__main__":
                                         break #退出第四次循环
                                 break  #退出第三次循环
         #第三次输入为A下降                                
-                            elif A_triggered==False:
+                            elif eA_triggered==False:
                                 print("入力3==A fall")
                                 break #退出第三次循环
                         print("入力1に戻る，入力1を待っている。。。")
                         break #退出第二层循环           
     #第二次输入为B下降
-                    elif B_triggered==False:
+                    elif eB_triggered==False:
                         print("入力2==B fall")
                         print("入力1に戻る，入力1を待っている。。。")
                         break #退出第二次循环
