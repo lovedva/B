@@ -8,27 +8,40 @@ import numpy as np
 import adt7410
 # from gpiozero import PWMLED
 
-Vref=3.31 #V
-I=0.00119 #A （平均值）
+Vref=3.3100 #V
+I01=0.0012228
+I23=0.000932 #A （平均值）
+I45=0.00118            #
 # led = PWMLED(12)  #供电端口 gpio12
-CLK  = 15
-MISO = 13
-MOSI = 19
-CS   = 12
+CLK  = 26   #mcp3008接ch0ch4
+MISO = 20     #Dout
+MOSI = 10     #Din
+CS   = 27     #slect
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
-def calcResistance():
+def calcResistance(channel1,channel2):
     time.sleep(0.5)
-    adc0 = mcp.read_adc(3)
-    adc1=mcp.read_adc(7)
+    adc0 = mcp.read_adc(channel1)
+    adc1=mcp.read_adc(channel2)
     voltage0 = Vref * (adc0/1023.000)
     voltage1 = Vref * (adc1/1023.000)
     
     print("channel 0 voltage is: ", voltage0)
     print("channel 1 voltage is: ", voltage1)
-    print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
+    print("V1-V0 is",(voltage1-voltage0))
     print("-------------------------------------")
-    return (voltage1-voltage0)/I #单位欧姆
+    if channel1==0:
+        print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
+        print("I01==",I01)
+        return ((voltage1-voltage0)/I01) #单位欧姆
+    elif channel1==2:
+        print("Pt1000's resistance now is: ",(voltage1-voltage0)/I23)
+        print("I23==",I23)
+        return (voltage1-voltage0)/I23
+    elif channel1==4:
+        print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45)+8)
+        print("I45==",I45)
+        return (((voltage1-voltage0)/I45)+8)
 
 def calcTemp(a,b,c):
     if a == 0:
@@ -58,7 +71,8 @@ if __name__ == '__main__':
         time.sleep(0.5)
 
         
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcResistance()/1000))))
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcResistance(4,5)/1000))))
         print("温度センサーで測温："+str(adt7410.read_adt7410()))
         print("-------------------------------------")
         pass
+ 

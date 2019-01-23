@@ -21,7 +21,7 @@ InputC=8   #GPIO8 为C输入
 InputD=15  #GPIO15 as inputD
 
 # setup output pins
-LED0=27   #GPIO for UC
+LED0=4  #GPIO for UC
 In1_Motor=13   #GPIOXX 
 In2_Motor=19
 
@@ -81,12 +81,6 @@ def TriggeredAllFalse():  #将所有开关输入状态设置为否
     C_triggered= False
     D_triggered= False
 
-# define a function to pull up pin
-def turnon(PIN):
-    RPi.GPIO.output(PIN, True)
-    print ("| %sの出力 ==%s |"%((getPIN_NAME(PIN),RPi.GPIO.input(PIN))))
-    print ("-------------------------------")
-
 def getPIN_NAME(PIN):
     global LED0
     if PIN==LED0:
@@ -100,6 +94,12 @@ def getPIN_NUM(strPINNAME):
     #     return LED0
     # if strPINNAME=="LED0":
     #     return LED0
+
+# define a function to pull up pin
+def turnon(PIN):
+    RPi.GPIO.output(PIN, True)
+    print ("| %sの出力 ==%s |"%((getPIN_NAME(PIN),RPi.GPIO.input(PIN))))
+    print ("-------------------------------")
 
 def turnoff(PIN):
     RPi.GPIO.output(PIN, False)

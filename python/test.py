@@ -5,7 +5,7 @@ import time
 import datetime
 from gpiozero import PWMLED
 
-led2 = PWMLED(23)
+led2 = PWMLED(4)
 
 #led1 = PWMLED(27)
 #ed1.on()
