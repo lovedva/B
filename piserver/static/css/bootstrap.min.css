@@ -104,7 +104,8 @@ hr {
 }
 
 pre {
-    overflow: auto
+    overflow: auto;
+    
 }
 
 code, kbd, pre, samp {
@@ -1494,6 +1495,8 @@ hr {
 
 p {
     margin: 0 0 10px
+    overflow-wrap:break-word;
+    word-break: break-all;
 }
 
 .lead {

@@ -33,7 +33,7 @@ def pullupgpio(pinname):
 	#boardop.turnon(boardop.LED0)
 	print(boardop.getPIN_NUM(pinname)) #得到部件名称的GPIO编号
 	boardop.turnon(boardop.getPIN_NUM(pinname))
-	return "post  戻り値："+pinname.encode("utf-8")+"==True"
+	return "action:post 戻り値："+pinname.encode("utf-8")+"-"
 
 @bp.route("pulldowngpio/<pinname>",methods=['POST'])
 def pulldowngpio(pinname):
@@ -42,7 +42,7 @@ def pulldowngpio(pinname):
 	print (pinname)
 	print(boardop.getPIN_NUM(pinname))
 	boardop.turnoff(boardop.getPIN_NUM(pinname))
-	return "post 戻り値："+pinname.encode("utf-8")+"==False"
+	return "action:post 戻り値："+pinname.encode("utf-8")+"-"
 	# return "post  戻り値：LED0==OFF,GPIO13==False  >>>>>> LED0消灯"
 
 #马达操作，控制马达方向
@@ -52,7 +52,7 @@ def motord1():
 	boardop.turnon(boardop.In1_Motor)
 	boardop.turnoff(boardop.In2_Motor)
 
-	return "post  戻り値：モーター正回転  GPIO13==True  GPIO19==False"
+	return "action:post 戻り値：GPIO13==True\nGPIO19==False"
 
 @bp.route("motord2",methods=['POST'])
 def motord2():
@@ -60,7 +60,7 @@ def motord2():
 	boardop.turnon(boardop.In2_Motor)
 	boardop.turnoff(boardop.In1_Motor)
 
-	return "post  戻り値：モーター逆回転  GPIO13==False  GPIO19==True"
+	return "action:post 戻り値：GPIO13==False\nGPIO19==True"
 
 @bp.route("motorstop",methods=['POST'])
 def motorstop():
@@ -68,7 +68,7 @@ def motorstop():
 	boardop.turnoff(boardop.In1_Motor)
 	boardop.turnoff(boardop.In2_Motor)
 
-	return "post  戻り値：モーター停止  GPIO13==False  GPIO19==False"
+	return "action:post 戻り値：GPIO13==False\nGPIO19==False"
 
 @bp.route("motorautorun/<command>",methods=['POST']) #自动控制马达
 def motorautorun(command): #command stop(0) or run(1) 
@@ -125,7 +125,7 @@ def motorautorun(command): #command stop(0) or run(1)
 		boardop.turnoff(boardop.In2_Motor)
 
  
-	return "post  戻り値：モーター自動運転完了　運転時間:"+str(t1+t2+t3+t4+t5+t6+t7+t8)+"s "
+	return "action:post 戻り値：自動運転完了　\n運転時間:"+str(t1+t2+t3+t4+t5+t6+t7+t8)+"s "
 
 # +" t2=="+t2+" t3=="+t3+" t4=="+t4+" t5=="+t5+" t6=="+t6+" t7=="+t7+" t8=="+t8
 # #刷新温度
