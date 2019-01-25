@@ -12,7 +12,7 @@ class PIinit:
 
 	#设置输出PIN
 	# LED0=27  #程序开始指示灯
-	TempOUT1=23
+	TempOUT1=12
 
 	def __init__(self):
 		RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -23,12 +23,12 @@ class PIinit:
 
 class pidCtr:
 	"PID控制器"
-	flag=1
-	Sv=90.000 #用户输入
+	flag=1  
+	Sv=50.000 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
-	Kp=30.000 #比例系数
-	Ti=60000.000 #ms 积分时间
+	Kp=40.000 #比例系数
+	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
 	Ek_1=0.000 #上次偏差
@@ -82,10 +82,11 @@ if __name__ == "__main__":
 		#设置pwm
 		pwm=RPi.GPIO.PWM(pi.TempOUT1,5)#pwm周期200ms
 		pwm.start(1)
-		file_handle=open('Templog.txt',mode='w')
+		file_handle=open('50Templog.txt',mode='w')
 		while True:
+			time.sleep(0.5)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcResistance(0,1)/1000))))  
+			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(4,5)/1000))))  
 			print("今回の温度==%s度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
@@ -95,7 +96,7 @@ if __name__ == "__main__":
 			print("PWM信号のDutyCyle：%s"%dc)
 			file_handle.write("%s ;\n"%dc)
 			print("-----------------------------")
-			time.sleep(0.5)
+			
 			pass
 			
 		file_handle.close()

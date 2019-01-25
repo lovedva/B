@@ -38,8 +38,7 @@
 	<!--导航条over--> 
 
 
-<div class="">
-<table class="table table-bordered table-responsive  ">
+<table class="table table-bordered table-responsive  col-xs-9 ">
 
 <tr>
 <td >
@@ -64,14 +63,10 @@
 
 <tr>	
 <td>
-出力の结果：省略
-<!--<pre class="pre-scrollable" id="outputTerminal">
-GPIO初期化完了，LED0点灯。
-gpio17==high，LED0==True
-
-
-</pre> -->  <!--此处2行空格不能删除 -->
-</td>
+  出力の结果：<br>
+<pre class="pre-scrollable col-xs-9 col-md-12" id="outputTerminal">
+GPIO初期化完了，LED0点灯。gpio17==high，LED0==True。
+</pre>  </td> 
 </tr>
 
 <tr>
@@ -83,64 +78,60 @@ gpio17==high，LED0==True
        <button  class="btn btn-default btn-sm" id="turnoffLED0">LED0:OFF</button></p>
 		</div>
 
-モーター/自動制御(半角数字を入れてください):
-	<form class="form-inline">
-  	<div class="form-group">
+モーター/自動運転:
 
-			 <button id="motord1" class="btn btn-default btn-sm">正回転</button>
-             <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
-             <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
+<p>
+    <button id="motord1" class="btn btn-default btn-sm">正回転</button>
+     <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
+     <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
 <!--              <button class="btn btn-default btn-sm" id="bt1">test</button> -->
-<button  class="btn btn-info btn-sm" id="motorautorun">自動運転開始</button>
-<button  class="btn btn-info btn-sm" id="motorautostop" >停止(未完成)</button>
-           </div>
+  </p>
 
+  <form class="form-inline "  autocomplete="on" >
+<input type="button"  class="btn btn-info btn-sm" id="motorautorun" value="自動運転開始">
+<input type="button" class="btn btn-info btn-sm" id="motorautostop" value="停止(未完成)" disabled="on">
+         
 
     <p>
-    <div class="input-group">
+    <div class="input-group col-xs-9 col-md-4">
       <div class="input-group-addon">運転T1&nbsp&nbsp&nbsp</div>
-      <input type="number" step="0.001" class="form-control" id="motorrunningT1" placeholder="秒/Second" value="4.1">
+      <input type="number" step="0.1" class="form-control" id="motorrunningT1" min="0.1" placeholder="秒/S" autocomplete="on" required >
       <div class="input-group-addon">加熱待ちT2</div>
-      <input type="number" step="0.001"class="form-control" id="motorwaitingT2" placeholder="秒/Second" value="2">
+      <input type="number"   step="0.1"class="form-control" id="motorwaitingT2"  min="0.1" placeholder="秒/S" value="2" autocomplete="on" required>
     </div> </p>
 <p>
-    <div class="input-group">
+    <div class="input-group col-xs-9 col-md-4">
       <div class="input-group-addon">運転T3 &nbsp&nbsp</div>
-      <input type="number" step="0.001" class="form-control" id="motorrunningT3" placeholder="秒/Second" value="4">
+      <input type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0.1"  placeholder="秒/S" autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT4</div>
-      <input type="number" step="0.001" class="form-control" id="motorwaitingT4" placeholder="秒/Second" value="2">
+      <input type="number"   step="0.1" class="form-control" id="motorwaitingT4" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
       </div>
     </p>
     <p>
-    <div class="input-group">
+    <div class="input-group col-xs-9 col-md-4">
       <div class="input-group-addon">逆運転T5</div>
-      <input type="number" step="0.001"class="form-control" id="motorrunningT5" placeholder="秒/Second" value="2.2">
+      <input type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0.1"  placeholder="秒/S"  autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT6</div>
-      <input type="number" step="0.001" class="form-control" id="motorwaitingT6" placeholder="秒/Second" value="2">
+      <input type="number"   step="0.1" class="form-control" id="motorwaitingT6"  min="0.1" placeholder="秒/S" value="2" autocomplete="on"  required>
     </div>
   </p>
    <p>
-    <div class="input-group">
-      <div class="input-group-addon">逆運転T7</div>
-      <input type="text" class="form-control" id="motorrunningT7" placeholder="秒/Second" value="2.4">
+    <div class="input-group col-xs-9 col-md-4">
+      <div class="input-group-addon ">逆運転T7</div>
+      <input type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0.1"  placeholder="秒/S" autocomplete="on"  required>
       <div class="input-group-addon">加熱待ちT8</div>
-      <input type="text" class="form-control" id="motorwaitingT8" placeholder="秒/Second" value="2">
+      <input type="number"   step="0.1" class="form-control" id="motorwaitingT8" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
     </div>
 
   </p>
-      </div> 
-
-    </form>  
-
-  </td>
-  </tr>
-
+  </form> 
+  </div> </td> </tr>
+ 
 
 </table>
 
-</div>
 
-</div>
+
 
 </body>
 <script>
@@ -149,7 +140,7 @@ $(document).ready(function(){
   $("#bt1").click(function(){
     $.post("/picp/test",{},function(data,status){
       // alert("数据：" + data + "\n状态：" + status);
-       $("#outputTerminal").text("方法：" + data + "\n状态：" + status);
+       $("#outputTerminal").text("方法：" + data + "状态：" + status);
     });
   });
 });
@@ -158,7 +149,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnonLED0").click(function(){
     $.post("/picp/pullupgpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO27==True"+"\n状態：" + status+"\n\n\n");
+       $("#outputTerminal").text("メソッド：" + data +" LED0点灯,GPIO4==True"+"状態：" + status+"");
     });
   });
 });
@@ -167,7 +158,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#turnoffLED0").click(function(){
     $.post("/picp/pulldowngpio/LED0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO27==False"+"\n状態：" + status+"\n\n\n");
+       $("#outputTerminal").text("メソッド：" + data +" LED0消灯,GPIO4==False"+" 状態：" + status+"");
     });
   });
 });
@@ -176,7 +167,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#motord1").click(function(){ //马达方向1
     $.post("/picp/motord1",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" 状態：" + status);
     });
   });
 });
@@ -184,7 +175,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#motord2").click(function(){  //马达方向2
     $.post("/picp/motord2",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +" 状態：" + status);
     });
   });
 });
@@ -192,7 +183,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("#motorstop").click(function(){  //马达停止
     $.post("/picp/motorstop",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + data +"状態：" + status);
     });
   });
 });
@@ -207,29 +198,37 @@ $(document).ready(function(){
     var t6=$("#motorwaitingT6").val();
     var t7=$("#motorrunningT7").val();
     var t8=$("#motorwaitingT8").val();
-    $.post("/picp/motorautorun/1",{
-       "t1":t1,
-       "t2":t2,
-       "t3":t3,
-       "t4":t4,
-       "t5":t5,
-       "t6":t6,
-       "t7":t7,
-       "t8":t8
-    },function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
-           });
+    if (t1=="" || t2=="" || t3=="" ||t4 =="" || t5 =="" || t6=="" || t7=="" || t8=="" ) {
+      $("#outputTerminal").text("T1~T8を全部入れてください。");
+    }else{
+      $("#outputTerminal").text("自動運転開始　t1=" + t1+" t2="+t2+" t3="+t3+" t4="+t4+" t5="+t5+" t6="+t6+" t7="+t7+" t8="+t8 );
+      $.post("/picp/motorautorun/1",{
+         "t1":t1,
+         "t2":t2,
+         "t3":t3,
+         "t4":t4,
+         "t5":t5,
+         "t6":t6,
+         "t7":t7,
+         "t8":t8
+        },function(data,status){
+           $("#outputTerminal").text("メソッド：" + data +"状態：" + status);
+               });
+         }
 
-  });
+        });
+
 
 $("#motorautostop").click(function(){  //马达停止
     $.post("/picp/motorautorun/0",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + data +"\n状態：" + status);
+       $("#outputTerminal").text("自動運転完了　メソッド：" + data +" 状態：" + status);
     });
   });
-　　
 
 });
+　　 
+
+
 
 
 
@@ -247,7 +246,7 @@ $(document).ready(function(){
 
   function refreshTemp(){
   $.post("/picp/t_refresh",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + "post\n戻り値："+data+"度\naddress_adt7410 = 0x48"+"\n状態：" + status);
+       $("#outputTerminal").text("メソッド：" + "post  戻り値："+data+"度address_adt7410 = 0x48"+" 状態：" + status);
        $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
     });
 }

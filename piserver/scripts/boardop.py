@@ -81,19 +81,27 @@ def TriggeredAllFalse():  #将所有开关输入状态设置为否
     C_triggered= False
     D_triggered= False
 
-def getPIN_NAME(PIN):
+def getPIN_NAME(PINNUM):
     global LED0
-    if PIN==LED0:
+    global In1_Motor
+    global In2_Motor
+    if PINNUM==LED0: #数字
         return "LED0"
+    if PINNUM==In1_Motor:
+        return "In1_Motor"
+    if PINNUM==In2_Motor:
+        return "In2_Motor"
         
 def getPIN_NUM(strPINNAME):
     global LED0
+    global In1_Motor
+    global In2_Motor
     if strPINNAME=="LED0":
         return LED0
-    # if strPINNAME=="In1_Motor":
-    #     return LED0
-    # if strPINNAME=="LED0":
-    #     return LED0
+    if strPINNAME=="In1_Motor":
+        return In1_Motor
+    if strPINNAME=="In2_Motor":
+        return In2_Motor
 
 # define a function to pull up pin
 def turnon(PIN):

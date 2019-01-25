@@ -8,15 +8,14 @@ import numpy as np
 import adt7410
 # from gpiozero import PWMLED
 
-<<<<<<< HEAD:python/pt1000.py
 Vref=3.3100 #V
-I01=0.0012228
-I23=0.000932 #A （平均值）
-I45=0.00118            #
-=======
+I01=0.000523 #90
+I23=0.000531 #70
+I45=0.000539 #50          #
+
 Vref=3.31 #V
-I=0.001 #A （平均值）
->>>>>>> b8baf31e06ddac4ec6bf0af31987c0f285d72a48:python/pt1000-2.py
+I=0.000524 #A （平均值）
+
 # led = PWMLED(12)  #供电端口 gpio12
 CLK  = 26   #mcp3008接ch0ch4
 MISO = 20     #Dout
@@ -25,10 +24,8 @@ CS   = 27     #slect
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
 def calcResistance(channel1,channel2):
-<<<<<<< HEAD:python/pt1000.py
-    time.sleep(0.5)
-=======
->>>>>>> b8baf31e06ddac4ec6bf0af31987c0f285d72a48:python/pt1000-2.py
+
+
     adc0 = mcp.read_adc(channel1)
     adc1=mcp.read_adc(channel2)
     voltage0 = Vref * (adc0/1023.000)
@@ -36,26 +33,25 @@ def calcResistance(channel1,channel2):
     
     print("channel 0 voltage is: ", voltage0)
     print("channel 1 voltage is: ", voltage1)
-<<<<<<< HEAD:python/pt1000.py
+
     print("V1-V0 is",(voltage1-voltage0))
-    print("-------------------------------------")
-    if channel1==0:
+
+    if channel1==0: #90
         print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
         print("I01==",I01)
         return ((voltage1-voltage0)/I01) #单位欧姆
-    elif channel1==2:
+    elif channel1==2: #70
         print("Pt1000's resistance now is: ",(voltage1-voltage0)/I23)
         print("I23==",I23)
         return (voltage1-voltage0)/I23
-    elif channel1==4:
-        print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45)+8)
+    elif channel1==4: #50
+        print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
         print("I45==",I45)
-        return (((voltage1-voltage0)/I45)+8)
-=======
-    print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
+        return (((voltage1-voltage0)/I45))
 
-    return (voltage1-voltage0)/I #单位欧姆
->>>>>>> b8baf31e06ddac4ec6bf0af31987c0f285d72a48:python/pt1000-2.py
+    # print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
+
+    # return (voltage1-voltage0)/I #单位欧姆
 
 def calcTemp(a,b,c):
     if a == 0:
@@ -80,7 +76,9 @@ def calcTemp(a,b,c):
 
 def calcVoltaverage(channel1,channel2):
     a=0
+    b=0
     for i in range (0,10):
+        time.sleep(0.01)
         a=a+calcResistance(channel1,channel2)
         print("i==",i)
         print ("a=-",a)
@@ -88,10 +86,11 @@ def calcVoltaverage(channel1,channel2):
         print("-------------------------------------")  
         
         if i==9:
+            b=a/10
             a=0
             i=0
-    
-    return a/10
+    print ("a/10==",b)
+    return b
 
 
 # led.on()
@@ -99,16 +98,10 @@ if __name__ == '__main__':
     flag=0
     while True:
         time.sleep(0.5)
-        
-<<<<<<< HEAD:python/pt1000.py
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcResistance(4,5)/1000))))
-        print("温度センサーで測温："+str(adt7410.read_adt7410()))
-=======
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(0,1)/1000))))
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(4,5)/1000))))
+        # print("温度センサーで測温："+str(adt7410.read_adt7410()))
         flag=flag+1
         print("flag==",flag)
-        # print("温度センサーで測温："+str(adt7410.read_adt7410()))
->>>>>>> b8baf31e06ddac4ec6bf0af31987c0f285d72a48:python/pt1000-2.py
-        print("-------------------------------------")
+        # print("温度センサーで測温："+str(adt7410.read_adt7410()))        print("-------------------------------------")
         pass
  
