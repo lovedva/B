@@ -9,9 +9,9 @@ import adt7410
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.000523 #90
-I23=0.000531 #70
-I45=0.000539 #50          #
+I01=0.0005125 #90 #0.523mA
+I23=0.000513 #70  #0.513
+I45=0.000535 #50          #0.539
 
 Vref=3.31 #V
 I=0.000524 #A （平均值）
@@ -34,7 +34,7 @@ def calcResistance(channel1,channel2):
     print("channel 0 voltage is: ", voltage0)
     print("channel 1 voltage is: ", voltage1)
 
-    print("V1-V0 is",(voltage1-voltage0))
+    # print("V1-V0 is",(voltage1-voltage0))
 
     if channel1==0: #90
         print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
@@ -77,19 +77,32 @@ def calcTemp(a,b,c):
 def calcVoltaverage(channel1,channel2):
     a=0
     b=0
+    list = []
+    # for j in range(0,5):
     for i in range (0,10):
-        time.sleep(0.01)
+        time.sleep(0.05)
         a=a+calcResistance(channel1,channel2)
-        print("i==",i)
-        print ("a=-",a)
-        print("resistance average in 10 times is",a/10)
-        print("-------------------------------------")  
+        # print("i==",i)
+        # print ("a=-",a)
+        # print("resistance average in 10 times is",a/20)
+        # print("-------------------------------------")  
         
         if i==9:
             b=a/10
             a=0
             i=0
-    print ("a/10==",b)
+            list.append(b)
+            print "a/10==",b
+
+        # if j==4:
+        #     # print "max list==",max(list),"index==",list.index(max(list))
+        #     # print "min list==",min(list),"index==",list.index(min(list))
+        #     sum=list[0]+list[1]+list[2]+list[3]+list[4]#+list[5]+list[6]+list[7]+list[8]+list[9]
+        #     # print "total list==",sum
+        #     sum2=sum-list[list.index(max(list))]-list[list.index(max(list))]
+        #     # print "get rid of max and min",sum2
+        #     c=sum2/3
+        #     print"resistance average final==",c
     return b
 
 
@@ -98,7 +111,7 @@ if __name__ == '__main__':
     flag=0
     while True:
         time.sleep(0.5)
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(4,5)/1000))))
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(2,3)/1000))))
         # print("温度センサーで測温："+str(adt7410.read_adt7410()))
         flag=flag+1
         print("flag==",flag)

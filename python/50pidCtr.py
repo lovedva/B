@@ -27,7 +27,7 @@ class pidCtr:
 	Sv=50.000 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
-	Kp=40.000 #比例系数
+	Kp=30.000 #比例系数
 	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -105,6 +105,6 @@ if __name__ == "__main__":
 	else:
 		pass
 	finally:
-		file_handle.close()
+
 		RPi.GPIO.cleanup()
 	
