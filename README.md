@@ -7,7 +7,7 @@
 -python     RasPiモジュール,センサーのPythonスクリプト    其它模块以及传感器python脚本
 ```
 ### Demo　视频演示
-Demo video :https://youtu.be/ZMgXofbyudY  B站：![Bilibili](https://www.bilibili.com/video/av48722386/)
+Demo video :https://youtu.be/ZMgXofbyudY  B站：[Bilibili](https://www.bilibili.com/video/av48722386/)  
 Download demo video:https://github.com/syjsxxjy/shabi/blob/master/python/assets/demo.mp4
 ![](python/assets/34.jpg)
 
