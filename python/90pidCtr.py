@@ -27,7 +27,7 @@ class pidCtr:
 	Sv=90.000 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
-	Kp=30.000 #比例系数
+	Kp=20.000 #比例系数
 	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -84,10 +84,10 @@ if __name__ == "__main__":
 		pwm.start(1)
 		file_handle=open('90Templog.txt',mode='w')
 		while True:
-			time.sleep(0.5)
+			time.sleep(0.35)
 			# pid.Pv=adt7410.read_adt7410()
 			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(4,5)/1000))))  
-			print("今回の温度==%s度"%pid.Pv)
+			print("今回の温度==%s度,目标温度=90度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
 			print("pidCr.OUTの計算結果==%s"%pid.OUT)

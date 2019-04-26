@@ -31,22 +31,22 @@ def calcResistance(channel1,channel2):
     voltage0 = Vref * (adc0/1023.00)
     voltage1 = Vref * (adc1/1023.00)
     
-    print("channel 0 voltage is: ", voltage0)
-    print("channel 1 voltage is: ", voltage1)
+    # print("channel 0 voltage is: ", voltage0)
+    # print("channel 1 voltage is: ", voltage1)
 
     # print("V1-V0 is",(voltage1-voltage0))
 
     if channel1==0: #90
-        print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
-        print("I01==",I01)
+        #print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
+        # print("I01==",I01)
         return ((voltage1-voltage0)/I01) #单位欧姆
     elif channel1==2: #70
-        print("Pt1000's resistance now is: ",(voltage1-voltage0)/I23)
-        print("I23==",I23)
+        #print("Pt1000's resistance now is: ",(voltage1-voltage0)/I23)
+        # print("I23==",I23)
         return (voltage1-voltage0)/I23
     elif channel1==4: #50
-        print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
-        print("I45==",I45)
+        #print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
+        # print("I45==",I45)
         return (((voltage1-voltage0)/I45))
 
     # print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
@@ -92,7 +92,7 @@ def calcVoltaverage(channel1,channel2):
             a=0
             i=0
             list.append(b)
-            print "a/10==",b
+            # print "a/10==",b
 
         # if j==4:
         #     # print "max list==",max(list),"index==",list.index(max(list))
@@ -110,8 +110,8 @@ def calcVoltaverage(channel1,channel2):
 if __name__ == '__main__':
     flag=0
     while True:
-        time.sleep(1)
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(0,1)/1000))))
+        time.sleep(0.4)
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(4,5)/1000))))
         # print("温度センサーで測温："+str(adt7410.read_adt7410()))
         flag=flag+1
         print("flag==",flag)

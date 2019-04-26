@@ -27,7 +27,7 @@ class pidCtr:
 	Sv=60.000 #用户输入
 	Pv=0.000
 	T=1000.000 #ms PID计算周期
-	Kp=40.000 #比例系数
+	Kp=30.000 #比例系数
 	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -38,7 +38,7 @@ class pidCtr:
 	Dout=0.000
 	OUT0=1.000
 	OUT=0.000
-	pwm=0.5s #pwm输出周期
+	pwmcycle=200 #pwm输出周期
 
 	def calc(self):	
 		self.Ek=self.Sv-self.Pv #计算当前偏差
@@ -62,11 +62,11 @@ class pidCtr:
 		out=self.Pout+self.Iout+self.Dout+self.OUT0 #4-pid计算结果
 		print("calc.out==%s"%out)
 		#pid计算结果处理‘’
-		if out>self.pwmcyle:
-			self.OUT=self.pwmcyle
+		if out>self.pwmcycle:
+			self.OUT=self.pwmcycle
 		elif out<0:
 			self.OUT=0
-		elif 0<=out<=self.pwmcyle:
+		elif 0<=out<=self.pwmcycle:
 			self.OUT=out
 		self.Ek_1=self.Ek 
 
@@ -84,14 +84,14 @@ if __name__ == "__main__":
 		pwm.start(1)
 		file_handle=open('60Templog.txt',mode='w')
 		while True:
-			time.sleep(1)
+			time.sleep(0.5)
 			# pid.Pv=adt7410.read_adt7410()
 			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(0,1)/1000))))  
 			print("今回の温度==%s度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
 			print("pidCr.OUTの計算結果==%s"%pid.OUT)
-			dc=pid.OUT/pid.pwmcyle*100
+			dc=pid.OUT/pid.pwmcycle*100
 			pwm.ChangeDutyCycle(dc)
 			print("PWM信号のDutyCyle：%s"%dc)
 			file_handle.write("%s ;\n"%dc)
