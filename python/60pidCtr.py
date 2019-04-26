@@ -38,7 +38,7 @@ class pidCtr:
 	Dout=0.000
 	OUT0=1.000
 	OUT=0.000
-	pwmcyle=200 #ms PWM周期
+	pwm=0.5s #pwm输出周期
 
 	def calc(self):	
 		self.Ek=self.Sv-self.Pv #计算当前偏差
