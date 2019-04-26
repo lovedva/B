@@ -9,9 +9,9 @@ import adt7410
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.000575 #90 #0.5125mA
-I23=0.000575 #70  #0.513
-I45=0.000575 #50          #0.535
+I01=0.00099 #90 #0.5125mA
+I23=0.001 #70  #0.513
+I45=0.001 #50          #0.535
 
 Vref=3.31 #V
 I=0.000524 #A （平均值）
@@ -28,8 +28,8 @@ def calcResistance(channel1,channel2):
 
     adc0 = mcp.read_adc(channel1)
     adc1=mcp.read_adc(channel2)
-    voltage0 = Vref * (adc0/1023.000)
-    voltage1 = Vref * (adc1/1023.000)
+    voltage0 = Vref * (adc0/1023.00)
+    voltage1 = Vref * (adc1/1023.00)
     
     print("channel 0 voltage is: ", voltage0)
     print("channel 1 voltage is: ", voltage1)
@@ -110,8 +110,8 @@ def calcVoltaverage(channel1,channel2):
 if __name__ == '__main__':
     flag=0
     while True:
-        time.sleep(0.5)
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(2,3)/1000))))
+        time.sleep(1)
+        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(0,1)/1000))))
         # print("温度センサーで測温："+str(adt7410.read_adt7410()))
         flag=flag+1
         print("flag==",flag)

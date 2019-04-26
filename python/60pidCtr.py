@@ -26,8 +26,8 @@ class pidCtr:
 	flag=1  
 	Sv=60.000 #用户输入
 	Pv=0.000
-	T=500.000 #ms PID计算周期
-	Kp=30.000 #比例系数
+	T=1000.000 #ms PID计算周期
+	Kp=40.000 #比例系数
 	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -40,7 +40,7 @@ class pidCtr:
 	OUT=0.000
 	pwmcyle=200 #ms PWM周期
 
-	def calc(self):
+	def calc(self):	
 		self.Ek=self.Sv-self.Pv #计算当前偏差
 		# print("Ek==%s"%self.Ek)
 		# print("Ek_1==%s"%self.Ek_1)
@@ -84,9 +84,9 @@ if __name__ == "__main__":
 		pwm.start(1)
 		file_handle=open('60Templog.txt',mode='w')
 		while True:
-			time.sleep(0.5)
+			time.sleep(1)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(4,5)/1000))))  
+			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(0,1)/1000))))  
 			print("今回の温度==%s度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()

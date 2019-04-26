@@ -7,19 +7,22 @@ import Adafruit_MCP3008
 import time
 
 Vref=3.3
-CLK  = 18
-MISO = 23
-MOSI = 24
-CS   = 25
+CLK  = 26
+MISO = 20
+MOSI = 10
+CS   = 27
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
 if __name__ == '__main__':
+    print("Mcp3008，c0=0 c1=1")
+    while True:
+        adc0 = mcp.read_adc(0)
+        print(adc0)
+        adc1=mcp.read_adc(1)
+        print(adc1)
 
-	while True:
-		adc0 = mcp.read_adc(0)
-		adc1=mcp.read_adc(1)
-		voltage0 = Vref * (adc0/1023)
-		voltage1 = Vref * (adc1/1023)
-		print("channel 0 voltage is: ", voltage0)
-		print("channel 1 voltage is: ", voltage1)
-		time.sleep(0.5)
+        voltage0 = Vref * (adc0/1023.0000)
+        voltage1 = Vref * (adc1/1023.0000)
+        print("channel 0 voltage is: ", voltage0)
+        print("channel 1 voltage is: ", voltage1)
+        time.sleep(1)
