@@ -6,15 +6,16 @@ import Adafruit_MCP3008
 import time
 import numpy as np
 import adt7410
+import RPi.GPIO
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.00099 #90 #0.5125mA
+I01=0.00104 #90 #0.5125mA
 I23=0.001 #70  #0.513
-I45=0.001 #50          #0.535
+I45=0.00099 #60          #0.535
 
 Vref=3.31 #V
-I=0.000524 #A （平均值）
+
 
 # led = PWMLED(12)  #供电端口 gpio12
 CLK  = 26   #mcp3008接ch0ch4
@@ -31,10 +32,10 @@ def calcResistance(channel1,channel2):
     voltage0 = Vref * (adc0/1023.00)
     voltage1 = Vref * (adc1/1023.00)
     
-    # print("channel 0 voltage is: ", voltage0)
-    # print("channel 1 voltage is: ", voltage1)
+    # print("channel 0 voltage is ",voltage0)
+    # print("channel 1 voltage is ",voltage1)
 
-    # print("V1-V0 is",(voltage1-voltage0))
+    #print("V1-V0 is",(voltage1-voltage0))
 
     if channel1==0: #90
         #print("Pt1000's resistance now is: ",(voltage1-voltage0)/I01)
@@ -45,7 +46,7 @@ def calcResistance(channel1,channel2):
         # print("I23==",I23)
         return (voltage1-voltage0)/I23
     elif channel1==4: #50
-        #print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
+        # print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
         # print("I45==",I45)
         return (((voltage1-voltage0)/I45))
 
@@ -53,7 +54,7 @@ def calcResistance(channel1,channel2):
 
     # return (voltage1-voltage0)/I #单位欧姆
 
-def calcTemp(a,b,c):
+def solveEquation(a,b,c):
     if a == 0:
         print('您输入的不是二次方程!')
     else:
@@ -74,13 +75,16 @@ def calcTemp(a,b,c):
             print(x1,x2)
             return x1,x2
 
+def calcTemp(ch1,ch2):
+    return str(solveEquation((-0.0000005775),0.0039083,(1-calcVoltaverage(ch1,ch2)/1000)))
+
 def calcVoltaverage(channel1,channel2):
     a=0
     b=0
     list = []
     # for j in range(0,5):
     for i in range (0,10):
-        time.sleep(0.05)
+        time.sleep(0.02)
         a=a+calcResistance(channel1,channel2)
         # print("i==",i)
         # print ("a=-",a)
@@ -109,12 +113,22 @@ def calcVoltaverage(channel1,channel2):
 # led.on()
 if __name__ == '__main__':
     flag=0
-    while True:
-        time.sleep(0.4)
-        print("Pt1000で測温："+str(calcTemp((-0.0000005775),0.0039083,(1-calcVoltaverage(4,5)/1000))))
-        # print("温度センサーで測温："+str(adt7410.read_adt7410()))
-        flag=flag+1
-        print("flag==",flag)
-        # print("温度センサーで測温："+str(adt7410.read_adt7410()))        print("-------------------------------------")
-        pass
- 
+    try:
+        while True:
+            time.sleep(0.4)
+            try:
+                print("温度センサーで測温[ch0,ch1]："+str(adt7410.read_adt7410()))
+            except:
+                pass
+            print("Pt1000で測温      [ch0,ch1]："+calcTemp(0,1))
+            print("Pt1000で測温      [ch2,ch3]："+calcTemp(2,3))
+            print("Pt1000で測温      [ch4,ch5]："+calcTemp(4,5))
+            
+            flag=flag+1
+            print("flag==",flag)
+            # print("温度センサーで測温："+str(adt7410.read_adt7410()))        print("-------------------------------------")
+
+    finally:
+        RPi.GPIO.cleanup()
+        print("程序结束")
+     
