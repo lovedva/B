@@ -10,9 +10,9 @@ import RPi.GPIO
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.00104 #90 #0.5125mA
-I23=0.001 #70  #0.513
-I45=0.00099 #60          #0.535
+I01=0.000998 #90 #0.5125mA
+I23=0.000985 #70  #0.513
+I45=0.0010 #60          #0.535
 
 Vref=3.31 #V
 
@@ -48,7 +48,7 @@ def calcResistance(channel1,channel2):
     elif channel1==4: #50
         # print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
         # print("I45==",I45)
-        return (((voltage1-voltage0)/I45))
+        return (((voltage1-voltage0)/I45)-0.1)
 
     # print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
 
@@ -76,7 +76,7 @@ def solveEquation(a,b,c):
             return x1,x2
 
 def calcTemp(ch1,ch2):
-    return str(solveEquation((-0.0000005775),0.0039083,(1-calcVoltaverage(ch1,ch2)/1000)))
+    return float(solveEquation((-0.0000005775),0.0039083,(1-calcVoltaverage(ch1,ch2)/1000))-0.1)
 
 def calcVoltaverage(channel1,channel2):
     a=0
@@ -120,9 +120,9 @@ if __name__ == '__main__':
                 print("温度センサーで測温[ch0,ch1]："+str(adt7410.read_adt7410()))
             except:
                 pass
-            print("Pt1000で測温      [ch0,ch1]："+calcTemp(0,1))
-            print("Pt1000で測温      [ch2,ch3]："+calcTemp(2,3))
-            print("Pt1000で測温      [ch4,ch5]："+calcTemp(4,5))
+            print("Pt1000で測温      [ch0,ch1]："+str(calcTemp(0,1)))
+            print("Pt1000で測温      [ch2,ch3]："+str(calcTemp(2,3)))
+            print("Pt1000で測温      [ch4,ch5]："+str(calcTemp(4,5)))
             
             flag=flag+1
             print("flag==",flag)

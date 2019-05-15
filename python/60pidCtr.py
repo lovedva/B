@@ -12,7 +12,7 @@ class PIinit:
 
 	#设置输出PIN
 	# LED0=27  #程序开始指示灯
-	TempOUT1=15
+	TempOUT1=12
 
 	def __init__(self):
 		RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -24,7 +24,7 @@ class PIinit:
 class pidCtr:
 	"PID控制器"
 	flag=1  
-	Sv=60.000 #用户输入
+	Sv=40.000 #用户输入
 	Pv=0.000
 	T=1000.000 #ms PID计算周期
 	Kp=30.000 #比例系数
@@ -86,8 +86,8 @@ if __name__ == "__main__":
 		while True:
 			time.sleep(0.5)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(4,5)/1000))))  
-			print("今回の温度==%s度"%pid.Pv)
+			pid.Pv=float(pt1000.calcTemp(4,5))
+			print("Pt1000で測温[4,5]==%s"%pid.Pv)
 			print("温度传感器测温==%s度"%adt7410.read_adt7410())
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()

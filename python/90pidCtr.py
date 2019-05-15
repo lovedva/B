@@ -86,7 +86,7 @@ if __name__ == "__main__":
 		while True:
 			time.sleep(0.35)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(str(pt1000.calcTemp((-0.0000005775),0.0039083,(1-pt1000.calcVoltaverage(4,5)/1000))))  
+			pid.Pv=float(pt1000.calcTemp(4,5))  
 			print("今回の温度==%s度,目标温度=90度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
