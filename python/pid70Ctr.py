@@ -12,7 +12,7 @@ class PIinit:
 
 	#设置输出PIN
 	# LED0=27  #程序开始指示灯
-	TempOUT1=15
+	TempOUT1=23
 
 	def __init__(self):
 		RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -24,7 +24,7 @@ class PIinit:
 class pidCtr:
 	"PID控制器"
 	flag=1  
-	Sv=90.000 #用户输入
+	Sv=70.000 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
 	Kp=20.000 #比例系数
@@ -38,14 +38,14 @@ class pidCtr:
 	Dout=0.000
 	OUT0=1.000
 	OUT=0.000
-	pwmcyle=200 #ms PWM周期
+	pwmcycle=200 #ms PWM周期
 
 	def calc(self):
 		self.Ek=self.Sv-self.Pv #计算当前偏差
 		# print("Ek==%s"%self.Ek)
 		# print("Ek_1==%s"%self.Ek_1)
 		self.Pout=self.Kp*self.Ek  #1-比例项输出
-		print("Pout==%s"%self.Pout)
+		# print("Pout==%s"%self.Pout)
 		self.SEk+=self.Ek  #历史偏差总和
 		# print("SEk==%s"%self.SEk)
 		DeltaEK=self.Ek-self.Ek_1  #上一次和本次的偏差之差
@@ -54,19 +54,19 @@ class pidCtr:
 		Ki=ti*self.Kp  #积分系数
 		# print("Ki==%s"%Ki)
 		self.Iout=Ki*self.SEk #2-积分输出
-		print("Iout==%s"%self.Iout)
+		# print("Iout==%s"%self.Iout)
 		td=self.Td/self.T #微分时间/pid周期
 		Kd=self.Kp*td #微分系数
 		self.Dout=Kd*DeltaEK #3-微分项输出
-		print("Dout==%s"%self.Dout)
+		# print("Dout==%s"%self.Dout)
 		out=self.Pout+self.Iout+self.Dout+self.OUT0 #4-pid计算结果
-		print("calc.out==%s"%out)
+		# print("calc.out==%s"%out)
 		#pid计算结果处理‘’
-		if out>self.pwmcyle:
-			self.OUT=self.pwmcyle
+		if out>self.pwmcycle:
+			self.OUT=self.pwmcycle
 		elif out<0:
 			self.OUT=0
-		elif 0<=out<=self.pwmcyle:
+		elif 0<=out<=self.pwmcycle:
 			self.OUT=out
 		self.Ek_1=self.Ek 
 
@@ -82,16 +82,17 @@ if __name__ == "__main__":
 		#设置pwm
 		pwm=RPi.GPIO.PWM(pi.TempOUT1,5)#pwm周期200ms
 		pwm.start(1)
-		file_handle=open('90Templog.txt',mode='w')
+		file_handle=open('70Templog.txt',mode='w')
 		while True:
-			time.sleep(0.35)
+			time.sleep(0.5)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(pt1000.calcTemp(4,5))  
-			print("今回の温度==%s度,目标温度=90度"%pid.Pv)
+			pid.Pv=float(pt1000.calcTemp(2,3))
+			
+			print("====今回の温度==%s度，目标90度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
 			print("pidCr.OUTの計算結果==%s"%pid.OUT)
-			dc=pid.OUT/pid.pwmcyle*100
+			dc=pid.OUT/pid.pwmcycle*100
 			pwm.ChangeDutyCycle(dc)
 			print("PWM信号のDutyCyle：%s"%dc)
 			file_handle.write("%s ;\n"%dc)

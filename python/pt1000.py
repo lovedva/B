@@ -10,8 +10,8 @@ import RPi.GPIO
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.000998 #90 #0.5125mA
-I23=0.000985 #70  #0.513
+I01=0.000996 #90 #0.5125mA
+I23=0.0010 #70  #0.513
 I45=0.0010 #60          #0.535
 
 Vref=3.31 #V
@@ -44,11 +44,11 @@ def calcResistance(channel1,channel2):
     elif channel1==2: #70
         #print("Pt1000's resistance now is: ",(voltage1-voltage0)/I23)
         # print("I23==",I23)
-        return (voltage1-voltage0)/I23
+        return ((voltage1-voltage0)/I23)
     elif channel1==4: #50
         # print("Pt1000's resistance now is: ",((voltage1-voltage0)/I45))
         # print("I45==",I45)
-        return (((voltage1-voltage0)/I45)-0.1)
+        return ((voltage1-voltage0)/I45)
 
     # print("Pt1000's resistance now is: ",(voltage1-voltage0)/I)
 

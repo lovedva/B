@@ -12,7 +12,7 @@ class PIinit:
 
 	#设置输出PIN
 	# LED0=27  #程序开始指示灯
-	TempOUT1=12
+	TempOUT1=15
 
 	def __init__(self):
 		RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -24,10 +24,10 @@ class PIinit:
 class pidCtr:
 	"PID控制器"
 	flag=1  
-	Sv=40.000 #用户输入
+	Sv=90.000 #用户输入
 	Pv=0.000
-	T=1000.000 #ms PID计算周期
-	Kp=30.000 #比例系数
+	T=500.000 #ms PID计算周期
+	Kp=20.000 #比例系数
 	Ti=50000.000 #ms 积分时间
 	Td=1000.000 #ms 微分时间
 	Ek=0.000 #本次偏差
@@ -38,14 +38,14 @@ class pidCtr:
 	Dout=0.000
 	OUT0=1.000
 	OUT=0.000
-	pwmcycle=200 #pwm输出周期
+	pwmcycle=200 #ms PWM周期
 
-	def calc(self):	
+	def calc(self):
 		self.Ek=self.Sv-self.Pv #计算当前偏差
 		# print("Ek==%s"%self.Ek)
 		# print("Ek_1==%s"%self.Ek_1)
 		self.Pout=self.Kp*self.Ek  #1-比例项输出
-		print("Pout==%s"%self.Pout)
+		# print("Pout==%s"%self.Pout)
 		self.SEk+=self.Ek  #历史偏差总和
 		# print("SEk==%s"%self.SEk)
 		DeltaEK=self.Ek-self.Ek_1  #上一次和本次的偏差之差
@@ -54,13 +54,13 @@ class pidCtr:
 		Ki=ti*self.Kp  #积分系数
 		# print("Ki==%s"%Ki)
 		self.Iout=Ki*self.SEk #2-积分输出
-		print("Iout==%s"%self.Iout)
+		# print("Iout==%s"%self.Iout)
 		td=self.Td/self.T #微分时间/pid周期
 		Kd=self.Kp*td #微分系数
 		self.Dout=Kd*DeltaEK #3-微分项输出
-		print("Dout==%s"%self.Dout)
+		# print("Dout==%s"%self.Dout)
 		out=self.Pout+self.Iout+self.Dout+self.OUT0 #4-pid计算结果
-		print("calc.out==%s"%out)
+		# print("calc.out==%s"%out)
 		#pid计算结果处理‘’
 		if out>self.pwmcycle:
 			self.OUT=self.pwmcycle
@@ -82,13 +82,12 @@ if __name__ == "__main__":
 		#设置pwm
 		pwm=RPi.GPIO.PWM(pi.TempOUT1,5)#pwm周期200ms
 		pwm.start(1)
-		file_handle=open('60Templog.txt',mode='w')
+		file_handle=open('90Templog.txt',mode='w')
 		while True:
-			time.sleep(0.5)
+			time.sleep(0.35)
 			# pid.Pv=adt7410.read_adt7410()
-			pid.Pv=float(pt1000.calcTemp(4,5))
-			print("Pt1000で測温[4,5]==%s"%pid.Pv)
-			print("温度传感器测温==%s度"%adt7410.read_adt7410())
+			pid.Pv=float(pt1000.calcTemp(0,1))  
+			print("今回の温度==%s度,目标温度=90度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
 			pid.calc()
 			print("pidCr.OUTの計算結果==%s"%pid.OUT)
@@ -106,6 +105,6 @@ if __name__ == "__main__":
 	else:
 		pass
 	finally:
-
+		file_handle.close()
 		RPi.GPIO.cleanup()
 	
