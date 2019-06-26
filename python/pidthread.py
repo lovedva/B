@@ -45,6 +45,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             pid60=pid60Ctr.pidCtr()
             #准备写入文件
             file_handle=open('60Templog.txt',mode='w')
+            xls.creatxls()
             #循环控制温度
             while True:
                 time.sleep(0.5)
@@ -56,7 +57,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 dc=pid60.OUT/pid60.pwmcycle*100
                 pwm.ChangeDutyCycle(dc)
                 # print("PWM信号のDutyCyle：%s"%dc)
-                file_handle.write("%s ;\n"%dc)
+                # file_handle.write("%s ;\n"%dc)
                 
             file_handle.close()
         elif self.pidName==70:
@@ -79,7 +80,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 dc=pid70.OUT/pid70.pwmcycle*100
                 pwm.ChangeDutyCycle(dc)
                 # print("PWM信号のDutyCyle：%s"%dc)
-                file_handle.write("%s ;\n"%dc)
+                # file_handle.write("%s ;\n"%dc)
                 
             file_handle.close()
         elif self.pidName==90:
@@ -102,7 +103,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 dc=pid90.OUT/pid90.pwmcycle*100
                 pwm.ChangeDutyCycle(dc)
                 # print("PWM信号のDutyCyle：%s"%dc)
-                file_handle.write("%s ;\n"%dc)
+                # file_handle.write("%s ;\n"%dc)
             file_handle.close()
  
 def print_time(threadName, delay, counter):
