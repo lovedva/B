@@ -1,6 +1,13 @@
 #!/usr/bin/env python
+<<<<<<< HEAD
 from ina219_pi import INA219
 from ina219_pi import DeviceRangeError
+=======
+# -*- coding: utf-8 -*-
+#INA219电流传感器
+from pi_ina219 import INA219
+from pi_ina219 import DeviceRangeError
+>>>>>>> c136cbb53e8d61b8a4e23313872786d320e77e92
 
 SHUNT_OHMS = 0.1
 
