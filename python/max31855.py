@@ -25,7 +25,8 @@
 # Can enable debug output by uncommenting:
 #import logging
 #logging.basicConfig(level=logging.DEBUG)
-
+#
+#驱动地址：https://learn.adafruit.com/max31855-thermocouple-python-library?view=all
 import time
 
 import Adafruit_GPIO.SPI as SPI
@@ -41,15 +42,15 @@ def c_to_f(c):
 # software or hardware SPI.
 
 # Raspberry Pi software SPI configuration.
-# CLK = 22    #26
-# CS  = 27 #27
-# DO  = 17 #20
-# sensor = MAX31855.MAX31855(CLK, CS, DO)
+CLK = 12    #26
+CS  = 24 #27
+DO  = 18     #20
+sensor = MAX31855.MAX31855(CLK, CS, DO)
 
 # Raspberry Pi hardware SPI configuration.
-SPI_PORT   = 0  #DO 9 CS 10 CLK 11
-SPI_DEVICE = 0
-sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+# SPI_PORT   = 0  #DO 9 CS 10 CLK 11
+# SPI_DEVICE = 0
+# sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 # BeagleBone Black software SPI configuration.
 #CLK = 'P9_12'
@@ -63,10 +64,14 @@ sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 #sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 # Loop printing measurements every second.
-print('Press Ctrl-C to quit.')
-while True:
-    temp = sensor.readTempC()
-    internal = sensor.readInternalC()
-    print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
-    print('    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
-    time.sleep(1.0)
+
+if __name__ == "__main__":
+    print('Press Ctrl-C to quit.')
+
+    while True:
+        temp = sensor.readTempC()
+        internal = sensor.readInternalC()
+        print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
+        print('    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
+        print("Temp: %s"%temp)
+        time.sleep(1.0)

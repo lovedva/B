@@ -12,7 +12,7 @@ class PIinit:
 
     #设置输出PIN
     # LED0=27  #程序开始指示灯
-    TempOUT1=12
+    TempOUT1=14
 
     def __init__(self):
         RPi.GPIO.setmode(RPi.GPIO.BCM)
@@ -24,7 +24,7 @@ class PIinit:
 class pidCtr:
     "PID控制器"
     flag=1  
-    Sv=75.000 #用户输入
+    Sv=60.000 #用户输入
     Pv=0.000
     T=1000.000 #ms PID计算周期
     Kp=30.000 #比例系数

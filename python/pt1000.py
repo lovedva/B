@@ -19,8 +19,8 @@ Vref=3.31 #V
 
 # led = PWMLED(12)  #供电端口 gpio12
 CLK  = 26   #mcp3008接ch0ch4
-MISO = 20     #Dout
-MOSI = 10     #Din
+MISO = 19     #Dout
+MOSI = 20     #Din
 CS   = 27     #slect
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # import libraries
-import pygame
-from pygame.locals import *
+#import pygame
+#from pygame.locals import *
 import time
 import os
 import sys
