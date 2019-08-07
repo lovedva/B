@@ -3,6 +3,7 @@
 #pt1000温度测定，数模转换mcp3008
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+import max31855
 import time
 import numpy as np
 import adt7410
@@ -11,7 +12,7 @@ import RPi.GPIO
 
 Vref=3.3100 #V
 I01=0.001004 #90 #0.5125mA
-I23=0.001008 #70  #0.513
+I23=0.001008 #70  #0.001008
 I45=0.001004 #60          #0.535
 
 Vref=3.31 #V
@@ -117,7 +118,7 @@ if __name__ == '__main__':
         while True:
             time.sleep(0.4)
             try:
-                print("温度センサーで測温[ch0,ch1]："+str(adt7410.read_adt7410()))
+                print("温度センサーで測温[热电偶]："+str(max31855.sensor.readTempC()))
             except:
                 pass
             print("Pt1000で測温      [ch0,ch1]："+str(calcTemp(0,1)))
