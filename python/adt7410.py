@@ -25,7 +25,7 @@ if __name__ == '__main__':
     try:
      while True:
         inputValue = read_adt7410()
-        print(inputValue)
+        print("tempretrue is %s"%inputValue)
         sleep(0.5)
 
     except KeyboardInterrupt:
