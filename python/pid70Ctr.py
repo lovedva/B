@@ -5,7 +5,7 @@ import RPi.GPIO
 import sys
 import adt7410
 import pt1000
-
+import max31855
 class PIinit:
 	"初始化板子参数设定"
 	flag=0
@@ -24,7 +24,7 @@ class PIinit:
 class pidCtr:
 	"PID控制器"
 	flag=1  
-	Sv=70.000 #用户输入
+	Sv=112.70 #用户输入
 	Pv=0.000
 	T=500.000 #ms PID计算周期
 	Kp=20.000 #比例系数
@@ -87,15 +87,22 @@ if __name__ == "__main__":
 			time.sleep(0.5)
 			# pid.Pv=adt7410.read_adt7410()
 			pid.Pv=float(pt1000.calcTemp(2,3))
-			
-			print("====今回の温度==%s度，目标90度"%pid.Pv)
+			# pt1000temp=float(pt1000.calcTemp(2,3))
+			# print("Pt1000で測温[2,3]==%s"%pt1000temp)
+			print("Pt1000で測温[2,3]==%s"%pid.Pv)
+			# pid.Pv=max31855.sensor.readTempC()
+			sensortemp=max31855.sensor.readTempC()
+			print("温度传感器测温(热电偶)==%s度"%sensortemp)
+			# print("温度传感器测温(热电偶)==%s度"%pid.Pv)
 			file_handle.write("%s | "%pid.Pv)
+			file_handle.write("%s \n"%sensortemp)
+			# file_handle.write("%s \n"%pt1000temp)
 			pid.calc()
 			print("pidCr.OUTの計算結果==%s"%pid.OUT)
 			dc=pid.OUT/pid.pwmcycle*100
 			pwm.ChangeDutyCycle(dc)
 			print("PWM信号のDutyCyle：%s"%dc)
-			file_handle.write("%s ;\n"%dc)
+			# file_handle.write("%s ;\n"%dc)
 			print("-----------------------------")
 			
 			pass

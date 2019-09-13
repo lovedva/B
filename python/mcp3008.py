@@ -8,8 +8,8 @@ import time
 
 Vref=3.3
 CLK  = 26
-MISO = 20
-MOSI = 10
+MISO = 19      #20
+MOSI = 20     #10
 CS   = 27
 mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
