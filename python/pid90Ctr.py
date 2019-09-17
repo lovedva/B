@@ -24,7 +24,7 @@ class PIinit:
 class pidCtr:
 	"PID控制器"
 	flag=1  
-	Sv=90.000 #用户输入
+	Sv=90.000 #用户输入设定的温度
 	Pv=0.000
 	T=500.000 #ms PID计算周期
 	Kp=20.000 #比例系数
