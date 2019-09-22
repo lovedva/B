@@ -28,27 +28,33 @@ spi.lsbfirst=False
 spi.max_speed_hz=10000
 spi.mode=1
 spi.threewire=False
-time.sleep(0.02)
+time.sleep(0.1)
 
 #初始化
  
 def init():
+    # r = spi.xfer2([0b00010110])
+    # time.sleep(0.25)
+    # #SELFOCAL 
+    # r = spi.xfer2([0b01100010])
+    # time.sleep(5)
     #MUX0
     r = spi.xfer2([0b01000000,0b00000000,0b00000001])
-    #bias
-    r = spi.xfer2([0b01000001,0b00000000,0b00000000])
     #mux1
     r = spi.xfer2([0b01000010,0b00000000,0b00110000])
     #sys0
     r = spi.xfer2([0b01000011,0b00000000,0b00000000])
-    #ofc012
-    r = spi.xfer2([0b01000100,0b00000000,0b00000000])
-    r = spi.xfer2([0b01000101,0b00000000,0b00000000])
-    r = spi.xfer2([0b01000110,0b00000000,0b00000000])
     #idac0
     r = spi.xfer2([0b01001010,0b00000000,0b00000110])
     #idac1
     r = spi.xfer2([0b01001011,0b00000000,0b10001011])
+    #bias
+    r = spi.xfer2([0b01000001,0b00000000,0b00000000])
+    #ofc012
+    r = spi.xfer2([0b01000100,0b00000000,0b00000000])
+    r = spi.xfer2([0b01000101,0b00000000,0b00000000])
+    r = spi.xfer2([0b01000110,0b00000000,0b00000000])
+ 
     #gpioconfig
     r = spi.xfer2([0b01001100,0b00000000,0b11111100])
     #gpiodirect
@@ -59,7 +65,8 @@ def init():
 
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
-    volts=1.0*V/(pow(2,23)-1)*3.37
+    print(V)
+    volts=1.0*V/(pow(2,23)-1)*2.70
     return volts
 
 def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
@@ -68,7 +75,7 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         time.sleep(0.25)
         spi.xfer2([0b00010010,])
         r0=spi.xfer2([0xff,0xff,0xff])
-        print r0
+        # print r0
         volts0=voltcalc(r0)
         print ("U[AIN0+ Ain1-] = %s V"%(volts0)) 
         return volts0
@@ -77,7 +84,7 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         time.sleep(0.25)
         spi.xfer2([0b00010010,])
         r1=spi.xfer2([0xff,0xff,0xff])
-        print r1
+        # print r1
         volts1=voltcalc(r1)
         print ("U[AIN2+ Ain3-] = %s V"%(volts1))  
         return volts1
@@ -86,7 +93,7 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         time.sleep(0.25)
         spi.xfer2([0b00010010,])
         r2=spi.xfer2([0xff,0xff,0xff])
-        print r2
+        # print r2
         volts2=voltcalc(r2)
         print ("U[AIN4+ Ain5-] = %s V"%(volts2))
         return volts2
@@ -96,15 +103,16 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
 
 
 init()
+RPi.GPIO.output(3,RPi.GPIO.HIGH)
+spi.xfer2([0b00010110]) #停止模式 Rdata读取
 
 if __name__ == '__main__':
     try:
-        RPi.GPIO.output(3,RPi.GPIO.HIGH)
-        spi.xfer2([0b00010110]) #停止模式 Rdata读取
+        
         while True:   
             v0 = readAdcChannel(01)
-            v1 = readAdcChannel(23)
-            v2 =readAdcChannel(45)
+            # v1 = readAdcChannel(23)
+            # v2 =readAdcChannel(45)
 
             # 最小间隔0.2秒  0.25 miao #Rdata once [AIN2+ Ain3-
             # spi.xfer2([0b01000000,0b00000000,0b00010011])
