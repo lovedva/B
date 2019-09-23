@@ -9,9 +9,9 @@ import RPi.GPIO
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.001003 #90 
-I23=0.001003 #70  
-I45=0.001003 #60  
+I01=0.001005 #90 
+I23=0.001005 #70  
+I45=0.0010045 #60  
 
 def calcResistance(chls):
 
@@ -63,6 +63,8 @@ def calcTemp(chls):
 if __name__ == '__main__':
     flag=0
     try:
+        ads1248.init()
+        RPi.GPIO.output(3,RPi.GPIO.HIGH)
         while True:
             time.sleep(0.5)
             try:
@@ -78,8 +80,7 @@ if __name__ == '__main__':
             
 
     finally:
-        ads1248.spi.close() 
-        sys.exit(0)
+        RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()
         print("程序结束")
      

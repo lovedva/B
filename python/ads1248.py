@@ -33,21 +33,16 @@ time.sleep(0.1)
 #初始化
  
 def init():
-    # r = spi.xfer2([0b00010110])
-    # time.sleep(0.25)
-    # #SELFOCAL 
-    # r = spi.xfer2([0b01100010])
-    # time.sleep(5)
     #MUX0
     r = spi.xfer2([0b01000000,0b00000000,0b00000001])
     #mux1
-    r = spi.xfer2([0b01000010,0b00000000,0b00111000])
+    r = spi.xfer2([0b01000010,0b00000000,0b00100000])
     #sys0
     r = spi.xfer2([0b01000011,0b00000000,0b00000000])
     #idac0
     r = spi.xfer2([0b01001010,0b00000000,0b00000110])
     #idac1
-    r = spi.xfer2([0b01001011,0b00000000,0b10001011])
+    r = spi.xfer2([0b01001011,0b00000000,0b10001011]) 
     #bias
     r = spi.xfer2([0b01000001,0b00000000,0b00000000])
     #ofc012
@@ -61,12 +56,13 @@ def init():
     r = spi.xfer2([0b01001101,0b00000000,0b11111100])
     #gpiodat
     r = spi.xfer2([0b01001110,0b00000000,0b00000000])
+    spi.xfer2([0b00010110]) #停止模式 Rdata读取
     print("init completed")
 
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
     print(V)
-    volts=1.0*V/(pow(2,23)-1)*2.048
+    volts=1.0*V/(pow(2,23)-1)*3.296 #Refernce volt 3.3v
     return volts
 
 def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
@@ -101,18 +97,14 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         print("请输入正确的通道")
 
 
-
-init()
-RPi.GPIO.output(3,RPi.GPIO.HIGH)
-spi.xfer2([0b00010110]) #停止模式 Rdata读取
-
 if __name__ == '__main__':
     try:
-        
+        init()
+        RPi.GPIO.output(3,RPi.GPIO.HIGH)
         while True:   
             v0 = readAdcChannel(01)
-            # v1 = readAdcChannel(23)
-            # v2 =readAdcChannel(45)
+            v1 = readAdcChannel(23)
+            v2 = readAdcChannel(45)
 
             # 最小间隔0.2秒  0.25 miao #Rdata once [AIN2+ Ain3-
             # spi.xfer2([0b01000000,0b00000000,0b00010011])

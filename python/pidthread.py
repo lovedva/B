@@ -7,7 +7,7 @@ import pid60Ctr
 import pid70Ctr
 import pid90Ctr
 import sys
-import adt7410
+import ads1248
 import pt1000
 import RPi.GPIO
 
@@ -32,25 +32,22 @@ class myThread (threading.Thread):   #继承父类threading.Thread
         # print "Starting " + self.name
         # print_time(self.name, self.counter, 5)
         # print "Exiting " + self.name
-
+        RPi.GPIO.setmode(RPi.GPIO.BCM)
         if self.pidName==60:
             RPi.GPIO.setmode(RPi.GPIO.BCM)
-            RPi.GPIO.setup(TempOUT1, RPi.GPIO.OUT)
-            RPi.GPIO.setup(TempOUT2, RPi.GPIO.OUT)
-            RPi.GPIO.setup(TempOUT3, RPi.GPIO.OUT)
             #设置pwm输出占空比
-            pwm=RPi.GPIO.PWM(TempOUT1,5)#pwm周期200ms
+            pwm=RPi.GPIO.PWM(TempOUT1,5)#pwm周2500ms
             pwm.start(1)
             #创建pid控制器对象
             pid60=pid60Ctr.pidCtr()
             #准备写入文件
             file_handle=open('60Templog.txt',mode='w')
-            xls.creatxls()
+            # xls.creatxls()
             #循环控制温度
             while True:
                 time.sleep(0.5)
-                pid60.Pv=float(pt1000.calcTemp(4,5))
-                print("Pt1000で測温[4,5]==%s\n温度センサー测温[4,5]==%s度\n-----------------------------"%(pid60.Pv, adt7410.read_adt7410()))
+                pid60.Pv=float(pt1000.calcTemp(01))
+                print("Pt1000で測温[01]==%s\n温度センサー测温[01]==None 度\n-----------------------------"%pid60.Pv)
                 file_handle.write("%s | "%pid60.Pv)
                 pid60.calc()
                 # print("pidCr.OUTの計算結果==%s"%pid60.OUT)
@@ -61,6 +58,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 
             file_handle.close()
         elif self.pidName==70:
+            RPi.GPIO.setmode(RPi.GPIO.BCM)
              #设置pwm输出占空比
             pwm=RPi.GPIO.PWM(TempOUT2,5)#pwm周期200ms
             pwm.start(1)
@@ -71,8 +69,8 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             #循环控制温度
             while True:
                 time.sleep(0.5)
-                pid70.Pv=float(pt1000.calcTemp(2,3))
-                print("Pt1000で測温[2,3]==%s\n温度センサー测温[2,3]== None度\n-----------------------------"%pid70.Pv)
+                pid70.Pv=float(pt1000.calcTemp(23))
+                print("Pt1000で測温[23]==%s\n温度センサー测温[23]== None度\n-----------------------------"%pid70.Pv)
                 # print("温度センサー测温[4,5]==%s度"%adt7410.read_adt7410())
                 file_handle.write("%s | "%pid70.Pv)
                 pid70.calc()
@@ -84,6 +82,7 @@ class myThread (threading.Thread):   #继承父类threading.Thread
                 
             file_handle.close()
         elif self.pidName==90:
+            RPi.GPIO.setmode(RPi.GPIO.BCM)
              #设置pwm输出占空比
             pwm=RPi.GPIO.PWM(TempOUT3,5)#pwm周期200ms
             pwm.start(1)
@@ -94,8 +93,8 @@ class myThread (threading.Thread):   #继承父类threading.Thread
             #循环控制温度
             while True:
                 time.sleep(0.5)
-                pid90.Pv=float(pt1000.calcTemp(0,1))
-                print("Pt1000で測温[0,1]==%s\n温度センサー测温[0,1]== None度\n-----------------------------"%pid90.Pv)
+                pid90.Pv=float(pt1000.calcTemp(45))
+                print("Pt1000で測温[45]==%s\n温度センサー测温[45]== None度\n-----------------------------"%pid90.Pv)
                 # print("温度センサー测温[4,5]==%s度"%adt7410.read_adt7410())
                 file_handle.write("%s | "%pid90.Pv)
                 pid90.calc()
@@ -133,5 +132,6 @@ if __name__ == "__main__":
         thread2.start()
         thread3.start()
     finally:
-        #RPi.GPIO.cleanup()
-        pass
+        RPi.GPIO.output(3,RPi.GPIO.LOW)
+        RPi.GPIO.cleanup()
+        pass 
