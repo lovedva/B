@@ -105,35 +105,6 @@ if __name__ == '__main__':
             v0 = readAdcChannel(01)
             v1 = readAdcChannel(23)
             v2 = readAdcChannel(45)
-
-            # 最小间隔0.2秒  0.25 miao #Rdata once [AIN2+ Ain3-
-            # spi.xfer2([0b01000000,0b00000000,0b00010011])
-            # time.sleep(0.25)
-            # spi.xfer2([0b00010010,])
-            # r1=spi.xfer2([0xff,0xff,0xff])
-            # print r1
-            # volts1=voltcalc(r1)
-            # print ("U[AIN2+ Ain3-] = %s V"%(volts1))     
-
-            # #Rdata once [AIN0+ Ain1-
-            # spi.xfer2([0b01000000,0b00000000,0b00000001])
-            # time.sleep(0.25)
-            # spi.xfer2([0b00010010,])
-            # r0=spi.xfer2([0xff,0xff,0xff])
-            # print r0
-            # volts0=voltcalc(r0)
-            # print ("U[AIN0+ Ain1-] = %s V"%(volts0))     
-
-            # #Rdata once [AIN4+ Ain5-
-            # spi.xfer2([0b01000000,0b00000000,0b00100101])
-            # time.sleep(0.25)
-            # spi.xfer2([0b00010010,])
-            # r2=spi.xfer2([0xff,0xff,0xff])
-            # print r2
-            # volts2=voltcalc(r2)
-            # print ("U[AIN4+ Ain5-] = %s V"%(volts2))   
-            
-            # time.sleep(0.5)
     except KeyboardInterrupt:
         spi.close() 
         sys.exit(0)
