@@ -62,7 +62,7 @@ def init():
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
     print(V)
-    volts=1.0*V/(pow(2,23)-1)*3.296 #Refernce volt 3.3v
+    volts=1.0*V/(pow(2,23)-1)*2.045 #Refernce volt 3.3v
     return volts
 
 def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
@@ -94,7 +94,7 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         print ("U[AIN4+ Ain5-] = %s V"%(volts2))
         return volts2
     else:
-        print("请输入正确的通道")
+        print("请传递正确的通道参数")
 
 
 if __name__ == '__main__':

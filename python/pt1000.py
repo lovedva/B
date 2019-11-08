@@ -9,9 +9,9 @@ import RPi.GPIO
 # from gpiozero import PWMLED
 
 Vref=3.3100 #V
-I01=0.001005 #90 
-I23=0.001005 #70  
-I45=0.0010045 #60  
+I01=0.001000 #90 
+I23=0.001000 #70  
+I45=0.001000 #60  
 
 def calcResistance(chls):
 
