@@ -74,4 +74,4 @@ if __name__ == "__main__":
         print('Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp)))
         print('    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal)))
         print("Temp: %s"%temp)
-        time.sleep(1.0)
+        time.sleep(0.5)

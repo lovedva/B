@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import max31855
 import time
 import pid60Ctr
 import pid70Ctr
@@ -53,6 +53,7 @@ if __name__ == "__main__":
              pid70.calc()
              dc2=pid70.OUT/pid70.pwmcycle*100
              pwm2.ChangeDutyCycle(dc2)
+             thermocouple=max31855.sensor.readTempC()
 
              pid90.Pv=float(pt1000.calcTemp(45))
              pid90.calc()
@@ -61,9 +62,11 @@ if __name__ == "__main__":
 
              print("Pt1000で測温[01]==%s\n-----------------------------"%pid60.Pv)
              print("Pt1000で測温[23]==%s\n-----------------------------"%pid70.Pv)
+             print("温度センサーで測温[热电偶]："+str(thermocouple))
              print("Pt1000で測温[45]==%s\n-----------------------------"%pid90.Pv)
              file_handle1.write("%s \n"%pid60.Pv)
-             file_handle2.write("%s \n"%pid70.Pv)
+             file_handle2.write("%s "%pid70.Pv)
+             file_handle2.write("| %s \n "%str(thermocouple))
              file_handle3.write("%s \n"%pid90.Pv)
 
     finally:
