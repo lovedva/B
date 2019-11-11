@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
              print("Pt1000で測温[01]==%s\n-----------------------------"%pid60.Pv)
              print("Pt1000で測温[23]==%s\n-----------------------------"%pid70.Pv)
-             print("温度センサーで測温[热电偶]："+str(thermocouple))
+             print("----------------------温度センサーで測温[热电偶]："+str(thermocouple))
              print("Pt1000で測温[45]==%s\n-----------------------------"%pid90.Pv)
              file_handle1.write("%s \n"%pid60.Pv)
              file_handle2.write("%s "%pid70.Pv)
