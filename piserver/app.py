@@ -7,7 +7,7 @@ import picp
 app = Flask(__name__)
 
 # a simple page that says hello
-@app.route('/hello')
+@app.route('/')
 def hello():
     return 'Hello, World!'
 

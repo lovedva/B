@@ -62,7 +62,7 @@ def init():
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
     print(V)
-    volts=1.0*V/(pow(2,23)-1)*2.045 #Refernce volt 3.3v
+    volts=1.0*V/(pow(2,23)-1)*2.011 #Refernce volt 2.045
     return volts
 
 def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
@@ -101,13 +101,29 @@ if __name__ == '__main__':
     try:
         init()
         RPi.GPIO.output(3,RPi.GPIO.HIGH)
+        file_handle1=open('ads1248log.txt',mode='w')
         while True:   
-            v0 = readAdcChannel(01)
-            v1 = readAdcChannel(23)
-            v2 = readAdcChannel(45)
+            
+            # v1 = readAdcChannel(23)
+            # v2 = readAdcChannel(45)
+            flag=0
+            for i in range(0,4):
+                sum=0
+                v0 = readAdcChannel(01)
+                sum=sum+v0
+                print("flag==%s"%flag)
+                flag=flag+1
+
+            avg=sum/4
+            print("avg==%s"%avg)
+            file_handle1.write("%s \n"%avg)
+                
+
+
     except KeyboardInterrupt:
         spi.close() 
         sys.exit(0)
     finally:
         RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()  
+        file_handle1.close()
