@@ -93,6 +93,15 @@ def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
         volts2=voltcalc(r2)
         print ("U[AIN4+ Ain5-] = %s V"%(volts2))
         return volts2
+    elif channel==67:
+        spi.xfer2([0b01000000,0b00000000,0b00110111])
+        time.sleep(0.25)
+        spi.xfer2([0b00010010,])
+        r2=spi.xfer2([0xff,0xff,0xff])
+        # print r2
+        volts3=voltcalc(r2)
+        print ("U[AIN6+ Ain7-] = %s V"%(volts3))
+        return volts3
     else:
         print("请传递正确的通道参数")
 
@@ -102,20 +111,23 @@ if __name__ == '__main__':
         init()
         RPi.GPIO.output(3,RPi.GPIO.HIGH)
         file_handle1=open('ads1248log.txt',mode='w')
+        flag=0
         while True:   
             
             # v1 = readAdcChannel(23)
             # v2 = readAdcChannel(45)
-            flag=0
+            sum=0
             for i in range(0,4):
-                sum=0
+                
                 v0 = readAdcChannel(01)
                 sum=sum+v0
-                print("flag==%s"%flag)
-                flag=flag+1
+                
+                # flag=flag+1
 
             avg=sum/4
             print("avg==%s"%avg)
+            flag=flag+1
+            print("flag==%s"%flag)
             file_handle1.write("%s \n"%avg)
                 
 
