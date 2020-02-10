@@ -24,9 +24,9 @@ RPi.GPIO.setup(TempOUT3, RPi.GPIO.OUT)
 t0=time.time()
 if __name__ == "__main__":
     try:
-        pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周2500ms
-        pwm2=RPi.GPIO.PWM(TempOUT2,5)#pwm周2500ms
-        pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周2500ms
+        pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周200ms
+        pwm2=RPi.GPIO.PWM(TempOUT2,5)#pwm周200ms
+        pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周200ms
         pwm1.start(1)
         pwm2.start(1)
         pwm3.start(1)
