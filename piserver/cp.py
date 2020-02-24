@@ -10,13 +10,13 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-bp = Blueprint('picp', __name__ ,url_prefix='/picp')
+bp = Blueprint('cp', __name__ ,url_prefix='/cp')
 
 
 
 @bp.route('/')
 def index():
-	print ("进入picp，index()方法")
+	print ("进入cp，index()方法")
 	boardop.init()
 	boardop.turnon(boardop.LED0)
 	return render_template('index.html')

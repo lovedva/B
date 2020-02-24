@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 from flask import Flask
-import picp
+import cp
 
 app = Flask(__name__)
 
@@ -22,8 +22,8 @@ def hello():
 # app.add_url_rule('/', endpoint='index')
 
  
-app.register_blueprint(picp.bp)
+app.register_blueprint(cp.bp)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    app.run(debug=True, port=80, host='0.0.0.0')
 

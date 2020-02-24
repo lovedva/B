@@ -1,84 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html >
+<html  lang="en">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>Pi Control Panel .demo</title>
+	 <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<title>Pi Control Panel .demo</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dropdowns-enhancement.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/button.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/head.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/zico.css') }}">
 <script src="{{ url_for('static', filename='js/jquery-min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/zico.js') }}"></script>
 </head>
 <body>
 	<div class="container-fluid">
 	<!--顶部菜单-->
-
-		<nav class="navbar navbar-inverse navbar-fixed-top ">
-			<a class="navbar-brand" href="#">Pi Control Panel .demo</a>
+  <div class="row">
+    <div class="col-12">
+		<nav class="navbar navbar-dark navbar-fixed-top bg-dark navbar-expand-lg">
+			<a class="navbar-brand" href="#"><span class="zi zi_adjust zi_pulse"></span> Pi Control Panel .demo</a>
 		</nav>
-<br>
- <br>
-  <br>
-	<!--顶部菜单over-->
+  </div>
+  </div>
 
-<!-- 	--导航条-->
-	<!-- <div class="container">
-	<div class="row">
- <div class="col-md-12  pagebody-top ">
-            <ul class="breadcrumb " contenteditable="false">
-                <li><a href="#">Navigation1</a> <span class="divider"></span></li>
-                <li><a href="#">Navigation2</a> <span class="divider"></span></li>
-                <li class="#">Navigation3</li>
-            </ul>
-        </div>
-</div> -->
-	<!--导航条over--> 
-
-
-<table class="table table-bordered table-responsive  col-xs-9 ">
+<div class="row ">
+  <div class="col-xl-12">
+<table class="table table-bordered table-responsive">
 
 <tr>
-<td >
-	<div class=" ">
-  <form class="form-inline">
-  <button type="submit" class="btn btn-warning btn-sm">GPIO初期化</button> 
-  <button class="btn btn-danger btn-sm " id="cleanupGPIO">停止</button>
-</form>
-</div>
+  <td> 
+      <div class="btn-group btn-group-sm border border-secondary rounded">
+      <button type="button" class="btn btn-light ">
+      <b>温度[℃]:</b> <span class="badge badge-secondary">100.00</span>
+      <span class="badge badge-secondary">100.00</span>
+      <span class="badge badge-secondary">100.00</span>
+      </button>
+      </div>
+      <div class="btn-group btn-group-sm"> 　
+      <button type="submit" class="btn btn-info  " onclick="window.location.href = '/cp'">設定初期化</button>
+      </div>
+<!--       <span class="btn-group-sm">　
+      <button type="submit" class="btn btn-primary  ">GPIO初期化</button>
+      <button class="btn btn-danger btn-group-sm " id="cleanupGPIO">全部停止</button> 
+      </span> -->
+    </div>
+      
+      
   </td>
-  </tr>
 
-<tr>
-<td>  
-<div class="btn-group" role="group" aria-label="...">
-  <button id="outpuTemperature"type="text" class="btn btn-default btn-xs">温度：<b>-℃</b></button>
-  <button id="t_Refresh" type="button" class="btn btn-info btn-xs">Auto Refresh</button>
-  <button id="t_stopRefresh" type="button" class="btn btn-danger btn-xs">Stop</button>
-	</div>
-		</td>
 	</tr>
 
 <tr>	
-<td>
-  出力の结果：<br>
-<pre class="pre-scrollable col-xs-12 col-md-5 text-justify" id="outputTerminal">
+  <td><div>
+
+<pre class="pre-scrollable col-xs-12 col-md-7 text-justify border border-secondary bg-light rounded" id="outputTerminal">
 GPIO初期化完了 LED0点灯 gpio17==high 
 LED0==True
-</pre>  </td>  <!-- 不能超过这个宽度，一共2行 -->
+ 
+ 
+ 
+</pre>  <!-- 维持宽度需要至少5行输出 -->
+</div>
+
+
+		<div class="form-group">
+      <span class="h6">LED0:</span>
+			 <button  class="btn btn-outline-dark btn-sm" id="turnonLED0">ON</button>
+
+       <button  class="btn btn-outline-dark btn-sm" id="turnoffLED0">OFF</button>
+		</div>
+<!--       </td>  
 </tr>
 
 <tr>
 <td >
-
-		<div class="form-group">
-      <p>LED0:
-			 <button  class="btn btn-default btn-sm" id="turnonLED0">LED0:ON</button>
-       <button  class="btn btn-default btn-sm" id="turnoffLED0">LED0:OFF</button></p>
-		</div>
-
+ -->
 モーター/自動運転:
 
 <p>
@@ -96,14 +96,14 @@ LED0==True
     <p>
     <div class="input-group col-xs-11 col-md-4">
       <div class="input-group-addon">運転T1&nbsp&nbsp&nbsp</div>
-      <input type="number" step="0.1" class="form-control" id="motorrunningT1" min="0.1" placeholder="秒/S" autocomplete="on" required >
+      <input type="number" step="0.1" class="form-control" id="motorrunningT1" min="0.1" placeholder="秒/S" value="1" autocomplete="on" required >
       <div class="input-group-addon">加熱待ちT2</div>
       <input type="number"   step="0.1"class="form-control" id="motorwaitingT2"  min="0.1" placeholder="秒/S" value="2" autocomplete="on" required>
     </div> </p>
 <p>
     <div class="input-group col-xs-11 col-md-4">
       <div class="input-group-addon">運転T3 &nbsp&nbsp</div>
-      <input type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0.1"  placeholder="秒/S" autocomplete="on" required>
+      <input type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0.1"  placeholder="秒/S" value="1" autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT4</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT4" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
       </div>
@@ -111,7 +111,7 @@ LED0==True
     <p>
     <div class="input-group col-xs-11 col-md-4">
       <div class="input-group-addon">逆運転T5</div>
-      <input type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0.1"  placeholder="秒/S"  autocomplete="on" required>
+      <input type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0.1"  placeholder="秒/S"  value="1"  autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT6</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT6"  min="0.1" placeholder="秒/S" value="2" autocomplete="on"  required>
     </div>
@@ -119,7 +119,7 @@ LED0==True
    <p>
     <div class="input-group col-xs-11 col-md-4">
       <div class="input-group-addon ">逆運転T7</div>
-      <input type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0.1"  placeholder="秒/S" autocomplete="on"  required>
+      <input type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0.1"  placeholder="秒/S" value="1"  autocomplete="on"  required>
       <div class="input-group-addon">加熱待ちT8</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT8" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
     </div>
@@ -130,6 +130,8 @@ LED0==True
  
 
 </table>
+</div>
+</div>
 
 
 
@@ -139,7 +141,7 @@ LED0==True
 //测试脚本，测试id==bt1,路由==test	
 $(document).ready(function(){
   $("#bt1").click(function(){
-    $.post("/picp/test",{},function(data,status){
+    $.post("/cp/test",{},function(data,status){
       // alert("数据：" + data + "\n状态：" + status);
        $("#outputTerminal").text("方法：" + data + "状态：" + status);
     });
@@ -149,7 +151,7 @@ $(document).ready(function(){
 //LED0高电平输出
 $(document).ready(function(){
   $("#turnonLED0").click(function(){
-    $.post("/picp/pullupgpio/LED0",{},function(data,status){
+    $.post("/cp/pullupgpio/LED0",{},function(data,status){
        $("#outputTerminal").text(data +"GPIO4==True"+"\n状態：" + status+"");
     });
   });
@@ -158,7 +160,7 @@ $(document).ready(function(){
 //LED0低电平输出
 $(document).ready(function(){
   $("#turnoffLED0").click(function(){
-    $.post("/picp/pulldowngpio/LED0",{},function(data,status){
+    $.post("/cp/pulldowngpio/LED0",{},function(data,status){
        $("#outputTerminal").text(data +"GPIO4==False"+" \n状態：" + status+"");
     });
   });
@@ -167,7 +169,7 @@ $(document).ready(function(){
 //马达控制
 $(document).ready(function(){
   $("#motord1").click(function(){ //马达方向1
-    $.post("/picp/motord1",{},function(data,status){
+    $.post("/cp/motord1",{},function(data,status){
        $("#outputTerminal").text(data +" 状態：" + status);
     });
   });
@@ -175,7 +177,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $("#motord2").click(function(){  //马达方向2
-    $.post("/picp/motord2",{},function(data,status){
+    $.post("/cp/motord2",{},function(data,status){
        $("#outputTerminal").text(data +" 状態：" + status);
     });
   });
@@ -183,7 +185,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
   $("#motorstop").click(function(){  //马达停止
-    $.post("/picp/motorstop",{},function(data,status){
+    $.post("/cp/motorstop",{},function(data,status){
        $("#outputTerminal").text(data +" 状態：" + status);
     });
   });
@@ -200,10 +202,10 @@ $(document).ready(function(){
     var t7=$("#motorrunningT7").val();
     var t8=$("#motorwaitingT8").val();
     if (t1=="" || t2=="" || t3=="" ||t4 =="" || t5 =="" || t6=="" || t7=="" || t8=="" ) {
-      $("#outputTerminal").text("T1~T8を全部入れてください。");
+      $("#outputTerminal").text("T1~T8を全部入れてください。"+"\n ");
     }else{
       $("#outputTerminal").text("運転中　t1=" + t1+" t2="+t2+" t3="+t3+" t4="+t4+"\nt5="+t5+" t6="+t6+" t7="+t7+" t8="+t8 );
-      $.post("/picp/motorautorun/1",{
+      $.post("/cp/motorautorun/1",{
          "t1":t1,
          "t2":t2,
          "t3":t3,
@@ -221,7 +223,7 @@ $(document).ready(function(){
 
 
 $("#motorautostop").click(function(){  //马达停止
-    $.post("/picp/motorautorun/0",{},function(data,status){
+    $.post("/cp/motorautorun/0",{},function(data,status){
        $("#outputTerminal").text("自動運転完了" + data +" 状態：" + status);
     });
   });
@@ -246,7 +248,7 @@ $(document).ready(function(){
   });
 
   function refreshTemp(){
-  $.post("/picp/t_refresh",{},function(data,status){
+  $.post("/cp/t_refresh",{},function(data,status){
        $("#outputTerminal").text("メソッド：" + "post  戻り値："+data+"度address_adt7410 = 0x48"+" 状態：" + status);
        $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
     });
