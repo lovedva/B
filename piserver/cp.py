@@ -74,7 +74,7 @@ def motorstop():
 def motorautorun(command): #command stop(0) or run(1) 
 	print ("路由：motorautorun，方法motorautorun")
 	if command=="1":  #自动运行开始
-		print"进入command==1"
+		print ("enter command==1")
 		t1=float(str(request.form.get("t1")))
 		t2=float(str(request.form.get("t2")))
 		t3=float(str(request.form.get("t3")))
