@@ -101,6 +101,7 @@ LED0==True
 </div>
 <!-- {{ message }} -->
 <!-- <button @mouseup="warn1" @mousedown="warn2" class="btn btn-outline-dark btn-sm">Test</button> -->
+
 <!-- 马达折叠内容 -->
 <p>
 <div class="" v-if="isShowMotorTabContent">
@@ -109,9 +110,13 @@ LED0==True
       <button id="motord1" class="btn btn-outline-dark btn-sm">正転</button>
       <button id="motord2"class="btn btn-outline-dark btn-sm">逆転</button>
       <button id="motorstop"class="btn btn-outline-dark btn-sm">停止</button>
-      
+  </div>
 
-    </div>
+  <div  class="btn-group btn-group-sm"> 
+    <span id="motord11" class="zi zi_circleRight"></span>
+    <button id="motord22"class="btn btn-outline-dark btn-sm zi zi_circleRight">逆転</button>
+
+  </div>
 
   <div class="  "  autocomplete="on" >
     <div>
