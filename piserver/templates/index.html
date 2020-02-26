@@ -43,7 +43,7 @@
       </button>
       </div>
       <div class="btn-group btn-group-sm"> 　
-      <button type="submit" class="btn btn-outline-success  " onclick="window.location.href = '/cp'">設定初期化</button>
+      <button type="submit" class="btn btn-outline-info  " onclick="window.location.href = '/cp'">設定初期化</button>
       </div>
   </td>
 
@@ -68,8 +68,8 @@ LED0==True
       <div class="input-group-prepend ">
       <div class="input-group-text ">LED0</div>
       </div>
-      <button  class="btn btn-outline-primary btn-sm " id="turnonLED0">ON</button>
-      <button  class="btn btn-outline-dark btn-sm " id="turnoffLED0">OFF</button>
+      <button  class="btn btn-outline-success btn-sm " id="turnonLED0">ON</button>
+      <button  class="btn btn-outline-secondary btn-sm " id="turnoffLED0">OFF</button>
     </div>
     <div class="btn-group ">
       &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
@@ -107,15 +107,15 @@ LED0==True
 <div class="" v-if="isShowMotorTabContent">
 
   <div  class="btn-group btn-group-sm"> 
-      <button id="motord1" class="btn btn-outline-dark btn-sm">正転</button>
-      <button id="motord2"class="btn btn-outline-dark btn-sm">逆転</button>
-      <button id="motorstop"class="btn btn-outline-dark btn-sm">停止</button>
+      <span class="zi zi_pulse zi_copyright  m-1"></span>
+      <button id="motord1" class=" btn btn-outline-secondary btn-sm">正転</button>
+      <button id="motord2"class="btn btn-outline-secondary btn-sm">逆転</button>
+      <button id="motorstop"class="btn btn-outline-secondary btn-sm">停止</button>
   </div>
-
+  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
   <div  class="btn-group btn-group-sm"> 
-    <span id="motord11" class="zi zi_circleRight"></span>
-    <button id="motord22"class="btn btn-outline-dark btn-sm zi zi_circleRight">逆転</button>
-
+    <button id="motord11"class="btn btn-secondary btn-sm zi zi_doubleLeft"></button> &nbsp&nbsp&nbsp
+    <button id="motord22"class="btn btn-secondary btn-sm zi zi_doubleRight"></button>
   </div>
 
   <div class="  "  autocomplete="on" >
@@ -163,7 +163,8 @@ LED0==True
 </div>
 </p>
 
-</td> </tr>
+</td> 
+</tr>
  
 
 </table>
