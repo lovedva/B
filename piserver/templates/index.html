@@ -57,6 +57,8 @@
 GPIO初期化完了 LED0点灯 gpio17==high 
 LED0==True
   
+
+
 </pre>  <!-- 维持宽度需要至少4行输出 -->
 </div>
 
@@ -269,9 +271,9 @@ $(document).ready(function(){
     var t7=$("#motorrunningT7").val();
     var t8=$("#motorwaitingT8").val();
     if (t1=="" || t2=="" || t3=="" ||t4 =="" || t5 =="" || t6=="" || t7=="" || t8=="" ) {
-      $("#outputTerminal").text("T1~T8を全部入れてください。"+"\n ");
+      $("#outputTerminal").text("T1~T8を全部入れてください。"+"\n"+"-\n-\n");
     }else{
-      $("#outputTerminal").text("運転中　t1=" + t1+" t2="+t2+" t3="+t3+" t4="+t4+"\nt5="+t5+" t6="+t6+" t7="+t7+" t8="+t8 );
+      $("#outputTerminal").text("運転中　t1=" + t1+" t2="+t2+" t3="+t3+" t4="+t4+"\nt5="+t5+" t6="+t6+" t7="+t7+" t8="+t8 +"\n-");
       $.post("/cp/motorautorun/1",{
          "t1":t1,
          "t2":t2,
@@ -282,7 +284,7 @@ $(document).ready(function(){
          "t7":t7,
          "t8":t8
         },function(data,status){
-           $("#outputTerminal").text(data +"状態：" + status);
+           $("#outputTerminal").text(data +"状態：\n" + status);
                });
          }
 
