@@ -15,9 +15,11 @@
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/zico.js') }}"></script>
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
 </head>
 <body>
-	<div class="container-fluid">
+  {% raw %}
+<div class="container-fluid" id="app">
 	<!--顶部菜单-->
   <div class="row">
     <div class="col-12">
@@ -27,9 +29,9 @@
   </div>
   </div>
 
-<div class="row ">
-  <div class="col-xl-12">
-<table class="table table-bordered table-responsive">
+
+  <div class="">
+<table class="table table-bordered table-responsive　col-12">
 
 <tr>
   <td> 
@@ -43,104 +45,164 @@
       <div class="btn-group btn-group-sm"> 　
       <button type="submit" class="btn btn-outline-success  " onclick="window.location.href = '/cp'">設定初期化</button>
       </div>
-<!--       <span class="btn-group-sm">　
-      <button type="submit" class="btn btn-primary  ">GPIO初期化</button>
-      <button class="btn btn-danger btn-group-sm " id="cleanupGPIO">全部停止</button> 
-      </span> -->
-    </div>
-      
-      
   </td>
 
 	</tr>
 
 <tr>	
-  <td><div>
-
+  <td>
+<!-- 输出结果 pre代码块 -->
+<div>
 <pre class="pre-scrollable col-xs-12 col-md-7 text-justify border border-secondary bg-light rounded" id="outputTerminal">
 GPIO初期化完了 LED0点灯 gpio17==high 
 LED0==True
- 
- 
- 
-</pre>  <!-- 维持宽度需要至少5行输出 -->
+  
+</pre>  <!-- 维持宽度需要至少4行输出 -->
 </div>
 
-
-		<div class="btn-group">
-       <div class="input-group-prepend">
-      <div class="input-group-text">LED0</div>
+<!-- LED0和全部停止 -->
+<div class=" ">  
+		<div class="btn-group btn-group-sm">
+      <div class="input-group-prepend ">
+      <div class="input-group-text ">LED0</div>
+      </div>
+      <button  class="btn btn-outline-primary btn-sm " id="turnonLED0">ON</button>
+      <button  class="btn btn-outline-dark btn-sm " id="turnoffLED0">OFF</button>
     </div>
+    <div class="btn-group ">
+      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+      <button id="stop"class="btn btn-outline-danger ">全部停止</button>
+    </div>
+</div>
 
-			 <button  class="btn btn-outline-primary " id="turnonLED0">ON</button>
-
-       <button  class="btn btn-outline-dark " id="turnoffLED0">OFF</button>
-		</div>
-<!--       </td>  
+</td>  
 </tr>
 
 <tr>
 <td >
- -->
-<div class="h5">モーター/自動運転:</div>
-
+<!-- 折叠选项卡 -->
+<div>
+  <ul class="nav nav-tabs" >
+    <li class="nav-item">
+      <a class="nav-link active "  @click="showMotor" href="#">モータ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link "  @click="showTemp" href="#">温度</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">设置</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+  </ul>
+</div>
+<!-- {{ message }} -->
+<!-- <button @mouseup="warn1" @mousedown="warn2" class="btn btn-outline-dark btn-sm">Test</button> -->
+<!-- 马达折叠内容 -->
 <p>
-    <button id="motord1" class="btn btn-default btn-sm">正回転</button>
-     <button id="motord2"class="btn btn-default btn-sm">逆回転</button>
-     <button id="motorstop"class="btn btn-default btn-sm">ストップ</button>
-<!--              <button class="btn btn-default btn-sm" id="bt1">test</button> -->
-  </p>
+<div class="" v-if="isShowMotorTabContent">
 
-  <form class="form-inline "  autocomplete="on" >
-<input type="button"  class="btn btn-info btn-sm" id="motorautorun" value="自動運転開始">
-<input type="button" class="btn btn-info btn-sm" id="motorautostop" value="停止(未完成)" disabled="on">
-         
+  <div  class="btn-group btn-group-sm"> 
+      <button id="motord1" class="btn btn-outline-dark btn-sm">正転</button>
+      <button id="motord2"class="btn btn-outline-dark btn-sm">逆転</button>
+      <button id="motorstop"class="btn btn-outline-dark btn-sm">停止</button>
+      
 
-    <p>
-    <div class="input-group col-xs-11 col-md-4">
-      <div class="input-group-addon">運転T1&nbsp&nbsp&nbsp</div>
-      <input type="number" step="0.1" class="form-control" id="motorrunningT1" min="0.1" placeholder="秒/S" value="1" autocomplete="on" required >
-      <div class="input-group-addon">加熱待ちT2</div>
-      <input type="number"   step="0.1"class="form-control" id="motorwaitingT2"  min="0.1" placeholder="秒/S" value="2" autocomplete="on" required>
-    </div> </p>
-<p>
-    <div class="input-group col-xs-11 col-md-4">
-      <div class="input-group-addon">運転T3 &nbsp&nbsp</div>
+    </div>
+
+  <div class="  "  autocomplete="on" >
+    <div>
+      <input type="button"  class="btn btn-info btn-sm" id="motorautorun" value="自動運転開始">
+      <input type="button" class="btn btn-info btn-sm" id="motorautostop" value="停止(未完成)" disabled="on">
+    </div>
+    <div class="input-group-prepend    ">
+      <div class="input-group-text">運転T1&nbsp&nbsp&nbsp</div>
+      <input type="number" step="0.1" class="form-control col-md-1" id="motorrunningT1" min="0.1" placeholder="秒/S" value="1" autocomplete="on" required >
+      <div class="input-group-text">加熱待ちT2</div>
+      <input type="number"   step="0.1"class="form-control col-md-1" id="motorwaitingT2"  min="0.1" placeholder="秒/S" value="2" autocomplete="on" required>
+    </div> 
+
+    <div class="input-group col-xs-12 ">
+      <div class="input-group-text">運転T3 &nbsp&nbsp</div>
       <input type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0.1"  placeholder="秒/S" value="1" autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT4</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT4" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
-      </div>
-    </p>
-    <p>
-    <div class="input-group col-xs-11 col-md-4">
-      <div class="input-group-addon">逆運転T5</div>
+    </div>
+
+    <div class="input-group col-xs-12">
+      <div class="input-group-text">逆運転T5</div>
       <input type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0.1"  placeholder="秒/S"  value="1"  autocomplete="on" required>
       <div class="input-group-addon">加熱待ちT6</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT6"  min="0.1" placeholder="秒/S" value="2" autocomplete="on"  required>
     </div>
-  </p>
-   <p>
-    <div class="input-group col-xs-11 col-md-4">
-      <div class="input-group-addon ">逆運転T7</div>
+
+    <div class="input-group col-xs-12">
+      <div class="input-group-text ">逆運転T7</div>
       <input type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0.1"  placeholder="秒/S" value="1"  autocomplete="on"  required>
       <div class="input-group-addon">加熱待ちT8</div>
       <input type="number"   step="0.1" class="form-control" id="motorwaitingT8" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
     </div>
 
-  </p>
-  </form> 
-  </div> </td> </tr>
+  </div>
+</div>
+</p>
+
+<!-- 温度折叠内容 -->
+<p>
+<div v-if="isShowTempTabContent" >
+温度折叠 
+
+</div>
+</p>
+
+</td> </tr>
  
 
 </table>
+
+
+</div> 
+<!-- 表格row -->
+
+<!-- container fluid -->
 </div>
-</div>
+{% endraw %}
 
 
 
-
-</body>
 <script>
+  var app=new Vue({
+    el:"#app",
+    data:{
+      isShowMotorTabContent:true,
+      isShowTempTabContent:false,
+      isShowSetupTabContent:false,
+      message:"123",
+
+    },
+    methods:{
+      showMotor:function(){
+        this.isShowMotorTabContent = true;
+        this.isShowTempTabContent=false;
+        this,isShowSetupTabContent=false;
+      },
+      showTemp:function(){
+        this.isShowMotorTabContent = false;
+        this.isShowTempTabContent=true;
+        this,isShowSetupTabContent=false;
+      },
+      warn1:function(){
+        this.showMotor();
+      },
+      warn2:function(){
+        this.showTemp();
+      }
+      
+    },
+})
+
+
 //测试脚本，测试id==bt1,路由==test	
 $(document).ready(function(){
   $("#bt1").click(function(){
@@ -150,6 +212,8 @@ $(document).ready(function(){
     });
   });
 });
+
+
 
 //LED0高电平输出
 $(document).ready(function(){
@@ -231,7 +295,7 @@ $("#motorautostop").click(function(){  //马达停止
     });
   });
 
-});
+})
 　　 
 
 
@@ -239,24 +303,24 @@ $("#motorautostop").click(function(){  //马达停止
 
 
 //刷新温度(1秒刷新一次)
-$(document).ready(function(){
-  //开始刷新按钮
-  $("#t_Refresh").click(function(){
-   var Tcount= setInterval(refreshTemp,2000);
-  });
+// $(document).ready(function(){
+//   //开始刷新按钮
+//   $("#t_Refresh").click(function(){
+//    var Tcount= setInterval(refreshTemp,2000);
+//   });
 
- $("#t_stopRefresh").click(function(){
-    // clearInterval(Tcount);
-    $("#outputTerminal").text("停止温度轮询\n \n");
-  });
+//  $("#t_stopRefresh").click(function(){
+//     // clearInterval(Tcount);
+//     $("#outputTerminal").text("停止温度轮询\n \n");
+//   });
 
-  function refreshTemp(){
-  $.post("/cp/t_refresh",{},function(data,status){
-       $("#outputTerminal").text("メソッド：" + "post  戻り値："+data+"度address_adt7410 = 0x48"+" 状態：" + status);
-       $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
-    });
-}
-});
+//   function refreshTemp(){
+//   $.post("/cp/t_refresh",{},function(data,status){
+//        $("#outputTerminal").text("メソッド：" + "post  戻り値："+data+"度address_adt7410 = 0x48"+" 状態：" + status);
+//        $("#outpuTemperature").html("温度：<b>"+data+"℃</b>");
+//     });
+// }
+// });
 
   //停止刷新按钮
 // $(document).ready(function(){
@@ -266,6 +330,6 @@ $(document).ready(function(){
 
 
 </script>
+</body>
 
-
-</html>
+  </html>
