@@ -25,7 +25,7 @@
     <!--顶部菜单-->
     <div class="row">
       <div class="col-12">
-      <nav class="navbar navbar-dark navbar-fixed-top bg-dark navbar-expand-lg">
+      <nav class="navbar navbar-dark navbar-fixed-top bg-dark navbar-expand-lg col-12">
         <a class="navbar-brand" href="#"><span class="zi zi_batteryquarter "></span> Pi Control Panel .demo</a>
       </nav>
     </div>
@@ -56,8 +56,8 @@
   <!-- 输出结果 pre代码块 -->
   <div>
   <pre  class="pre-scrollable col-xs-12 col-md-7 text-justify border border-secondary bg-light rounded" id="outputTerminal">
-  GPIO初期化完了 LED0点灯 gpio17==high 
-  LED0==True
+GPIO初期化完了 LED0点灯 gpio17==high 
+LED0==True
     
   
   
@@ -76,7 +76,7 @@
       </div>
       <div class="btn-group ">
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <button id="stop"class="btn btn-outline-danger " data-toggle="modal" data-target="#stopAll" >全部停止</button>
+        <button id="stop"class="btn btn-outline-danger " data-toggle="modal" data-target="#stopAll" >全停止</button>
       </div>
       <!-- Modal -->
   <div class="modal fade" id="stopAll" tabindex="-1" role="dialog" aria-hidden="true">
@@ -136,7 +136,7 @@
       <button v-if="isShowdccw" class="btn btn-outline-info " id="dccw" @click="btndccw">右</button>
       
       <!-- <button  @mousedown="btnmotordcwdown" @mouseup="btnmotordcwup" class="btn btn-outline-dark btn-sm "><</button> -->
-      <button id="Tdirection"class=" input-group-text" style="width:70px;">{{Td}}s</button> 
+      <div id="Tdirection" class=" input-group-text" style="width:90px;">{{Td}}s</div> 
     <!--   <button @mousedown="btnmotordccwdown" @mouseup="btnmotordccwup" class="btn btn-outline-dark btn-sm ">></button> -->
       <button  @click="treset" class="btn btn-outline-dark btn-lg" >0</button>
       
@@ -176,13 +176,19 @@
         <input type="button" class="btn btn-info btn-sm" id="motorautostop" value="停止(未完成)" disabled="on">
       </div>
       <div style="height:5px;">  </div>
-      <div class="input-group-prepend    ">
-        <div class="input-group-text">cw</div>
-        <input style="width: 75px;" type="number" step="0.1" class="form-control "  min="0" placeholder="秒/S" value="1" autocomplete="on" required >
-        <div class="input-group-text">ccw</div>
-        <input style="width: 75px;" type="number" step="0.1" class="form-control "  min="0" placeholder="秒/S" value="1" autocomplete="on" required >
-        <div class="input-group-text">stop</div>
-        <input style="width: 75px;" type="number"   step="0.1"class="form-control "   min="0" placeholder="秒/S" value="2" autocomplete="on" required>
+      <div class="input-group input-group-prepend ">
+        <div class="input-group-text" style="width: 100px;" >正転</div>
+        <span class="input-group-text" style="width: 100px;" >逆転</span>
+        <div class="input-group-text" style="width: 100px;" >停止</div>
+      </div>
+     
+      <div class="input-group-addon  input-group-prepend    ">
+        <input style="width: 100px;" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" value="000.555" autocomplete="on" required >
+        <span class="btn btn-outline-dark zi zi_copyfile"></span>
+        <input style="width: 100px;" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" value="1" autocomplete="on" required >
+        <span class="btn btn-outline-dark zi zi_copyfile"></span>
+        <input style="width: 70px;" type="number"   step="0.001"class="form-control "   min="0" placeholder="秒/S" value="2" autocomplete="on" required>
+        
       </div> 
 
 
@@ -269,7 +275,7 @@
         msupccw:"0",
         msdownccw:"0",
         tccw:"0",
-        Td:"000.0",
+        Td:"000.000",
         mson:"0",
         msstp:"0",
         msmon:"0",
