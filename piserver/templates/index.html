@@ -16,6 +16,8 @@
 <script src="{{ url_for('static', filename='js/popper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/zico.js') }}"></script>
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+<script src="{{ url_for('static', filename='js/axios.js') }}"></script>
+
 </head>
 <body>
   {% raw %}
@@ -112,8 +114,8 @@
       <li class="nav-item">
         <a :class="tabTempIsActive "  @click="showTemp" href="#">温度</a>
       </li>
-      <li class="nav-item">
-        <a :class="tabSetupIsActive" href="#">设置</a>
+      <li class="nav-item"></li>
+        <a :class="tabSetupIsActive" href="#">設定</a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#">Disabled</a>
@@ -128,36 +130,39 @@
   <div class="" v-if="isShowMotorTabContent ">
     
 
-    
+    Timer<br>
     <div  class="btn-group btn-group-lg  "> 
       <button v-if="isShowdcw" class="btn btn-outline-info btn-sm" id="dcw" @click="btndcw">左 </button> 
       <button v-if="isShowdccw" class="btn btn-outline-info " id="dccw" @click="btndccw">右</button>
       
       <!-- <button  @mousedown="btnmotordcwdown" @mouseup="btnmotordcwup" class="btn btn-outline-dark btn-sm "><</button> -->
-      <button id="Tdirection"class="btn btn-outline-dark " style="width:90px;">{{Td}}s</button> 
+      <button id="Tdirection"class=" input-group-text" style="width:70px;">{{Td}}s</button> 
     <!--   <button @mousedown="btnmotordccwdown" @mouseup="btnmotordccwup" class="btn btn-outline-dark btn-sm ">></button> -->
       <button  @click="treset" class="btn btn-outline-dark btn-lg" >0</button>
       
     </div>
-    <div  class="btn-group " > 
+
+    <div  class="btn-group btn-group-lg" > 
      <!-- <span class="zi zi_pulse zi_copyright m-1 "></span> -->
       <button v-if="isShowd1" @click="d1"  class=" btn btn-outline-dark  btn-lg" :disabled="isDisd1" >左</button>
       <button v-if="isShowd2" @click="d2" class="btn btn-outline-dark btn-lg" :disabled="isDisd1" >右</button>
-      <button v-if="isShowmstp" @click="motorstop" id="motorstop"class="btn btn-outline-secondary btn-lg" >停止</button>
-      <button v-if="isShowmon" @click="motoron" class="btn btn-outline-success btn-lg" >回転</button>
+      <button v-if="isShowmstp" @click="motorstop" id="motorstop"class="btn btn-outline-secondary btn-lg zi zi_clock" > 停止</button>
+      <button v-if="isShowmon" @click="motoron" class="btn btn-outline-success btn-lg zi zi_clock" > 回転</button>
 
 
       
     </div>
-    <div style="height:3px;">  </div>
-    <div  class="btn-group btn-group-sm  " > 
+
+    <div style="height:2px;">  </div>
+    Control<br>
+    <div  class="btn-group " > 
      <!-- <span class="zi zi_pulse zi_copyright m-1 "></span> -->
-      <button id="motord1" class=" btn btn-outline-dark  btn-lg" >正転</button>
-      <button  id="motorstop"class="btn btn-outline-secondary btn-lg" >停止</button>
-      <button  id="motord2"class="btn btn-outline-dark btn-lg"  >逆転</button>
+      <button id="motord1" class=" btn btn-outline-success  btn" >正転</button>
+      <button  id="motorstop"class="btn btn-outline-secondary btn" >停止</button>
+      <button  id="motord2"class="btn btn-outline-success btn"  >逆転</button>
     </div>
 
-    <div style="height:3px;">  </div>
+    <div style="height:5px;">  </div>
 
       
 
@@ -169,34 +174,45 @@
       <div>
         <input type="button"  class="btn btn-info btn-sm" id="motorautorun" value="自動運転開始">
         <input type="button" class="btn btn-info btn-sm" id="motorautostop" value="停止(未完成)" disabled="on">
-
       </div>
+      <div style="height:5px;">  </div>
       <div class="input-group-prepend    ">
-        <div class="input-group-text">運転T1&nbsp&nbsp&nbsp</div>
-        <input type="number" step="0.1" class="form-control col-md-1" id="motorrunningT1" min="0.1" placeholder="秒/S" value="1" autocomplete="on" required >
-        <div class="input-group-text">加熱待ちT2</div>
-        <input type="number"   step="0.1"class="form-control col-md-1" id="motorwaitingT2"  min="0.1" placeholder="秒/S" value="2" autocomplete="on" required>
+        <div class="input-group-text">cw</div>
+        <input style="width: 75px;" type="number" step="0.1" class="form-control "  min="0" placeholder="秒/S" value="1" autocomplete="on" required >
+        <div class="input-group-text">ccw</div>
+        <input style="width: 75px;" type="number" step="0.1" class="form-control "  min="0" placeholder="秒/S" value="1" autocomplete="on" required >
+        <div class="input-group-text">stop</div>
+        <input style="width: 75px;" type="number"   step="0.1"class="form-control "   min="0" placeholder="秒/S" value="2" autocomplete="on" required>
+      </div> 
+
+
+
+      <div class="input-group-prepend    ">
+        <div class="input-group-text">CwT1&nbsp&nbsp&nbsp</div>
+        <input style="width: 75px;" type="number" step="0.1" class="form-control " id="motorrunningT1" min="0" placeholder="秒/S" value="1" autocomplete="on" required >
+        <div class="input-group-text">StopT2</div>
+        <input style="width: 75px;" type="number"   step="0.1"class="form-control " id="motorwaitingT2"  min="0" placeholder="秒/S" value="2" autocomplete="on" required>
       </div> 
   
       <div class="input-group col-xs-12 ">
-        <div class="input-group-text">運転T3 &nbsp&nbsp</div>
-        <input type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0.1"  placeholder="秒/S" value="1" autocomplete="on" required>
-        <div class="input-group-addon">加熱待ちT4</div>
-        <input type="number"   step="0.1" class="form-control" id="motorwaitingT4" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
+        <div class="input-group-text">CwT3 &nbsp&nbsp</div>
+        <input style="width: 75px;" type="number"   step="0.1" class="form-control" id="motorrunningT3" min="0"  placeholder="秒/S" value="1" autocomplete="on" required>
+        <div class="input-group-addon">StopT4</div>
+        <input style="width: 75px;" type="number"   step="0.1" class="form-control" id="motorwaitingT4" min="0"  placeholder="秒/S" value="2"  autocomplete="on" required>
       </div>
   
       <div class="input-group col-xs-12">
-        <div class="input-group-text">逆運転T5</div>
-        <input type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0.1"  placeholder="秒/S"  value="1"  autocomplete="on" required>
-        <div class="input-group-addon">加熱待ちT6</div>
-        <input type="number"   step="0.1" class="form-control" id="motorwaitingT6"  min="0.1" placeholder="秒/S" value="2" autocomplete="on"  required>
+        <div class="input-group-text">CcwT5</div>
+        <input style="width: 75px;" type="number"   step="0.1"class="form-control" id="motorrunningT5" min="0"  placeholder="秒/S"  value="1"  autocomplete="on" required>
+        <div class="input-group-addon">StopT6</div>
+        <input style="width: 75px;" type="number"   step="0.1" class="form-control" id="motorwaitingT6"  min="0" placeholder="秒/S" value="2" autocomplete="on"  required>
       </div>
   
       <div class="input-group col-xs-12">
-        <div class="input-group-text ">逆運転T7</div>
-        <input type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0.1"  placeholder="秒/S" value="1"  autocomplete="on"  required>
-        <div class="input-group-addon">加熱待ちT8</div>
-        <input type="number"   step="0.1" class="form-control" id="motorwaitingT8" min="0.1"  placeholder="秒/S" value="2"  autocomplete="on" required>
+        <div class="input-group-text ">CcwT7</div>
+        <input style="width: 75px;" type="number"   step="0.1"class="form-control" id="motorrunningT7" min="0"  placeholder="秒/S" value="1"  autocomplete="on"  required>
+        <div class="input-group-addon">StopT8</div>
+        <input style="width: 75px;" type="number"   step="0.1" class="form-control" id="motorwaitingT8" min="0"  placeholder="秒/S" value="2"  autocomplete="on" required>
       </div>
   
     </div>
@@ -223,7 +239,7 @@
   
   <!-- container fluid -->
   </div>
-  {% endraw %}
+{% endraw %}
   
   
   
@@ -237,7 +253,7 @@
         tabTempIsActive:{ 'nav-link':true, 'active':false,},
         isShowSetupTabContent:false,
         tabSetupIsActive:{ 'nav-link':true, 'disabled':true,},
-        // 马达正反计算时间按钮
+        // 马达正反计算时间按钮 Timer部分
         isShowd1:true,
         isShowd2:false,
         isShowmstp:false,
@@ -257,8 +273,18 @@
         mson:"0",
         msstp:"0",
         msmon:"0",
+        timelist:[
+          [1,1,1],
+          [1,1,0.5],
+          [1,1,0.5],
+          [1,1,1],
+        ]
+
         
-  
+ 
+        
+
+
       },
       methods:{
         showMotor:function(){
@@ -344,7 +370,6 @@
         d1:function(){
           this.isShowd1=false
           this.isShowd2=true
-
         },
         d2:function(){
           this.isShowd1=true
@@ -356,25 +381,36 @@
           this.isDisd1=false
           this.isDisd2=false
           now=new Date();
-          this.msstp=now.valueOf()
+          this.msstp=now.valueOf();
           this.msmon=this.msstp-this.mson;
           if(this.isShowd1==true){
-            this.tcw=this.msmon
-          }
+            this.tcw=this.msmon;
+            console.log("tcw "+this.tcw)
+          };
           if(this.isShowd2==true){
             this.tccw=this.msmon
+            console.log("tcww "+this.tccw)
           }
-
+          axios
+            .post('/cp/motorstop')
+            .then(response => (this.info = response))
+            .catch(function (error) { // 请求失败处理
+            console.log(error);
+            });
           if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
             this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
             this.Td=this.Tdirection/1000;
             console.log("if1 Tdirection "+this.Tdirection)
-            this.Td=(this.Tdirection/1000).toFixed(1);
+            this.Td=(this.Tdirection/1000).toFixed(3);
+            this.tccw=0
+            this.tcw=0
           };
           if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
             this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
-            this.Td=(this.Tdirection/1000).toFixed(1);
+            this.Td=(this.Tdirection/1000).toFixed(3);
             console.log("if2 Tdirection "+this.Tdirection);
+            this.tccw=0
+            this.tcw=0
           };
 
         },
@@ -384,28 +420,42 @@
           this.isDisd1=true
           this.isDisd2=true
           now=new Date();
-          this.mson=now.valueOf()
-
+          this.mson=now.valueOf();
+          if(this.isShowd1==true){
+            axios
+            .post('/cp/motord1')
+            .then(response => (this.info = response))
+            .catch(function (error) { // 请求失败处理
+              console.log(error);
+             });
+            };
+          if(this.isShowd2==true){
+          axios
+          .post('/cp/motord2')
+          .then(response => (this.info = response))
+          .catch(function (error) { // 请求失败处理
+            console.log(error);
+            });
+          };
         },
         treset:function(){
           this.Tdirection="0"
-          this.Td="0.0"
+          this.Td=0.0
+          this.tccw=0
+          this.tcw=0
+          this.msmon=0
         },
 
-        
-  
-  
         warn1:function(){
           this.showMotor();
         },
         warn2:function(){
           this.showTemp();
         }
-        
-      },
-  })
-  
-  
+
+    } })
+      
+
   //测试脚本，测试id==bt1,路由==test	
   $(document).ready(function(){
     $("#bt1").click(function(){

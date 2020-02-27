@@ -8,7 +8,7 @@ import time
 import os
 import sys
 import subprocess
-# import tty, termios
+import tty, termios
 import RPi.GPIO
 import smbus
 
@@ -120,23 +120,6 @@ RPi.GPIO.add_event_detect(InputA, RPi.GPIO.RISING,callback=SwitchA,bouncetime=20
 RPi.GPIO.add_event_detect(InputB, RPi.GPIO.RISING,callback=SwitchB,bouncetime=200 ) # bouncetime=[time] to debounce the switch.
 RPi.GPIO.add_event_detect(InputC, RPi.GPIO.RISING,callback=SwitchC,bouncetime=200 )
 RPi.GPIO.add_event_detect(InputD, RPi.GPIO.RISING,callback=SwitchD,bouncetime=200 )
-
-#adt7410 i2c操作
-# def read_adt7410():
-#     word_data = bus.read_word_data(address_adt7410, register_adt7410)
-#     data = (word_data & 0xff00)>>8 | (word_data & 0xff)<<8
-#     data = data>>3 # 13ビットデータ
-#     if data & 0x1000 == 0:  # 温度が正または0の場合
-#         temperature = data*0.0625
-#     else: # 温度が負の場合、 絶対値を取ってからマイナスをかける
-#         temperature = ( (~data&0x1fff) + 1)*-0.0625
-#     return temperature
-
-# bus = smbus.SMBus(1)
-# address_adt7410 = 0x48
-# register_adt7410 = 0x00
-#
-#---adt7410 i2c操作结束
 
 #板子操作方法
 # try:
