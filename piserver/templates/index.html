@@ -129,24 +129,35 @@
     
 
     
-    <div  class="btn-group btn-group-sm col-xs-12 "> 
-      <button v-if="isShowdcw" class="btn btn-outline-dark btn-sm" id="dcw" @click="btndcw">左 </button> 
-      <button v-if="isShowdccw" class="btn btn-outline-dark " id="dccw" @click="btndccw">右</button>
+    <div  class="btn-group btn-group-lg  "> 
+      <button v-if="isShowdcw" class="btn btn-outline-info btn-sm" id="dcw" @click="btndcw">左 </button> 
+      <button v-if="isShowdccw" class="btn btn-outline-info " id="dccw" @click="btndccw">右</button>
       
-      <button  @mousedown="btnmotordcwdown" @mouseup="btnmotordcwup" class="btn btn-secondary btn-sm "><</button>
-      <button id="Tdirection"class="btn btn-outline-dark " style="width:70px;">{{Td}}s</button> 
-      <button @mousedown="btnmotordccwdown" @mouseup="btnmotordccwup" class="btn btn-secondary btn-sm ">></button>
+      <!-- <button  @mousedown="btnmotordcwdown" @mouseup="btnmotordcwup" class="btn btn-outline-dark btn-sm "><</button> -->
+      <button id="Tdirection"class="btn btn-outline-dark " style="width:90px;">{{Td}}s</button> 
+    <!--   <button @mousedown="btnmotordccwdown" @mouseup="btnmotordccwup" class="btn btn-outline-dark btn-sm ">></button> -->
+      <button  @click="treset" class="btn btn-outline-dark btn-lg" >0</button>
       
     </div>
-    <br>
-    <div style="height:5px;">  </div>
-    <div  class="btn-group  " > 
+    <div  class="btn-group " > 
      <!-- <span class="zi zi_pulse zi_copyright m-1 "></span> -->
-      <button @click="motord1" id="motord1" class=" btn btn-outline-success  btn-lg ">正転</button>
-      <button @click="motorstop" id="motorstop"class="btn btn-outline-secondary btn-lg"  style="width:120px;">停止</button>
-      <button @click="motord2" id="motord2"class="btn btn-outline-success btn-lg ">逆転</button>
+      <button v-if="isShowd1" @click="d1"  class=" btn btn-outline-dark  btn-lg" :disabled="isDisd1" >左</button>
+      <button v-if="isShowd2" @click="d2" class="btn btn-outline-dark btn-lg" :disabled="isDisd1" >右</button>
+      <button v-if="isShowmstp" @click="motorstop" id="motorstop"class="btn btn-outline-secondary btn-lg" >停止</button>
+      <button v-if="isShowmon" @click="motoron" class="btn btn-outline-success btn-lg" >回転</button>
+
+
+      
     </div>
-    <div style="height:5px;">  </div>
+    <div style="height:3px;">  </div>
+    <div  class="btn-group btn-group-sm  " > 
+     <!-- <span class="zi zi_pulse zi_copyright m-1 "></span> -->
+      <button id="motord1" class=" btn btn-outline-dark  btn-lg" >正転</button>
+      <button  id="motorstop"class="btn btn-outline-secondary btn-lg" >停止</button>
+      <button  id="motord2"class="btn btn-outline-dark btn-lg"  >逆転</button>
+    </div>
+
+    <div style="height:3px;">  </div>
 
       
 
@@ -227,16 +238,25 @@
         isShowSetupTabContent:false,
         tabSetupIsActive:{ 'nav-link':true, 'disabled':true,},
         // 马达正反计算时间按钮
+        isShowd1:true,
+        isShowd2:false,
+        isShowmstp:false,
+        isShowmon:true,
+        isDisd1:false,
+        isDisd2:false,
         isShowdccw:true,
         isShowdcw:false,
         Tdirection:"0.0",
         msdowncw:"0",
         msupcw:"0",
         tcw:"0",
-        msupcw:"0",
+        msupccw:"0",
         msdownccw:"0",
         tccw:"0",
-        Td:"000.0"
+        Td:"000.0",
+        mson:"0",
+        msstp:"0",
+        msmon:"0",
         
   
       },
@@ -274,19 +294,77 @@
           this.isShowccw1=false;
           this.isShowbtnstpccw1=true;
         },
-        btnmotordcwdown:function(){ //按下马达左转，按钮左
-          now=new Date();
-          this.msdowncw=now.valueOf();
-          // output="msdowncw "+this.msdowncw;
-          console.log("msdowncw "+this.msdowncw)
+        // btnmotordcwdown:function(){ //按下马达左转，按钮左  //这4个方法方向有问题
+        //   now=new Date();
+        //   this.msdowncw=now.valueOf();
+        //   // output="msdowncw "+this.msdowncw;
+        //   console.log("msdowncw "+this.msdowncw)
   
+        // },
+        // btnmotordcwup:function(){ //抬起马达左转
+        //   now=new Date();
+        //   this.msupcw=now.valueOf()
+        //   console.log("msupcw "+this.msupcw)
+        //   this.tcw=this.msupcw-this.msdowncw;
+        //   console.log("tcw "+this.tcw)
+        //   if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
+        //     this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
+        //     this.Td=this.Tdirection/1000;
+        //     console.log("if1 Tdirection "+this.Tdirection)
+        //     this.Td=(this.Tdirection/1000).toFixed(1);
+        //   };
+        //   if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
+        //     this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
+        //     this.Td=(this.Tdirection/1000).toFixed(1);
+        //     console.log("if2 Tdirection "+this.Tdirection);
+        //   };
+        // },
+        // btnmotordccwdown:function(){ //按下马达右转,按钮右
+        //   now=new Date();
+        //   this.msdownccw=now.valueOf();
+        // },
+        // btnmotordccwup:function(){ //抬起马达右转
+        //   now=new Date();
+        //   this.msupccw=now.valueOf()
+        //   console.log("msupccw "+this.msupccw)
+        //   this.tccw=this.msupccw-this.msdownccw;
+        //   console.log("tccw "+this.tccw)
+        //   if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
+        //     this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
+        //     console.log("if1 Tdirection "+this.Tdirection)
+        //     this.Td=(this.Tdirection/1000).toFixed(1);
+        //   };
+        //   if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
+        //     this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
+        //     this.Td=(this.Tdirection/1000).toFixed(1);
+        //     console.log("if2 Tdirection "+this.Tdirection);
+        //   };
+          
+        // },
+        d1:function(){
+          this.isShowd1=false
+          this.isShowd2=true
+
         },
-        btnmotordcwup:function(){ //抬起马达左转
+        d2:function(){
+          this.isShowd1=true
+          this.isShowd2=false
+        },
+        motorstop:function(){
+          this.isShowmon=true
+          this.isShowmstp=false
+          this.isDisd1=false
+          this.isDisd2=false
           now=new Date();
-          this.msupcw=now.valueOf()
-          console.log("msupcw "+this.msupcw)
-          this.tcw=this.msupcw-this.msdowncw;
-          console.log("tcw "+this.tcw)
+          this.msstp=now.valueOf()
+          this.msmon=this.msstp-this.mson;
+          if(this.isShowd1==true){
+            this.tcw=this.msmon
+          }
+          if(this.isShowd2==true){
+            this.tccw=this.msmon
+          }
+
           if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
             this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
             this.Td=this.Tdirection/1000;
@@ -298,63 +376,23 @@
             this.Td=(this.Tdirection/1000).toFixed(1);
             console.log("if2 Tdirection "+this.Tdirection);
           };
-        },
-        btnmotordccwdown:function(){ //按下马达右转,按钮右
-          now=new Date();
-          this.msdownccw=now.valueOf();
-        },
-        btnmotordccwup:function(){ //抬起马达右转
-          now=new Date();
-          this.msupccw=now.valueOf()
-          console.log("msupccw "+this.msupccw)
-          this.tccw=this.msupccw-this.msdownccw;
-          console.log("tccw "+this.tccw)
-          if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
-            this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
-            console.log("if1 Tdirection "+this.Tdirection)
-            this.Td=(this.Tdirection/1000).toFixed(1);
-          };
-          if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
-            this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
-            this.Td=(this.Tdirection/1000).toFixed(1);
-            console.log("if2 Tdirection "+this.Tdirection);
-          };
-          
-        },
-        motord1:function(){
-          now=new Date();
-          this.msdowncw=now.valueOf();
-          this.tcww=this.msdowncw-this.msdownccw
-          if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
-            this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
-            console.log("if1 Tdirection "+this.Tdirection)
-            this.Td=(this.Tdirection/1000).toFixed(1);
-          };
-          if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
-            this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
-            this.Td=(this.Tdirection/1000).toFixed(1);
-            console.log("if2 Tdirection "+this.Tdirection);
-          };
-          
-        },
-        motorstop:function(){
 
         },
-        motord2:function(){
+        motoron:function(){
+          this.isShowmon=false
+          this.isShowmstp=true
+          this.isDisd1=true
+          this.isDisd2=true
           now=new Date();
-          this.msdownccw=now.valueOf();
-          this.tcw=this.msdownccw-this.msdowncw
-          if (this.isShowdcw==true && (this.tcw-this.tccw)!=0){
-            this.Tdirection=(this.tcw-this.tccw+Number(this.Tdirection));
-            console.log("if1 Tdirection "+this.Tdirection)
-            this.Td=(this.Tdirection/1000).toFixed(1);
-          };
-          if (this.isShowdccw==true && (this.tccw-this.tcw)!=0){
-            this.Tdirection=(this.tccw-this.tcw+Number(this.Tdirection))
-            this.Td=(this.Tdirection/1000).toFixed(1);
-            console.log("if2 Tdirection "+this.Tdirection);
-          };
+          this.mson=now.valueOf()
+
         },
+        treset:function(){
+          this.Tdirection="0"
+          this.Td="0.0"
+        },
+
+        
   
   
         warn1:function(){
