@@ -186,12 +186,12 @@ LED0==True
       </div>
      
       <!-- 渲染列表 -->
-      <div v-for="(item,index) in timelist " key="item.index" class="input-group-addon  input-group-prepend    ">
+      <div v-for="(item,index) in timelist " class="input-group-addon  input-group-prepend    ">
         <button class="btn btn-outline-dark btn-sm"  > × </button>
         <input style="width: 100px;" @dblclick="copytcw(index)" :value="item.cw" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
         <input style="width: 100px;" @dblclick="copytccw(index)"  :value="item.ccw"data-toggle="collapse" data-target="#collapse0" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
         <input style="width: 70px;"  type="number"  :value="item.stp" step="0.001"class="form-control "   min="0" placeholder="秒/S" autocomplete="on" required>
-        <span  @click="changetime" class="btn btn-outline-dark  zi zi_exchangealt "></span>
+        <span  @click="changetime(index)" class="btn btn-outline-dark  zi zi_exchangealt "></span>
         
         <button  class="btn btn-outline-success  zi zi_play "></button>
       </div> 
@@ -483,11 +483,11 @@ LED0==True
           this.timelist[index].ccw=this.Td
           console.log("双击方法")
         },
-        changetime:function(){
-          tcw=this.timecw
-          tccw=this.timeccw
-          this.timeccw=tcw
-          this.ttimecw=tccw
+        changetime:function(index){
+          tcw=this.timelist[index].cw
+          tccw=this.timelist[index].ccw
+          this.timelist[index].cw=tccw
+          this.timelist[index].ccw=tcw
 
         },
 
