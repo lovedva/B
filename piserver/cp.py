@@ -70,6 +70,26 @@ def motorstop():
 
 	return "action:post 戻り値：GPIO13==False\nGPIO19==False"
 
+@bp.route("motorrun",methods=['POST'])
+def motorrun():
+	data=request.json
+	print(data)
+	print("cw "+data.get('cw'))
+	print("ccw "+str(data.get('ccw')))
+	print("stp "+str(data.get('stp')))
+	boardop.turnon(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(float(data.get('cw')))
+	boardop.turnon(boardop.In2_Motor)
+	boardop.turnoff(boardop.In1_Motor)
+	time.sleep(float(data.get('ccw')))
+	boardop.turnoff(boardop.In1_Motor)
+	boardop.turnoff(boardop.In2_Motor)
+	time.sleep(float(data.get('stp')))
+
+	return "end: cw "+data.get('cw')+"--ccw "+str(data.get('ccw'))+"--stp "+str(data.get('stp'))
+
+
 @bp.route("motorautorun/<command>",methods=['POST']) #自动控制马达
 def motorautorun(command): #command stop(0) or run(1) 
 	print ("路由：motorautorun，方法motorautorun")

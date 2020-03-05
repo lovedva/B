@@ -188,12 +188,12 @@ LED0==True
       <!-- 渲染列表 -->
       <div v-for="(item,index) in timelist " class="input-group-addon  input-group-prepend    ">
         <button class="btn btn-outline-dark btn-sm"  > × </button>
-        <input style="width: 100px;" @dblclick="copytcw(index)" :value="item.cw" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
-        <input style="width: 100px;" @dblclick="copytccw(index)"  :value="item.ccw"data-toggle="collapse" data-target="#collapse0" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
-        <input style="width: 70px;"  type="number"  :value="item.stp" step="0.001"class="form-control "   min="0" placeholder="秒/S" autocomplete="on" required>
+        <input style="width: 100px;" @dblclick="copytcw(index)" v-model="item.cw" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
+        <input style="width: 100px;" @dblclick="copytccw(index)" v-model="item.ccw" type="number" step="0.001" class="form-control "  min="0" placeholder="秒/S" autocomplete="on" required >
+        <input style="width: 70px;"  type="number"  v-model="item.stp" step="0.001"class="form-control "   min="0" placeholder="秒/S" autocomplete="on" required>
         <span  @click="changetime(index)" class="btn btn-outline-dark  zi zi_exchangealt "></span>
         
-        <button  class="btn btn-outline-success  zi zi_play "></button>
+        <button @click="motorrun(index)" class="btn btn-outline-success  zi zi_play "></button>
       </div> 
       <!-- 渲染列表结束 -->
       <!-- <div  v-show="onfocus">
@@ -488,6 +488,30 @@ LED0==True
           tccw=this.timelist[index].ccw
           this.timelist[index].cw=tccw
           this.timelist[index].ccw=tcw
+
+        },
+
+        //马达运行
+        motorrun:function(index){
+          tcw=this.timelist[index].cw
+          tccw=this.timelist[index].ccw
+          tstp=this.timelist[index].stp
+          console.log("tcw: "+tcw)
+          console.log("tccw: "+tccw)
+          console.log("tstp: "+tstp)
+          axios
+            .post('/cp/motorrun',{
+              "cw":tcw,
+              "ccw":tccw,
+              "stp":tstp,
+ 
+            })
+            .then(function(response){
+              console.log(response.data)
+            })
+            .catch(function (error) { // 请求失败处理
+              console.log(error);
+             });
 
         },
 
