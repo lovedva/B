@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask
+import RPi.GPIO
+from flask import Flask,request
 import cp
+import time
 
 app = Flask(__name__)
 
@@ -10,20 +12,21 @@ app = Flask(__name__)
 @app.route('/')
 def hello():
     return 'Hello, World!'
-
-# from . import db
-# db.init_app(app)
-
-# from . import auth
-# app.register_blueprint(auth.bp)
-
-# from . import blog
-# app.register_blueprint(blog.bp)
-# app.add_url_rule('/', endpoint='index')
-
- 
+    
 app.register_blueprint(cp.bp)
 
+
 if __name__ == '__main__':
-    app.run(debug=True, port=88, host='0.0.0.0')
+    try:
+        # RPi.GPIO.cleanup() 
+        # serv=WSGIServer(("0.0.0.0",88),app,handler_class=WebSocketHandler,processes=8)
+        # serv.serve_forever()
+
+        app.run(debug=True, port=80, host='0.0.0.0')  #processes=8
+        boardop.turnon(boardop.LED0)# debug=True
+
+    finally:
+        RPi.GPIO.cleanup() 
+
+
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #pt1000温度测定，数模转换mcp3008
-import max31855
+# import max31855
 import time
 import numpy as np
 import ads1248

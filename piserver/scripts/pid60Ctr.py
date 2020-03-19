@@ -5,29 +5,13 @@ import RPi.GPIO
 import sys
 import adt7410
 import pt1000
-import max31855
-
-class PIinit:
-    "初始化板子参数设定"
-    flag=0
-
-    #设置输出PIN
-    # LED0=27  #程序开始指示灯
-    TempOUT1=14
-
-    def __init__(self):
-        RPi.GPIO.setmode(RPi.GPIO.BCM)
-        # RPi.GPIO.setup(PIinit.LED0, RPi.GPIO.OUT)
-        RPi.GPIO.setup(PIinit.TempOUT1, RPi.GPIO.OUT)
-        # RPi.GPIO.output(PIinit.LED0, True) #点亮LED0
-        print ("进入__init__方法")
 
 class pidCtr:
     "PID控制器"
     flag=1  
     Sv=50.000 #用户输入
     Pv=0.000
-    T=0.2000 #ms PID计算周期
+    T=250 #ms PID计算周期
     Kp=20.000 #比例系数
     Ti=50000.000 #ms 积分时间
     Td=125.000 #ms 微分时间
@@ -75,7 +59,7 @@ class pidCtr:
 
 if __name__ == "__main__":
     try:
-        pi=PIinit()
+
         print("初始化完毕，创建PIinit对象pi，flag==%s"%pi.flag)
         # RPi.GPIO.output(pi.TempOUT1, True)
         # print("TempOUT1开始输出1")

@@ -61,7 +61,7 @@ def init():
 
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
-    print(V)
+    print "calculate temperature: "+str(V)
     volts=1.0*V/(pow(2,23)-1)*2.011 #Refernce volt 2.045
     return volts
 
