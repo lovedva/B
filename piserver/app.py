@@ -18,11 +18,12 @@ app.register_blueprint(cp.bp)
 
 if __name__ == '__main__':
     try:
-        RPi.GPIO.cleanup() 
+        # RPi.GPIO.cleanup() 
         # serv=WSGIServer(("0.0.0.0",88),app,handler_class=WebSocketHandler,processes=8)
         # serv.serve_forever()
 
-        app.run(debug=True, port=88, host='0.0.0.0')  #processes=8
+        app.run(debug=True, port=80, host='0.0.0.0')  #processes=8
+        boardop.turnon(boardop.LED0)# debug=True
 
     finally:
         RPi.GPIO.cleanup() 

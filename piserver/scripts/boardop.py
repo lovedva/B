@@ -21,7 +21,7 @@ InputC=8   #GPIO8 为C输入
 InputD=15  #GPIO15 as inputD
 
 # setup output pins
-LED0=4  #GPIO for UC
+LED0=17  #GPIO for UC
 In1_Motor=13   #GPIOXX 
 In2_Motor=19
 
@@ -53,7 +53,7 @@ def init():
     print("borad init")
 #RPi.GPIO.setup(LED3, RPi.GPIO.OUT)
 
-init()
+# init()
 
 # Define serveral threaded callback functions to run in another thread when events are detected
 def SwitchA(channel):   #按钮A反馈方法线程

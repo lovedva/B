@@ -16,16 +16,16 @@ from flask import (
 bp = Blueprint('cp', __name__ ,url_prefix='/cp')
 
 RPi.GPIO.setmode(RPi.GPIO.BCM)
-LED0=4  #GPIO for UC
-In1_Motor=13   #GPIOXX 
-In2_Motor=19
+# LED0=17  #GPIO for UC
+# In1_Motor=13   #GPIOXX 
+# In2_Motor=19
 TempOUT1=14 #60度
 TempOUT2=23 #70度
 TempOUT3=16 #90度
 
-RPi.GPIO.setup(LED0, RPi.GPIO.OUT)
-RPi.GPIO.setup(In1_Motor, RPi.GPIO.OUT)
-RPi.GPIO.setup(In2_Motor, RPi.GPIO.OUT)
+# RPi.GPIO.setup(LED0, RPi.GPIO.OUT)
+# RPi.GPIO.setup(In1_Motor, RPi.GPIO.OUT)
+# RPi.GPIO.setup(In2_Motor, RPi.GPIO.OUT)
 RPi.GPIO.setup(TempOUT1, RPi.GPIO.OUT)
 RPi.GPIO.setup(TempOUT2, RPi.GPIO.OUT)
 RPi.GPIO.setup(TempOUT3, RPi.GPIO.OUT)
@@ -148,7 +148,7 @@ def pullupgpio(pinname):
 	#boardop.turnon(boardop.LED0)
 	print(boardop.getPIN_NUM(pinname)) #得到部件名称的GPIO编号
 	boardop.turnon(boardop.getPIN_NUM(pinname))
-	return "LED0 ON, GPIO4==True "
+	return "LED0 ON, GPIO17==True "
 
 @bp.route("pulldowngpio/<pinname>",methods=['POST','get'])
 def pulldowngpio(pinname):
@@ -157,7 +157,7 @@ def pulldowngpio(pinname):
 	print (pinname)
 	print(boardop.getPIN_NUM(pinname))
 	boardop.turnoff(boardop.getPIN_NUM(pinname))
-	return "LED0 OFF, GPIO4==False "
+	return "LED0 OFF, GPIO17==False "
 	# return "post  戻り値：LED0==OFF,GPIO13==False  >>>>>> LED0消灯"
 
 # 显示温度
