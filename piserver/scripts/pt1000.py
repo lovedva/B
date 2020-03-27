@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #pt1000温度测定，数模转换mcp3008
@@ -84,7 +83,7 @@ if __name__ == '__main__':
         RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()
         print("程序结束")
-=======
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #pt1000温度测定，数模转换mcp3008
@@ -170,5 +169,3 @@ if __name__ == '__main__':
         RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()
         print("程序结束")
->>>>>>> 7798c2dc6080938b6265d50a0f1c36df11d3dd8c
-     

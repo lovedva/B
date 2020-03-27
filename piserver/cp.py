@@ -4,6 +4,7 @@
 import RPi.GPIO
 import time
 from multiprocessing import Process
+import multiprocessing as mp
 import json
 from flask import send_from_directory
 import os
@@ -47,6 +48,12 @@ pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周200ms
 pid60=pid60Ctr.pidCtr()
 pid70=pid70Ctr.pidCtr()
 pid90=pid90Ctr.pidCtr()
+print "pid60:"+str(pid60.Pv)
+temp1=mp.Value('d',11.11)
+temp2=mp.Value('d',22.22)
+temp3=mp.Value('d',33.33)
+
+
 def mrun():
 	global cw
 	global ccw
@@ -85,10 +92,13 @@ def heatup11(temp):
 	pid60.Sv=float(temp)
 	global pwm1
 	pwm1.start(1)
+	global temp1
 	file_handle1=open('60Templog.txt',mode='w')
 	while True:
 		print "heatup11,target temp: "+str(temp)
 		pid60.Pv=float(pt1000.calcTemp(01))
+		temp1.value=pid60.Pv
+		print "temp1:"+str(temp1)
 		pid60.calc()
 		dc1=pid60.OUT/pid60.pwmcycle*100
 		print "dc1 "+str(dc1)
@@ -107,6 +117,8 @@ def heatup22(temp):
 	while True:
 		print "heatup22,target temp: "+str(temp)
 		pid70.Pv=float(pt1000.calcTemp(23))
+		global temp1
+		temp2.value=pid70.Pv
 		pid70.calc()
 		dc1=pid70.OUT/pid70.pwmcycle*100
 		print "dc1 "+str(dc1)
@@ -125,6 +137,8 @@ def heatup33(temp):
 	while True:
 		print "heatup33,target temp: "+str(temp)
 		pid90.Pv=float(pt1000.calcTemp(45))
+		global temp3
+		temp3.value=pid90.Pv
 		pid90.calc()
 		dc1=pid90.OUT/pid90.pwmcycle*100
 		print "dc1 "+str(dc1)
@@ -164,7 +178,11 @@ def pulldowngpio(pinname):
 @bp.route("showtemps",methods=['POST','get'])
 def showtemps():
 	# print ("路由：showtemps打印")
-	templist={'t1':'21.01','t2':22,'t3':23.33}
+	global temp1
+	global temp2
+	global temp3
+	templist={'t1':temp1.value,'t2':temp2.value,'t3':temp3.value}
+	print templist
 
 	return jsonify(templist)
 #加热
@@ -185,6 +203,8 @@ def heatstop1():
 	ph1.terminate()
 	global pwm1
 	pwm1.stop()
+	global temp1
+	print "temp1 "+str(temp1)
 	return "route heatstop2 finished"
 
 @bp.route("heatup2",methods=['GET','POST',])

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -141,7 +140,7 @@ print("导入boradop.py")
 
 # finally:
 #     RPi.GPIO.cleanup() 
-=======
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -284,4 +283,4 @@ print("导入boradop.py")
 
 # finally:
 #     RPi.GPIO.cleanup() 
->>>>>>> 7798c2dc6080938b6265d50a0f1c36df11d3dd8c
+

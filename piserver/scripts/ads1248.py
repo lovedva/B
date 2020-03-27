@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #data sheet http://www.ti.com/cn/lit/ds/symlink/ads1247.pdf
@@ -140,7 +139,7 @@ if __name__ == '__main__':
         RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()  
         file_handle1.close()
-=======
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #data sheet http://www.ti.com/cn/lit/ds/symlink/ads1247.pdf
@@ -282,4 +281,4 @@ if __name__ == '__main__':
         RPi.GPIO.output(3,RPi.GPIO.LOW)
         RPi.GPIO.cleanup()  
         file_handle1.close()
->>>>>>> 7798c2dc6080938b6265d50a0f1c36df11d3dd8c
+

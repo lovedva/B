@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #温度传感器 adt7410
@@ -33,7 +32,7 @@ if __name__ == '__main__':
       pass
 
 
-=======
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #温度传感器 adt7410
@@ -68,4 +67,4 @@ if __name__ == '__main__':
       pass
 
 
->>>>>>> 7798c2dc6080938b6265d50a0f1c36df11d3dd8c
+
