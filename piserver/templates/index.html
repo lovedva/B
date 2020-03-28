@@ -94,7 +94,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-          <button type="button" class="btn btn-danger">确认</button>
+          <button @click="confirm_stopall" type="button"  data-dismiss="modal" class="btn btn-danger">確認</button>
         </div>
       </div>
     </div>
@@ -118,9 +118,7 @@
       <li class="nav-item"></li>
         <a :class="tabSetupIsActive" @click="showSetup" href="#">設定</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">Disabled</a>
-      </li>
+
     </ul>
   </div>
   <!-- {{ message }} -->
@@ -170,8 +168,8 @@
 
 
     
-    <div >自動運転 </div>
-    <div style="font-size:10px;">(入力ボックスをダブルクリックでタイマーをコピーできる)</div>
+    自動運転 
+    <div style="font-size:12px;">(入力ボックスをダブルクリックでタイマーをコピーできる)</div>
     <div class="  "  >
       <div class="input-group-addon  input-group-prepend ">
         <input @click="motorautorun" type="button"  class="btn btn-success btn-sm" :disabled="ismotorautorunbtndis" value="自動運転開始">
@@ -202,7 +200,24 @@
 
   
     </div>
+    <br>
+    <div>
+      使ったライブラリとフレームワーク：<br>
+      <b style="font-size:12px;">以下のサイトをアクセスするにはネットワークに接続することが必要</b>
+      <p style="font-size:14px;">
+      1.WEBページ(フロントエンド):<br>
+        HTML5(言語)<br>
+        VueJS：https://vuejs.org  <br>
+        ( API: https://vuejs.org/v2/api/ )<br>
+        Bootstrap4: https://getbootstrap.com<br>
+      2.サーバ（バックエンド）：<br>
+        Python(言語)<br>
+        Flask：https://flask.palletsprojects.com/en/1.1.x/<br>
+      3.ハードウェア(ADC，モータ，ヒータなど)：<br>
+        <a style="font-size:12px;">https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/References/</a><br>
+    </p>
   </div>
+</div>
   </p>
   
   <!-- 温度折叠内容 -->
@@ -244,6 +259,12 @@
 
   <!-- 设置折叠内容 -->
   <div v-if="isShowSetupTabContent" >
+    <div style="font-size:11px;">本システムの使い方と説明(ネットワーク接続必要)：<br><a href="https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system">https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system</a>
+      <br><a href="https://lovedva.github.io/">https://lovedva.github.io/</a>
+      <br>
+    
+    </div>
+    
     <div >
       <!-- 警报组件 -->
       <div v-if="isshowalertcontent" class="alert alert-success  fade show" role="alert">
@@ -257,12 +278,13 @@
       <button @click="savemotortime" type="button" class="btn btn-outline-info btn-sm">保存</button>
       <button @click="exportmotortime" type="button" class="btn btn-outline-info btn-sm">Download</button>
       <button @click="loadmotortime" type="button" class="btn btn-outline-info btn-sm">読み取る</button><br>
-      保存ボタンを押すと，モータ自動運転の設定に反応させ，テキストファイルに保存する。
+      <div style="font-size:12px;">保存ボタンを押すと，モータ自動運転の設定に反応させ，<br>テキストファイルに保存する。 </div>
       <!--  -->
     </div>
     <br>
     <div>
       温度記録：<br>
+      <div style="font-size:12px;">(0.25sおきに温度データを記録される，総時間=0.25×温度データの数)<br></div>
       ヒータ1<br>
       <textarea  style="height: 120px;" class="col-xs-12 col-md-7" >{{tempdata1}}</textarea><br>
       ヒータ2<br>
@@ -270,6 +292,28 @@
       ヒータ3<br>
       <textarea style="height: 120px;" class="col-xs-12 col-md-7" >{{tempdata3}}</textarea><br>
       <button @click="loadtempdata" type="button" class="btn btn-outline-info btn-sm">読み取る</button>
+    </div>
+    <br>
+    <div class="col-md-9 col-xs-12">
+      その他：<br>
+      <p  style="font-size:12px;"  >
+      1.時間と温度を0以下に入れないて下さい，サーバがエラーとなります。<br>
+      2.同時に多数の設備でモータ自動運転とヒータ加熱を操作しないでください，<br>制御不能となります。<br>
+      3．<br>
+    </p>
+    改善が要るどころ：<br>
+
+     <p  style="font-size:12px;" >
+      1.時間と温度が０以下の数字になることをサーバで確認する機能。<br>
+      2.同時に1つだけの設備で加熱とモータ自動運転を設定する機能。<br>
+       （ユーザー管理システム，管理者がモータ自動運転とヒータの設定できる，<br>管理者以外はLEDとモータ回転しか使えない）<br>
+      3．温度制御のPIDパラメータが自由設定できる機能。<br>
+      4．uwsgiサーバにデプロイする。<br>
+      5．サーバからクライアントに発信する機能(WebSocketを使用，<br>サーバからクライアントに測定した温度データを発送する)<br>
+         (サーバ負担を軽減)<br>
+      6．<br>
+    </p>
+
     </div>
 
     </div>
@@ -472,7 +516,7 @@
           .post('/cp/heatup1',{"t1":that.t1set},)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ1加熱開始。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ1加熱開始。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -488,7 +532,7 @@
           .post('/cp/heatstop1',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ1加熱停止。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ1加熱停止。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -504,7 +548,7 @@
           .post('/cp/heatup2',{"t2":that.t2set},)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ2加熱開始。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ2加熱開始。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -520,7 +564,7 @@
           .post('/cp/heatstop2',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -537,7 +581,7 @@
           .post('/cp/heatup3',{"t3":that.t3set},)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ3加熱開始。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ3加熱開始。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -553,7 +597,7 @@
           .post('/cp/heatstop3',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n\n"+response.data
+            that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -642,7 +686,7 @@
           .post('/cp/motord1',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT=response.data+" status: "+response.status
+            that.OUTPUT="モータ正回転。status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -656,7 +700,7 @@
           .post('/cp/motord2',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT=response.data+" status: "+response.status
+            that.OUTPUT="モータ逆回転。status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -670,7 +714,7 @@
           .post('/cp/motorstop',)                   
           .then(function(response){
             console.log(response.data)
-            that.OUTPUT=response.data+" status: "+response.status
+            that.OUTPUT="モータ停止。status: "+response.status+"\n\n"+response.data
           })
           .catch(
             function (error) { // 请求失败处理
@@ -695,9 +739,13 @@
             this.tccw=this.msmon
             console.log("tcww "+this.tccw)
           }
+          that=this
           axios
             .post('/cp/motorstop')
-            .then(response => (this.info = response))
+            .then(response => (this.info = response,
+            that.OUTPUT="モータ停止(タイマー)。status: "+response.status+"\n\n"+response.data
+          
+            ))
             .catch(function (error) { // 请求失败处理
             console.log(error);
             });
@@ -728,7 +776,9 @@
           if(this.isShowd1==true){
             axios
             .post('/cp/motord1')
-            .then(response => (this.info = response))
+            .then(response => (this.info = response,
+            that.OUTPUT="モータ回転(タイマー)。status: "+response.status+"\n\n"+response.data
+            ))
             .catch(function (error) { // 请求失败处理
               console.log(error);
              });
@@ -736,7 +786,9 @@
           if(this.isShowd2==true){
           axios
           .post('/cp/motord2')
-          .then(response => (this.info = response))
+          .then(response => (this.info = response,
+          that.OUTPUT="モータ回転(タイマー)。status: "+response.status+"\n\n"+response.data
+          ))
           .catch(function (error) { // 请求失败处理
             console.log(error);
             });
@@ -797,6 +849,7 @@
           console.log("tstp: "+tstp)
           that=this;
           if (tcw>=0 && tccw>=0 && tstp>=0){
+            that.OUTPUT="モータ運転開始(一行)，運転時間と方向：\n"+JSON.stringify(that.timelist[index])
             axios
             .post('/cp/motorrun',{
               "index":index,
@@ -810,6 +863,7 @@
               console.log(response.data);
               that.ismotorautorunbtndis=false;
               that.ismotorrunbtndis=false;
+              that.OUTPUT="モータ運転(一行)終了。設定された運転時間と方向：\n"+JSON.stringify(that.timelist[index])+"status: "+response.status+"\n\n"+response.data
             })
             .catch(
               function (error) { // 请求失败处理
@@ -828,10 +882,12 @@
           this.ismotorrunbtndis=true
           this.ismotorautorunbtndis=true
           that=this
+          that.OUTPUT="モータ自動運転開始,繰り返し "+this.loop+" 回。運転時間と方向：\n"+JSON.stringify(that.timelist)
           axios
           .post('/cp/motorautorun/'+that.loop,{timelist:this.timelist},)                   
           .then(function(response){
             console.log(response.data+" motorautorun finished")
+            that.OUTPUT="モータ自動運転終了。設定された運転時間と方向：\n"+JSON.stringify(that.timelist)+"status: "+response.status+"\n\n"+response.data
             that.ismotorrunbtndis=false
           })
           .catch(
@@ -864,6 +920,7 @@
                     
           .then(function(response){
             console.log(response.data)
+            that.OUTPUT="モータ自動運転停止。status: "+response.status+"\n\n"+response.data
             that.ismotorautorunbtndis=false
             that.ismotorrunbtndis=false
           })
@@ -972,6 +1029,16 @@
               console.log(error);
              },
           );
+        },
+
+        confirm_stopall:function(){
+          this.stoprun()
+          this.motorstp()
+          this.heatstop1()
+          this.heatstop2()
+          this.heatstop3()
+          this.ledon()
+          this.OUTPUT="モータとヒータ停止。"
         },
 
 

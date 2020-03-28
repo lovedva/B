@@ -205,7 +205,7 @@ def heatstop1():
 	pwm1.stop()
 	global temp1
 	print "temp1 "+str(temp1)
-	return "route heatstop2 finished"
+	return "route heatstop1 finished"
 
 @bp.route("heatup2",methods=['GET','POST',])
 def heatup2():
