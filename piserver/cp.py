@@ -9,7 +9,7 @@ import json
 from flask import send_from_directory
 import os
 from scripts import boardop,pt1000,ads1248,pid60Ctr,pid70Ctr,pid90Ctr
-
+from multiprocessing.managers import BaseManager
 from flask import (
 	Blueprint, flash, g, redirect, render_template, request, url_for,jsonify
 )
@@ -33,7 +33,9 @@ RPi.GPIO.setup(TempOUT3, RPi.GPIO.OUT)
 
 ads1248.init()
 boardop.turnon(3) #conversation start
-
+boardop.turnoff(TempOUT1)
+boardop.turnoff(TempOUT2)
+boardop.turnoff(TempOUT3)
 #绑定进程方法
 cw=0
 ccw=0
@@ -42,7 +44,13 @@ process=None
 ph1=None
 ph2=None
 ph3=None
-pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周200ms
+
+manager = BaseManager()
+manager.register('PWM', RPi.GPIO.PWM)
+manager.start()
+pwm1= manager.PWM(TempOUT1,5)
+
+# pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周200ms
 pwm2=RPi.GPIO.PWM(TempOUT2,5)#pwm周200ms
 pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周200ms
 pid60=pid60Ctr.pidCtr()
@@ -85,7 +93,7 @@ def mautorun(timelist,loop):
 			time.sleep(float(item.get('stp')))
 	print "mautorun finished"
 
-def heatup11(temp):
+def heatup11(temp,pwm):
 	print "heatup11,temp: "+str(temp)
 	RPi.GPIO.setup(TempOUT1, RPi.GPIO.OUT)
 	global pid60
@@ -192,7 +200,8 @@ def heatup1():
 	print(data)
 	print("route heatup1, process ph1 start")
 	global ph1
-	ph1=Process(target=heatup11,args=(data.get('t1'),))
+	global pwm1
+	ph1=Process(target=heatup11,args=(data.get('t1'),pwm1))
 	ph1.start()
 	return "Heater1 Tempreture="+str(data.get('t1'))
 
@@ -201,8 +210,13 @@ def heatstop1():
 	print("route heatstop1,")
 	global ph1
 	ph1.terminate()
+
 	global pwm1
 	pwm1.stop()
+	pwm1.stop()
+	global TempOUT1
+	boardop.turnoff(TempOUT1)
+	boardop.turnoff(TempOUT1)
 	global temp1
 	print "temp1 "+str(temp1)
 	return "route heatstop1 finished"

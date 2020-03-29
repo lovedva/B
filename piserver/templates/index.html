@@ -215,7 +215,7 @@
         Flask：https://flask.palletsprojects.com/en/1.1.x/<br>
       3.ハードウェア(ADC，モータ，ヒータなど)：<br>
         <a style="font-size:12px;">https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/References/</a><br>
-    </p>
+    
   </div>
 </div>
   </p>
@@ -259,11 +259,7 @@
 
   <!-- 设置折叠内容 -->
   <div v-if="isShowSetupTabContent" >
-    <div style="font-size:11px;">本システムの使い方と説明(ネットワーク接続必要)：<br><a  target="_blank" href="https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system">https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system</a>
-      <br><a href="https://lovedva.github.io/"  target="_blank" >https://lovedva.github.io/</a>
-      <br>
     
-    </div>
     
     <div >
       <!-- 警报组件 -->
@@ -296,14 +292,14 @@
     <br>
     <div class="col-md-9 col-xs-12">
       その他：<br>
-      <p  style="font-size:12px;"  >
+      <div style="font-size:12px;"  >
       1.時間と温度を0以下に入れないて下さい，サーバがエラーとなります。<br>
       2.同時に多数の設備でモータ自動運転とヒータ加熱を操作しないでください，<br>制御不能となります。<br>
       3．<br>
-    </p>
+      </div>
     改善が要るどころ：<br>
 
-     <p  style="font-size:12px;" >
+     <div  style="font-size:12px;" >
       1.時間と温度が０以下の数字になることをサーバで確認する機能。<br>
       2.同時に1つだけの設備で加熱とモータ自動運転を設定する機能。<br>
        （ユーザー管理システム，管理者がモータ自動運転とヒータの設定できる，<br>管理者以外はLEDとモータ回転しか使えない）<br>
@@ -312,7 +308,15 @@
       5．サーバからクライアントに発信する機能(WebSocketを使用，<br>サーバからクライアントに測定した温度データを発送する)<br>
          (サーバ負担を軽減)<br>
       6．<br>
-    </p>
+    </div>
+      <br>
+      使い方と説明(ネットワーク接続必要)：<br>
+      <div style="font-size:11px;"><a  target="_blank" href="https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system">https://lovedva.github.io/wiki/＊Raspberry_Pi_PCR/pcr_system</a>
+        <br><a href="https://lovedva.github.io/"  target="_blank" >https://lovedva.github.io/</a>
+        <br>
+      
+      </div>
+    
 
     </div>
 

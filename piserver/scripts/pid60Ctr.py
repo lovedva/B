@@ -160,9 +160,7 @@ class pidCtr:
 if __name__ == "__main__":
     try:
 
-        print("初始化完毕，创建PIinit对象pi，flag==%s"%pi.flag)
-        # RPi.GPIO.output(pi.TempOUT1, True)
-        # print("TempOUT1开始输出1")
+
         pid=pidCtr()
         print("创建pidCtr对象pid，flag==%s"%pid.flag)
         #设置pwm
