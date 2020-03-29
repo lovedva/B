@@ -49,10 +49,12 @@ manager = BaseManager()
 manager.register('PWM', RPi.GPIO.PWM)
 manager.start()
 pwm1= manager.PWM(TempOUT1,5)
+pwm2=manager.PWM(TempOUT2,5)
+pwm3=manager.PWM(TempOUT3,5)
 
-# pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周200ms
-pwm2=RPi.GPIO.PWM(TempOUT2,5)#pwm周200ms
-pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周200ms
+# # pwm1=RPi.GPIO.PWM(TempOUT1,5)#pwm周200ms
+# pwm2=RPi.GPIO.PWM(TempOUT2,5)#pwm周200ms
+# pwm3=RPi.GPIO.PWM(TempOUT3,5)#pwm周200ms
 pid60=pid60Ctr.pidCtr()
 pid70=pid70Ctr.pidCtr()
 pid90=pid90Ctr.pidCtr()
@@ -114,7 +116,7 @@ def heatup11(temp,pwm):
 		print("Pt1000で測温[01]==%s\n-----------------------------"%pid60.Pv)
 		file_handle1.write("%s \n"%pid60.Pv)
 
-def heatup22(temp):
+def heatup22(temp,pwm):
 	print "heatup22,temp: "+str(temp)
 	RPi.GPIO.setup(TempOUT2, RPi.GPIO.OUT)
 	global pid70
@@ -134,7 +136,7 @@ def heatup22(temp):
 		print("Pt1000で測温[23]==%s\n-----------------------------"%pid70.Pv)
 		file_handle1.write("%s \n"%pid70.Pv)
 
-def heatup33(temp):
+def heatup33(temp,pwm):
 	print "heatup33,temp: "+str(temp)
 	RPi.GPIO.setup(TempOUT3, RPi.GPIO.OUT)
 	global pid90
@@ -213,7 +215,7 @@ def heatstop1():
 
 	global pwm1
 	pwm1.stop()
-	pwm1.stop()
+	# pwm1.stop()
 	global TempOUT1
 	boardop.turnoff(TempOUT1)
 	boardop.turnoff(TempOUT1)
@@ -227,7 +229,8 @@ def heatup2():
 	print(data)
 	print("route heatup2, process ph2 start")
 	global ph2
-	ph2=Process(target=heatup22,args=(data.get('t2'),))
+	global pwm2
+	ph2=Process(target=heatup22,args=(data.get('t2'),pwm2))
 	ph2.start()
 	return "Heater2 Tempreture="+str(data.get('t2'))
 
@@ -238,6 +241,9 @@ def heatstop2():
 	ph2.terminate()
 	global pwm2
 	pwm2.stop()
+	global TempOUT2
+	boardop.turnoff(TempOUT2)
+	boardop.turnoff(TempOUT2)
 	return "route heatstop2 finished"
 
 @bp.route("heatup3",methods=['GET','POST',])
@@ -246,7 +252,8 @@ def heatup3():
 	print(data)
 	print("route heatup3, process ph3 start")
 	global ph3
-	ph3=Process(target=heatup33,args=(data.get('t3'),))
+	global pwm3
+	ph3=Process(target=heatup33,args=(data.get('t3'),pwm3))
 	ph3.start()
 	return "Heater3 Tempreture="+str(data.get('t3'))
 
@@ -257,6 +264,9 @@ def heatstop3():
 	ph3.terminate()
 	global pwm3
 	pwm3.stop()
+	global TempOUT1
+	boardop.turnoff(TempOUT3)
+	boardop.turnoff(TempOUT3)
 	return "route heatstop3 finished"
 	
 
