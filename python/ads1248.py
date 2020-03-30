@@ -36,7 +36,7 @@ def init():
     #MUX0
     r = spi.xfer2([0b01000000,0b00000000,0b00000001])
     #mux1
-    r = spi.xfer2([0b01000010,0b00000000,0b00100000])
+    r = spi.xfer2([0b01000010,0b00000000,0b00111000])
     #sys0
     r = spi.xfer2([0b01000011,0b00000000,0b00000000])
     #idac0
@@ -62,7 +62,7 @@ def init():
 def voltcalc(r):
     V=(r[0]<<16)+(r[1]<<8)+r[2]
     print(V)
-    volts=1.0*V/(pow(2,23)-1)*2.011 #Refernce volt 2.045
+    volts=1.0*V/(pow(2,23)-1)*2.045 #Refernce volt 2.045 2.011
     return volts
 
 def readAdcChannel(channel): #ain0+ ain1-  2+3- 4+5-
@@ -119,7 +119,8 @@ if __name__ == '__main__':
             sum=0
             for i in range(0,4):
                 
-                v0 = readAdcChannel(01)
+                v0 = readAdcChannel(45)
+                # time.sleep(0.25)
                 sum=sum+v0
                 
                 # flag=flag+1

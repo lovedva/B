@@ -21,8 +21,8 @@ RPi.GPIO.setmode(RPi.GPIO.BCM)
 # In1_Motor=13   #GPIOXX 
 # In2_Motor=19
 TempOUT1=14 #60度
-TempOUT2=23 #70度
-TempOUT3=16 #90度
+TempOUT2=23 #70度 [23]
+TempOUT3=16 #90度 [45]
 
 # RPi.GPIO.setup(LED0, RPi.GPIO.OUT)
 # RPi.GPIO.setup(In1_Motor, RPi.GPIO.OUT)
@@ -59,9 +59,9 @@ pid60=pid60Ctr.pidCtr()
 pid70=pid70Ctr.pidCtr()
 pid90=pid90Ctr.pidCtr()
 print "pid60:"+str(pid60.Pv)
-temp1=mp.Value('d',11.11)
-temp2=mp.Value('d',22.22)
-temp3=mp.Value('d',33.33)
+temp1=mp.Value('d',-1.00)
+temp2=mp.Value('d',-1.00)
+temp3=mp.Value('d',-1.00)
 
 
 def mrun():
@@ -123,11 +123,12 @@ def heatup22(temp,pwm):
 	pid70.Sv=float(temp)
 	global pwm2
 	pwm2.start(1)
+	global temp2
 	file_handle1=open('70Templog.txt',mode='w')
 	while True:
 		print "heatup22,target temp: "+str(temp)
 		pid70.Pv=float(pt1000.calcTemp(23))
-		global temp1
+		global temp2
 		temp2.value=pid70.Pv
 		pid70.calc()
 		dc1=pid70.OUT/pid70.pwmcycle*100
@@ -143,6 +144,7 @@ def heatup33(temp,pwm):
 	pid90.Sv=float(temp)
 	global pwm3
 	pwm3.start(1)
+	global temp3
 	file_handle1=open('90Templog.txt',mode='w')
 	while True:
 		print "heatup33,target temp: "+str(temp)
@@ -191,7 +193,7 @@ def showtemps():
 	global temp1
 	global temp2
 	global temp3
-	templist={'t1':temp1.value,'t2':temp2.value,'t3':temp3.value}
+	templist={'t1':('%.3f' % temp1.value),'t2':('%.3f' % temp2.value),'t3':('%.3f' % temp3.value)}
 	print templist
 
 	return jsonify(templist)
@@ -212,7 +214,8 @@ def heatstop1():
 	print("route heatstop1,")
 	global ph1
 	ph1.terminate()
-
+	global temp1
+	temp1.value=-1
 	global pwm1
 	pwm1.stop()
 	# pwm1.stop()
@@ -239,6 +242,8 @@ def heatstop2():
 	print("route heatstop2,")
 	global ph2
 	ph2.terminate()
+	global temp2
+	temp2.value=-1
 	global pwm2
 	pwm2.stop()
 	global TempOUT2
@@ -262,6 +267,8 @@ def heatstop3():
 	print("route heatstop3,")
 	global ph3
 	ph3.terminate()
+	global temp3
+	temp3.value=-1
 	global pwm3
 	pwm3.stop()
 	global TempOUT1

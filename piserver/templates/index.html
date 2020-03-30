@@ -497,10 +497,25 @@
           axios
           .get('/cp/showtemps',)                   
           .then(function(response){
-            that.temp1=response.data.t1
-            that.temp2=response.data.t3
-            that.temp3=response.data.t3
-            console.log(response.data)
+            if (response.data.t1==-1){
+              that.temp1="未加熱"
+            }else{
+              that.temp1=response.data.t1
+            }
+
+            if (response.data.t2==-1){
+              that.temp2="未加熱"
+            }else{
+              that.temp2=response.data.t2
+            }
+
+            if (response.data.t3==-1){
+              that.temp3="未加熱"
+            }else{
+              that.temp3=response.data.t3
+            }
+            console.log(that.temp1+" "+that.temp2+" "+that.temp3)
+
             // that.OUTPUT=response.data+" status: "+response.status
             setTimeout(()=>{
               that.showtemps()
@@ -537,6 +552,7 @@
           .then(function(response){
             console.log(response.data)
             that.OUTPUT="ヒータ1加熱停止。 status: "+response.status+"\n\n"+response.data
+            that.temp1="未加熱"
           })
           .catch(
             function (error) { // 请求失败处理
@@ -569,6 +585,7 @@
           .then(function(response){
             console.log(response.data)
             that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n"+response.data
+            that.temp2="未加熱"
           })
           .catch(
             function (error) { // 请求失败处理
@@ -602,6 +619,7 @@
           .then(function(response){
             console.log(response.data)
             that.OUTPUT="ヒータ2加熱停止。 status: "+response.status+"\n\n"+response.data
+            that.temp3="未加熱"
           })
           .catch(
             function (error) { // 请求失败处理
